@@ -263,7 +263,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#lab-2"><i class="fa fa-check"></i><b>6.2</b> Lab 2</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -598,7 +597,7 @@ This keeps your code clean and efficient.</p>
 </div>
 <div id="using-langsmith-to-track-your-llm-usage" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Using LangSmith to track your LLM usage<a href="working-with-llms-through-apis.html#using-langsmith-to-track-your-llm-usage" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>A problem running many requests using APIs is that you lack visibility into what is happening. You don’t nessecarily know how many requests you are making, how long they take, or what the results are. This makes debugging and optimizing your code difficult. This is where LangSmith comes in. Luckely, the setup is very easy.</p>
+<p>A problem wit running many requests using APIs is that you lack visibility into what is happening. You don’t nessecarily know how many requests you are making, how long they take, or what the results are. This makes debugging and optimizing your code difficult. This is where LangSmith comes in. Luckely, the setup is very easy.</p>
 <p>You just need to visit <a href="https://smith.langchain.com/" class="uri">https://smith.langchain.com/</a> and create an account. Then, create a new project. You can name it whatever you want, but make sure to copy the project ID/name and the API key. As always, you need to set the environment variables in Colab in the sidebar and retrive it using the userdata.get() function. Once you run this code, all LLM requests will be tracked in LangSmith (check that it works).</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="working-with-llms-through-apis.html#cb33-1" aria-hidden="true"></a><span class="im">import</span> os</span>
 <span id="cb33-2"><a href="working-with-llms-through-apis.html#cb33-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
