@@ -1,0 +1,362 @@
+# Working with LLMs through APIs
+
+This chapter provides a guide to using Large Language Models (LLMs) through APIs, covering basic interactions with the LLM, creating and using prompt templates, and structured data extraction. We will show all this using both the `openai` package and `langchain`.
+
+**Note:** Using LLMs through APIs mean that somebody else is doing the hard work for you, we are essentially renting the model from them and paying for the usage. The alternative would be to run an open source model ourselfs, using our own hardware (like we did in the previous chapter with GPT-2).
+
+**Why use both? What's the difference?**  
+The `openai` package is the official Python client for directly interacting with OpenAI (and Azure OpenAI) models. It's simple and great for basic LLM calls, such as sending a prompt and receiving a response. In contrast, `langchain` is a higher-level framework that sits on top of LLM APIs (including OpenAI) and enables more advanced workflows—such as chaining multiple LLM calls, integrating external tools, building agents, and managing complex prompts. 
+
+A key advantage of `langchain` is that it can work with many different LLM APIs (OpenAI, Azure, Anthropic, Google, etc.) with minimal code changes. This makes it much easier to switch between providers or support multiple models in your application. 
+
+## Using the OpenAI Packages
+
+The `openai` package is the official Python client for interacting with OpenAI and Azure OpenAI services. It provides a simple, intuitive interface for LLM interactions.
+
+### Installation
+
+First, install the required packages:
+
+```python
+# Install the OpenAI package
+!pip install openai
+```
+
+### Essential Package Imports
+
+The two imports below serve different purposes:
+- `from openai import OpenAI` imports the standard OpenAI client for accessing OpenAI's public API.
+- `from openai import AzureOpenAI` imports the client specifically designed for interacting with Azure OpenAI endpoint.
+
+Use `OpenAI` for OpenAI's own API, and `AzureOpenAI` when working with Azure-hosted OpenAI models. Note that when using Azure OpenAI, the "model" parameter is just the deployment name (e.g., "Group01" in our case).
+
+### API Configuration
+
+For Azure OpenAI, we need to use the `AzureOpenAI` client.
+
+```python
+# Basic Azure OpenAI setup (using openai package)
+
+from openai import AzureOpenAI 
+from google.colab import userdata
+
+client = AzureOpenAI(
+    api_key=userdata.get('AZURE_OPENAI_API_KEY'),
+    api_version="2025-01-01-preview",
+    base_url="https://gpt-ban443-1.openai.azure.com/openai/deployments/Group01/"
+)
+```
+
+For OpenAI's own API, we use the `OpenAI` client.
+
+```python
+# Standard OpenAI setup
+
+from openai import OpenAI
+from google.colab import userdata
+
+client = OpenAI(
+    api_key=userdata.get('OPENAI_API_KEY')
+)
+```
+
+Once the client is set up (as shown above), you can use it throughout your code to make API calls.
+You do not need to re-initialize the client for each request—just use the same `client` object.
+This keeps your code clean and efficient.
+
+### Basic Chat Completion
+
+The most common way to interact with LLMs is through chat completions:
+
+```python
+# Simple chat completion
+response = client.chat.completions.create(
+    model="gpt-4",  # or your Azure deployment name
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain machine learning in simple terms."}
+    ],
+    temperature=0.7,
+    max_tokens=500
+)
+
+print(response.choices[0].message.content)
+```
+
+### Message Object Structure
+
+Understanding the message object is crucial for effective LLM interactions:
+
+```python
+# Message roles and their purposes
+messages = [
+    {
+        "role": "system",    # Sets the behavior and context
+        "content": "You are an expert data scientist."
+    },
+    {
+        "role": "user",      # User's input/question
+        "content": "How do I implement a neural network?"
+    },
+    {
+        "role": "assistant", # Model's previous response
+        "content": "Neural networks consist of layers of interconnected nodes..."
+    },
+    {
+        "role": "user",      # Follow-up question
+        "content": "Can you provide a code example?"
+    }
+]
+```
+
+### Structured Data Extraction
+
+You can extract structured data from text using Pydantic models and the `responses.parse()` method. However, note that we are now switching to using client.responses instead of client.chat.completions. This uses a newer API form OpenAI that doesnt work with the 'old' LLM model that you used through Azure. We therefore switch to using the gpt-5-mini model.
+
+```python
+# Install required packages
+!pip install pydantic
+
+from openai import AzureOpenAI 
+from google.colab import userdata
+
+client = AzureOpenAI(
+    api_version= "2025-03-01-preview",
+    azure_endpoint="https://ban443-1.openai.azure.com/",
+    api_key=userdata.get("new_azure_gpt5"),
+)
+
+
+from pydantic import BaseModel
+
+# Define the structure you want to extract
+class PersonInfo(BaseModel):
+    name: str
+    age: int
+    occupation: str
+    location: str
+
+# Extract structured data from text
+completion = client.responses.parse(
+    model="Group01",
+    input=[
+        {"role": "system", "content": "Extract person information from the text."},
+        {"role": "user", "content": "John Smith is 35 years old, works as a data scientist, and lives in Oslo."}
+    ],
+    text_format=PersonInfo,
+)
+
+# Get the structured result
+person = completion.output_parsed
+print(person.model_dump_json())
+# Output: {"name": "John Smith", "age": 35, "occupation": "data scientist", "location": "Oslo"}```
+```
+
+### Creating Reusable Functions
+
+You can create functions to make your LLM interactions more organized and reusable. Here's an example that combines several concepts:
+
+```python
+def ask(role: str, domain: str, question: str):
+    """
+    Ask a question to an AI assistant with a specific role and domain expertise.
+    
+    Args:
+        role: The role of the assistant (e.g., "data scientist", "teacher")
+        domain: The domain of expertise (e.g., "machine learning", "statistics")
+        question: The question to ask
+    
+    Returns:
+        The AI's response as a string
+    """
+    # Create messages using f-strings for dynamic content
+    msgs = [
+        {"role": "system", "content": f"You are a {role} with expertise in {domain}."},
+        {"role": "user", "content": question},
+    ]
+    
+    # Use the responses API for cleaner output
+    resp = client.responses.create(
+        model="gpt-4o",
+        input=msgs,
+    )
+    return resp.output_text
+
+# Example usage
+answer = ask("data scientist", "machine learning", "How do I prevent overfitting?")
+print(answer)
+```
+
+**Key concepts explained:**
+
+- **f-strings**: The `f"..."` syntax allows you to insert variables directly into strings. For example, `f"You are a {role}"` becomes `"You are a data scientist"` when `role = "data scientist"`.
+- **Function parameters**: The function takes three parameters (`role`, `domain`, `question`) that can be different each time you call it.
+- **Docstrings**: The triple-quoted string at the top of the function explains what it does and what parameters it expects.
+- **Return values**: The function returns the AI's response, which you can store in a variable or use directly.
+- **Reusability**: You can now ask different questions to different types of experts without rewriting the code:
+
+```python
+# Ask a statistics expert
+stats_answer = ask("statistician", "statistics", "What is a p-value?")
+
+# Ask a business expert  
+business_answer = ask("business analyst", "finance", "How do I calculate ROI?")
+
+# Ask a programming expert
+code_answer = ask("software engineer", "Python", "How do I handle exceptions?")
+```
+
+## Using LangChain
+
+LangChain is a framework for developing applications powered by language models. It provides abstractions and tools for building complex LLM applications. At the most basic level its almost identical to the `openai` package, but it has much more functionality.
+
+### Installation
+
+First, install the required LangChain packages:
+
+```python
+# Install LangChain packages
+!pip install -U langchain-openai langchain_community
+```
+
+### API Configuration
+
+For Azure OpenAI through LangChain, we use the `AzureChatOpenAI` class:
+
+```python
+# LangChain Azure OpenAI setup
+from langchain_openai import AzureChatOpenAI
+from google.colab import userdata
+
+client = AzureChatOpenAI(
+    api_key=userdata.get("AZURE_OPENAI_API_KEY"),
+    azure_endpoint="https://gpt-ban443-1.openai.azure.com/",
+    api_version="2025-01-01-preview",
+    azure_deployment="Group01",
+    temperature=0,
+)
+```
+
+For OpenAI's own API through LangChain, we use the `ChatOpenAI` class:
+
+```python
+# LangChain standard OpenAI setup
+from langchain_openai import ChatOpenAI
+from google.colab import userdata
+
+client = ChatOpenAI(
+    api_key=userdata.get("OPENAI_API_KEY"),
+    model="gpt-4",
+    temperature=0.7
+)
+```
+
+Once the LLM is set up (as shown above), you can use it throughout your code to make API calls.
+You do not need to re-initialize the LLM for each request—just use the same `client` object.
+This keeps your code clean and efficient.
+
+### Basic Chat Completion and Message Structure
+
+The most common way to interact with LLMs through LangChain is using the `invoke` method. LangChain uses its own message classes for structured communication:
+
+```python
+# LangChain message types and their purposes
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+messages = [
+    SystemMessage(content="You are an expert data scientist."),  # Sets behavior and context
+    HumanMessage(content="How do I implement a neural network?"),  # User's input/question
+    AIMessage(content="Neural networks consist of layers of interconnected nodes..."),  # Model's previous response
+    HumanMessage(content="Can you provide a code example?")  # Follow-up question
+]
+
+response = client.invoke(messages)
+print(response.content)
+```
+
+**Alternative: Using tuples for simpler prompts**
+
+LangChain also supports a simpler tuple format for basic use cases:
+
+```python
+# Simple tuple format (easier for basic prompts)
+messages = [
+    ("system", "You are a helpful assistant that translates English to French."),
+    ("human", "I love programming.")
+]
+
+response = client.invoke(messages)
+print(response.content)
+```
+
+### Structured Data Extraction
+
+LangChain excels at structured data extraction using Pydantic models and the `with_structured_output()` method:
+
+```python
+# Install required packages
+!pip install pydantic
+
+from pydantic import BaseModel, Field
+from typing import Optional, List
+from langchain_core.prompts import ChatPromptTemplate
+
+# Define the structure you want to extract
+class Person(BaseModel):
+    """Information about a person from text."""
+    name: Optional[str] = Field(default=None, description="Full name of the person")
+    age: Optional[int] = Field(default=None, description="Age of the person")
+    occupation: Optional[str] = Field(default=None, description="Job or profession")
+    location: Optional[str] = Field(default=None, description="Where they live")
+
+# Create a prompt template
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are an expert at extracting person information from text. Extract all people mentioned."),
+    ("human", "{text}")
+])
+
+# Create the structured extractor
+extractor = prompt | client.with_structured_output(
+    schema=Person,
+    include_raw=True,
+)
+
+# Extract structured data
+response = extractor.invoke({
+    "text": "John Smith is 35 years old and works as a data scientist in Oslo."
+})
+
+# Get the structured result
+people_info = response['parsed']
+print(people_info.model_dump_json())
+# {"name":"John Smith","age":35,"occupation":"data scientist","location":"Oslo"}
+```
+
+Note that if the input string contains multiple people, you simply need to add the following code and set the schema to PeopleInfo:
+
+```python
+class PeopleInfo(BaseModel):
+    """Information about all people mentioned in the text."""
+    people: List[Person]
+```
+
+### Prompt Templates
+
+LangChain's strength lies in its prompt management:
+
+```python
+# Create a prompt template
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a {role} with expertise in {domain}."),
+    ("user", "{question}")
+])
+
+chain = prompt | client
+
+response = chain.invoke({
+    "role": "data scientist",
+    "domain": "machine learning",
+    "question": "How do I prevent overfitting?"
+})
+print(response.content)
+```

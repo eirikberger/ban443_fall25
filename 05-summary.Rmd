@@ -1,0 +1,27 @@
+# Exercises
+
+## Lab 1
+1. **API Integration Exercise**: Find an API online: a) get it to work in Python, b) create a function that uses it and c) show that it works.
+2. **Course Chatbot**: Make a chatbot to help with this course. Include course specific information and make sure to include a way to a) shut it down and b) restart it.
+3. **Letterboxd Movie Classification**: Use the Letterboxd API/dataset shown in the notebook. For a random subsample of 10 movies: Make the LLM classify the movies into movies you probably like/don't like. Extract a few variables from the text that you might find interesting.
+4. **Bonus - Dataset Analysis**: Find a dataset online (for example Kaggle) and use the LangChain package to analyze it. You are free to use whatever functionality in LangChain you want.
+5. **Bonus - Reasoning Model**: Create a reasoning model using the non-reasoning LLM through the API.
+
+## Lab 2
+
+Find a dataset on Kaggle and use the LangChain package to analyze it.
+- You can find CSV datasets with text data here: https://www.kaggle.com/datasets?search=text&fileType=csv&tags=13204-NLP
+- Import it using the pandas package. I.e. `df = pd.read_csv("path/to/dataset.csv")`
+- Use the LangChain package to analyze it. You are free to use whatever functionality in LangChain you want.
+  - For example:
+    - Make a chatbot that helps a journalist to make a summary of their article (easy)
+    - Extract some variables from the text data using the LLM or classify it into categories (quite easy). Try to extract more than one variable from each row and store it back in the dataframe.
+    - Get additional information by using the LLM to search the web (more difficult)
+  
+Start working on the term paper once you are done!
+
+# Final Words
+
+This notebook provides an overview if the technical content of BAN443, starting with the basics of Python and LLMs, and then moving on to more advanced topics such as working with APIs, LangChain, and LangSmith. Learning coding is easiest when you work through the examples and exercises yourself. 
+
+Good luck!

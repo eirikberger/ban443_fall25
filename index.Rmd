@@ -1,0 +1,82 @@
+--- 
+title: "A Technical Companion for BAN443"
+subtitle: "A Practical Guide to Python, APIs, and LLM Applications"
+author: "Eirik Berger Abel"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+# bibliography: [book.bib, packages.bib]
+# biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation."
+---
+
+# Welcome to BAN443
+
+Welcome to this technical companion for the course BAN443 at the Norwegian School of Economics. This book focuses on the practical and technical aspects of the course, such as Python programming, working with LLMs, and building AI applications. Please note that this material covers only the technical portion of the overall curriculum.
+
+For a complete overview of the course, including non-technical content, visit the official course webpage: [Transforming Business with AI: The Power of Large Language Models](https://www.nhh.no/en/courses/transforming-business-with-ai-the-power-of-large-language-models/)
+
+## Course Schedule
+
+| Week | Date(s) | Time | Lecture | Lecturer(s) | Topic / Activity |
+|------|---------|------|---------|--------------|------------------|
+| 34 | Aug 19 | 14:15–16:00 | Lecture 1 | Ingar Haaland | Introduction to the course and how AI transforms the business landscape |
+| 34 | Aug 20 | 12:15–14:00 | Lecture 2 | Ingar Haaland | Integrating AI into economic research |
+| 35 | Aug 26 | 14:15–16:00 | Lecture 3 | Eirik Berger Abel | Intro to Python and LLMs (Part 1) |
+| 35 | Aug 27 | 12:15–14:00 | Lecture 4 | Eirik Berger Abel | Intro to Python and LLMs (Part 2) |
+| 36 | Sep 2 | 14:15–16:00 | Lecture 5 | Eirik Berger Abel | Working with the API (Part 1) |
+| 36 | Sep 3 | 12:15–14:00 | Lecture 6 | Eirik Berger Abel | Working with the API (Part 2) |
+| 37 | Sep 9 | 14:15–16:00 | Lecture 7 | Juan Carlos Lopez Calvet | Guest lecture |
+| 37 | Sep 10 | 12:15–14:00 | Lecture 8 | Eirik Berger Abel | API Use Cases (Part 1) |
+| 38 | Sep 16 | 14:15–16:00 | Lecture 9 | Eirik Berger Abel | API Use Cases (Part 2) |
+| 38 | Sep 17 | 12:15–14:00 | Lecture 10 | Eirik Berger Abel | Lab: hands-on with example notebooks |
+| 39 | Sep 23 | 14:15–16:00 | Lecture 11 | Ingar Haaland | Research application: Conducting qualitative interviews with AI |
+| 39 | Sep 24 | 12:15–14:00 | Lecture 12 | Erling Risa | Guest lecture |
+| 40 | Sep 30 | 14:15–16:00 | Lecture 13 | Ingar Haaland | Introduction to the term paper |
+| 41–42 | – | – | – | Students | Group work: prepare project ideas (no lectures) |
+| 43 | Oct 21 | 14:15–16:00 | Lecture 14 | Students, Ingar Haaland | Student presentations: project ideas (session 1) |
+| 43 | Oct 22 | 12:15–14:00 | Lecture 15 | Students, Ingar Haaland | Student presentations: project ideas (session 2) |
+| 44–45 | – | – | – | Students | Group work on term paper (no lectures) |
+| 46 | Nov 11 | 14:15–16:00 | Lecture 16 | Students, Ingar Haaland | Student presentations: final results (session 1) |
+| 46 | Nov 12 | 12:15–14:00 | Lecture 17 | Students, Ingar Haaland | Student presentations: final results (session 2) |
+| 47–50 | – | – | – | Students | Group work: polish final paper (no lectures) |
+| – | Dec 12 | 23:59 | – | – | Final paper due (WISEflow submission) |
+
+
+## Compulsory Activity
+
+1. **Two group presentations in front of the class.**  
+   All group members need to be active and present during both presentations. Group size is restricted to 3-4 students, but students can ask for an exemption if they want to work in smaller/larger groups. Students also need to hand in slides for each presentation. The slides need to be comprehensive.
+
+2. **Participation in four mandatory online surveys.**  
+   The online surveys will be administered during class. The surveys will, among other things, include multiple choice questions on concepts covered in class. The surveys will give a pass/fail grade. It is necessary to pass at least 3 out of the 4 online surveys to get a course approval. The course approval is only valid for one semester.
+
+## Assessment
+
+The assessment is based on the final paper, and will be written in the same groups as with the presentations. The paper is due four weeks after the final presentation (i.e., Friday December 12; to be uploaded on WISEflow by 12.00 this day) and must be written in English. The paper is graded on the standard scale (A--F). Each group member gets the same grade.
+
+## Course Overview
+
+This website covers the essential tools needed to work with AI and Large Language Models at a basic level, mostly through the use of APIs. You'll learn:
+
+- **Python Programming**: Essential Python skills for AI and data analysis
+- **LLM Fundamentals**: Understanding how language models work under the hood
+- **API Integration**: Working with commercial and open-source LLM APIs
+- **LangChain Framework**: Building sophisticated AI applications
+- **Practical Applications**: Real-world projects including data scraping, analysis, and automation
+
+## Getting Started
+
+To get the most out of this course:
+
+1. Set up a Python environment (we recommend Google Colab for beginners)
+2. Follow along with the code examples
+3. Complete the hands-on exercises
+4. Experiment with variations of the examples
+
+## Contact and Support
+
+For questions about this course, please contact the instructor at eirik.berger@gmail.com with 'BAN443' included in the subject line.

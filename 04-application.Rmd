@@ -1,0 +1,553 @@
+# Applications
+
+This chapter demonstrates real-world applications of Large Language Models (LLMs) using the LangChain framework. We'll explore various use cases ranging from data extraction from the Norwegian National Library to political analysis, web search integration, RAG systems, and automated company data extraction from Brønnøysundregisteret.
+
+All applications in this chapter use LangChain for their implementation, showcasing the framework's capabilities for structured outputs, document processing, agent systems, and retrieval-augmented generation.
+
+## Data Extraction from the Norwegian National Library
+
+The Norwegian National Library provides access to digitized historical documents through their API. This section demonstrates how to extract and structure information from these documents using LangChain.
+
+### Setting up LangChain with Azure OpenAI
+
+```python
+from langchain_openai import AzureChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from pydantic import BaseModel, Field
+from typing import Optional, List
+
+# Initialize LangChain with Azure OpenAI
+llm = AzureChatOpenAI(
+    api_key=userdata.get("AZURE_OPENAI_API_KEY"),
+    azure_endpoint="https://gpt-ban443-1.openai.azure.com/",
+    api_version="2025-01-01-preview",
+    temperature=0,
+)
+```
+
+### Structured Data Extraction
+
+```python
+# Define Pydantic models for structured extraction
+class entity(BaseModel):
+    """Structure data about a person from noisy text."""
+    surname: Optional[str] = Field(
+        default=None, 
+        description="The surname of a person. A dash indicates that the surname is same as last person (indicate this with '-')"
+    )
+    firstname: Optional[str] = Field(
+        default=None, 
+        description="The firstname of a person. Listed after a surname and a comma or a dash."
+    )
+    occupation: Optional[str] = Field(
+        default=None, 
+        description="The occupation of that person, not including firm names in parenthesis."
+    )
+    firm: Optional[str] = Field(
+        default=None, 
+        description="The firm that a person works at. It is included in parentheses (if at all)."
+    )
+    address: Optional[str] = Field(
+        default=None, 
+        description="The place of residence for the person"
+    )
+
+class entities(BaseModel):
+    """Identifying information about all people in a text."""
+    people: List[entity]
+
+# Create extraction prompt template
+prompt = ChatPromptTemplate.from_messages([
+    (
+        "system",
+        """You are an expert at identifying information on individuals from address books.
+        Only extract information on individuals and ignore what appears to be noise.
+        Extract nothing if no important information can be found in the text.
+        The content you see is from OCR scans of historical documents and will be noisy,
+        so if there are obvious errors you can correct them in your response.
+        If surname is indicated with a dash ('-'), then include this as surname, the rest of the name is in firstname.
+        All names should start with upper case letters, while occupations start with lower case letters.
+
+        Firm names in parenthesis should not be included in the occupation, but in the firm variable.
+        Everyone should have a firstname.
+
+        A typical observation in the book are like this:
+        Berger, Eirik, forsker (SSB), Oscars gt. 999
+        """,
+    ),
+    ("human", "{text}"),
+])
+
+# Create structured extraction chain
+extractor = prompt | llm.with_structured_output(
+    schema=entities,
+    include_raw=True,
+)
+
+# Extract information from text
+response = extractor.invoke("My name is Eirik Abel, and I was born in 1993. I am a student. There is another person named Barne Ollson who is 34 years old and lives in Bergen")
+print(response['parsed'].people[0].model_dump_json())
+```
+
+### Batch Processing with Caching
+
+```python
+# Setup caching for efficient batch processing
+from langchain.globals import set_llm_cache
+from langchain_community.cache import InMemoryCache
+set_llm_cache(InMemoryCache())
+
+# Process multiple documents in batch
+import random
+random.seed(100)
+random_elements = random.sample(texts, 10)
+
+extractions = extractor.batch(
+    [{"text": text} for text in random_elements],
+    {"max_concurrency": 5},
+)
+
+# Convert results to DataFrame for analysis
+import json
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df_list = []
+for index, json_str in enumerate(extractions):
+    try:
+        data = json.loads(json_str['parsed'].model_dump_json())
+        df = pd.json_normalize(data['people'])
+        df['file_index'] = index
+        df_list.append(df)
+    except Exception as e:
+        print(f"Error at index {index}: {e}")
+
+combined_df = pd.concat(df_list, ignore_index=True)
+
+# Visualize results
+occupation_counts = combined_df['occupation'].value_counts().head(10)
+plt.figure(figsize=(10, 6))
+occupation_counts.plot(kind='bar', color='skyblue')
+plt.title('Top 10 Most Common Occupations')
+plt.xlabel('Occupation')
+plt.ylabel('Number of People')
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+## Web Search and Tools Integration
+
+LangChain provides powerful tools for integrating web search and other external APIs into LLM workflows.
+
+### Basic Web Search with Tavily
+
+```python
+from langchain_tavily import TavilySearch
+
+# Initialize search tool
+tool = TavilySearch(max_results=2)
+tools = [tool]
+
+# Perform search
+search_results = tool.invoke("What was the result of the football match between Norway and Moldova?")
+print(search_results)
+```
+
+### Agent with Web Search Capabilities
+
+```python
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
+from typing import Annotated
+from typing_extensions import TypedDict
+
+class State(TypedDict):
+    messages: Annotated[list, add_messages]
+
+# Create agent with search capabilities
+graph_builder = StateGraph(State)
+
+tool = TavilySearch(max_results=2)
+tools = [tool]
+llm_with_tools = llm.bind_tools(tools)
+
+def chatbot(state: State):
+    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+
+graph_builder.add_node("chatbot", chatbot)
+
+tool_node = ToolNode(tools=[tool])
+graph_builder.add_node("tools", tool_node)
+
+graph_builder.add_conditional_edges(
+    "chatbot",
+    tools_condition,
+)
+graph_builder.add_edge("tools", "chatbot")
+graph_builder.add_edge(START, "chatbot")
+graph = graph_builder.compile()
+
+# Use the agent
+def stream_graph_updates(user_input: str):
+    for event in graph.stream({"messages": [{"role": "user", "content": user_input}]}):
+        for value in event.values():
+            print("Assistant:", value["messages"][-1].content)
+
+# Example usage
+stream_graph_updates("What's the latest news about NHH?")
+```
+
+## Retrieval-Augmented Generation (RAG) Systems
+
+RAG systems combine document retrieval with LLM generation to provide accurate, context-aware responses.
+
+### Basic RAG Implementation
+
+```python
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import WebBaseLoader
+from langgraph.graph import START, StateGraph, END
+from typing_extensions import List, TypedDict
+
+# Setup embeddings and vector store
+llm = ChatOpenAI(api_key=userdata.get('new_openai'), model="gpt-4o-mini")
+embeddings = OpenAIEmbeddings(api_key=userdata.get('new_openai'))
+vector_store = InMemoryVectorStore(embeddings)
+
+# Load and chunk documents
+loader = WebBaseLoader(
+    web_paths=("https://nhhs.no/nhhs-fra-a-til-a/", "https://nhhs.no/interessegrupper/")
+)
+docs = loader.load()
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+all_splits = text_splitter.split_documents(docs)
+
+# Index chunks
+_ = vector_store.add_documents(documents=all_splits)
+
+# Define RAG state
+class State(TypedDict):
+    question: str
+    context: List[Document]
+    answer: str
+
+# Define RAG functions
+def retrieve(state: State):
+    retrieved_docs = vector_store.similarity_search(state["question"])
+    return {"context": retrieved_docs}
+
+def generate(state: State):
+    docs_content = "\n\n".join(doc.page_content for doc in state["context"])
+    messages = prompt.invoke({"question": state["question"], "context": docs_content})
+    response = llm.invoke(messages)
+    return {"answer": response.content}
+
+# Build RAG graph
+builder = StateGraph(State)
+builder.add_node("retrieve", retrieve)
+builder.add_node("generate", generate)
+builder.add_edge(START, "retrieve")
+builder.add_edge("retrieve", "generate")
+builder.add_edge("generate", END)
+graph = builder.compile()
+
+# Use RAG system
+response = graph.invoke({"question": "What's 'ASAP'? Answer in english."})
+print(response["answer"])
+```
+
+### Persistent Vector Database
+
+```python
+from langchain_community.vectorstores import Chroma
+
+# Create persistent vector database
+persist_dir = "./chroma_db"
+vector_store = Chroma.from_documents(
+    documents=all_splits,
+    embedding=embeddings,
+    persist_directory=persist_dir
+)
+vector_store.persist()
+
+# Load existing database
+vector_store = Chroma(
+    persist_directory=persist_dir,
+    embedding_function=embeddings
+)
+
+# Query the database
+results = vector_store.similarity_search("NHH student groups", k=3)
+for doc in results:
+    print(f"Content: {doc.page_content[:200]}...")
+    print(f"Source: {doc.metadata.get('source', 'Unknown')}")
+    print("---")
+```
+
+## Company Data Extraction from Brønnøysundregisteret
+
+This section demonstrates automated extraction of financial and employee data from company annual reports using LangChain's structured output capabilities.
+
+### Downloading Annual Reports
+
+```python
+import requests
+import os
+import subprocess
+from pathlib import Path
+
+def download_annual_reports(orgnr: str, year_a: int, year_b: int,
+                            delay_s: float = 0.5, ocr_lang: str = "nor+eng") -> None:
+    """
+    Download årsrapporter from Brreg for orgnr in [year_a, year_b] inclusive.
+    If a PDF has no text, perform OCR and replace the file with a searchable PDF.
+    """
+    orgnr = sanitize_orgnr(orgnr)
+    if year_b < year_a:
+        year_a, year_b = year_b, year_a  # swap
+
+    out_dir = os.path.join("reports", orgnr)
+    ensure_dir(out_dir)
+    
+    for year in range(year_a, year_b + 1):
+        url = f"https://data.brreg.no/regnskapsregisteret/regnskap/aarsregnskap/kopi/{orgnr}/{year}"
+        out_path = os.path.join(out_dir, f"{orgnr}_{year}.pdf")
+
+        if os.path.exists(out_path) and os.path.getsize(out_path) > 0:
+            continue
+
+        try:
+            pdf_bytes = http_get_pdf(url)
+            with open(out_path, "wb") as f:
+                f.write(pdf_bytes)
+            
+            # OCR if needed
+            ocr_inplace(out_path, lang=ocr_lang)
+            time.sleep(delay_s)  # be polite
+        except Exception as e:
+            print(f"Skipping {year} for {orgnr}: {e}")
+            continue
+
+# Download reports for a company
+download_annual_reports("990412987", 2020, 2025)
+```
+
+### Structured Data Extraction from PDFs
+
+```python
+from pydantic import BaseModel, Field
+from langchain_openai import ChatOpenAI
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_core.prompts import ChatPromptTemplate
+
+class EmployeeInfo(BaseModel):
+    """Structured extraction of employee counts from PDF documents."""
+    employees: Optional[int] = Field(
+        default=None,
+        description=(
+            "Total number of employees (headcount). If multiple figures appear, "
+            "return the most recent TOTAL headcount. Use integers only. "
+            "Return null if not stated."
+        ),
+    )
+    page_numbers: List[int] = Field(
+        default_factory=list,
+        description="1-based page numbers where the employee figure was found."
+    )
+    confidence: float = Field(
+        ge=0.0, le=1.0,
+        description="Model confidence in the extracted value (0–1)."
+    )
+    rationale: Optional[str] = Field(
+        default=None,
+        description="Short explanation and any assumptions made."
+    )
+    raw_evidence: Optional[str] = Field(
+        default=None,
+        description="Short verbatim snippet(s) supporting the value (<= 300 chars)."
+    )
+
+# System prompt for extraction
+SYSTEM = """You extract facts from text with great care.
+Task: determine the company's total number of employees (headcount).
+Prefer the most recent period if multiple are present.
+Accept common variations and languages (e.g., 'employees', 'staff', 'FTE', 'årsverk', 'antall ansatte', 'ansatte').
+Of several possible numbers are found, prefer the average number of employees ('Gjennomsnittlig antall årsverk')
+If only FTE (årsverk) is given and headcount is absent, return that number but note it in rationale.
+Return strictly the specified schema. If unknown, set employees=null, but still provide confidence and rationale."""
+
+USER_TMPL = """You are given OCR/parsed text from a PDF annual report.
+Extract the number of employees.
+
+--- BEGIN TEXT (page-tagged) ---
+{page_tagged_text}
+--- END TEXT ---
+
+Rules:
+- If multiple employee counts exist, choose the latest overall headcount (or FTE if headcount is absent).
+- Include the 1-based page numbers where the evidence appears.
+"""
+
+def main(pdf_path: str, model: str = "gpt-5-mini", temperature: float = 0.0):
+    # Load PDF using LangChain
+    loader = PyPDFLoader(pdf_path)
+    docs = loader.load()
+    
+    # Select relevant pages
+    selected = _select_relevant_pages(docs)
+    page_tagged_text = _make_page_tagged(selected)
+    
+    # LangChain with structured output
+    llm = ChatOpenAI(model=model, temperature=temperature)
+    structured_llm = llm.with_structured_output(EmployeeInfo)
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", SYSTEM),
+        ("user", USER_TMPL),
+    ])
+    
+    chain = prompt | structured_llm
+    result: EmployeeInfo = chain.invoke({"page_tagged_text": page_tagged_text})
+    
+    return result.model_dump()
+
+# Extract employee data from a specific PDF
+result = main("reports/990412987/990412987_2020.pdf")
+print(json.dumps(result, indent=2, ensure_ascii=False))
+```
+
+### Batch Processing and Analysis
+
+```python
+import matplotlib.pyplot as plt
+
+def collect_with_main(
+    company_folder: str,
+    years: Optional[List[int]] = None,
+    model: str = "gpt-5",
+    temperature: float = 0.0,
+) -> pd.DataFrame:
+    """
+    Process multiple PDFs and return results as DataFrame.
+    """
+    company_folder = Path(company_folder)
+    pdfs = sorted(company_folder.glob("*.pdf"))
+    company_id = company_folder.name
+    rows = []
+
+    for pdf in tqdm(pdfs, desc=f"Processing PDFs for {company_id}", unit="file"):
+        yr = _infer_year_from_name(pdf)
+        if years is not None and yr not in years:
+            continue
+        try:
+            data = run_main_capture(pdf, model=model, temperature=temperature)
+            df_row = employee_dict_to_df(data, company_id=company_id, year=yr, source_path=pdf)
+        except Exception as e:
+            df_row = pd.DataFrame([{
+                "company_id": company_id,
+                "year": yr,
+                "employees": None,
+                "page_numbers": [],
+                "confidence": 0.0,
+                "rationale": f"Extraction failed: {e}",
+                "raw_evidence": None,
+                "source_path": str(pdf),
+            }])
+        rows.append(df_row)
+
+    return pd.concat(rows, ignore_index=True)
+
+# Process all PDFs for a company
+df_all = collect_with_main("reports/990412987")
+
+# Visualize employee trends over time
+plt.figure(figsize=(8,5))
+plt.plot(df_all["year"], df_all["employees"], marker="o", linestyle="-", linewidth=2)
+plt.xlabel("Year")
+plt.ylabel("Number of Employees")
+plt.title("Stavanger Aftenblad - Employee Count Over Time")
+plt.xticks(df_all["year"])
+plt.grid(True, linestyle="--", alpha=0.6)
+plt.show()
+```
+
+### Financial Data Integration
+
+```python
+def get_regnskap(orgnr: str, regnskapstype: str = "SELSKAP") -> dict:
+    """
+    Fetch resultatregnskap (financial statements) from Brønnøysundregisteret API.
+    """
+    base_url = f"https://data.brreg.no/regnskapsregisteret/regnskap/{orgnr}"
+    params = {
+        "regnskapstype": regnskapstype
+    }
+    headers = {"accept": "application/json"}
+
+    response = requests.get(base_url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
+
+def regnskap_to_df(data: list) -> pd.DataFrame:
+    """Convert financial data to DataFrame."""
+    records = []
+    for item in data:
+        orgnr = item["virksomhet"]["organisasjonsnummer"]
+        year = pd.to_datetime(item["regnskapsperiode"]["tilDato"]).year
+
+        rec = {
+            "orgnr": orgnr,
+            "regnskapstype": item.get("regnskapstype"),
+            "valuta": item.get("valuta"),
+            "sumEiendeler": item["eiendeler"].get("sumEiendeler"),
+            "sumEgenkapitalGjeld": item["egenkapitalGjeld"].get("sumEgenkapitalGjeld"),
+            "sumDriftsinntekter": item["resultatregnskapResultat"]["driftsresultat"]["driftsinntekter"].get("sumDriftsinntekter"),
+            "sumDriftskostnad": item["resultatregnskapResultat"]["driftsresultat"]["driftskostnad"].get("sumDriftskostnad"),
+            "driftsresultat": item["resultatregnskapResultat"]["driftsresultat"].get("driftsresultat"),
+            "aarsresultat": item["resultatregnskapResultat"].get("aarsresultat"),
+        }
+        records.append(rec)
+
+    return pd.DataFrame.from_records(records)
+
+# Get financial data
+data = get_regnskap("990412987")
+regnskap = regnskap_to_df(data)
+print(regnskap)
+```
+
+## Conclusion
+
+This chapter demonstrates the power of LangChain for building sophisticated LLM applications. The key advantages of using LangChain include:
+
+**Structured Outputs:**
+- Pydantic models ensure consistent, validated data extraction
+- Type safety and automatic validation
+- Easy integration with downstream data processing
+
+**Document Processing:**
+- Built-in loaders for various document types (PDF, web, etc.)
+- Intelligent text chunking and splitting
+- OCR integration for scanned documents
+
+**Vector Databases and RAG:**
+- Seamless integration with embedding models
+- Persistent vector storage with Chroma
+- Efficient similarity search and retrieval
+
+**Agent Systems:**
+- Tool integration for external APIs and search
+- Memory management for conversational agents
+- Graph-based workflow orchestration
+
+**Batch Processing:**
+- Efficient parallel processing with caching
+- Error handling and retry mechanisms
+- Progress tracking and monitoring
+
+LangChain provides a comprehensive framework for building production-ready LLM applications that can handle complex data extraction, processing, and analysis tasks. The examples in this chapter showcase how to combine multiple LangChain components to create sophisticated workflows for real-world applications.
