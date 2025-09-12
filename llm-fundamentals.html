@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Understanding Large Language Models | A Technical Companion for BAN443</title>
+  <meta name="description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Understanding Large Language Models | A Technical Companion for BAN443" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Understanding Large Language Models | A Technical Companion for BAN443" />
+  
+  <meta name="twitter:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  
+
+<meta name="author" content="Eirik Berger Abel" />
+
+
+<meta name="date" content="2025-09-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="working-with-llms-through-apis.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6KCKS5548F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6KCKS5548F');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BAN443: Transforming Business with AI</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome to BAN443</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-schedule"><i class="fa fa-check"></i><b>1.1</b> Course Schedule</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#compulsory-activity"><i class="fa fa-check"></i><b>1.2</b> Compulsory Activity</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.3</b> Assessment</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#course-overview"><i class="fa fa-check"></i><b>1.4</b> Course Overview</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#getting-started"><i class="fa fa-check"></i><b>1.5</b> Getting Started</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#contact-and-support"><i class="fa fa-check"></i><b>1.6</b> Contact and Support</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to Python</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#why-python-for-ai"><i class="fa fa-check"></i><b>2.1</b> Why Python for AI?</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#setting-up-your-environment"><i class="fa fa-check"></i><b>2.2</b> Setting Up Your Environment</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#option-1-google-colab-recommended-for-beginners"><i class="fa fa-check"></i><b>2.2.1</b> Option 1: Google Colab (Recommended for Beginners)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#option-2-local-installation"><i class="fa fa-check"></i><b>2.2.2</b> Option 2: Local Installation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#essential-python-concepts"><i class="fa fa-check"></i><b>2.3</b> Essential Python Concepts</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.3.1</b> Variables and Data Types</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#functions"><i class="fa fa-check"></i><b>2.3.2</b> Functions</a></li>
+<li class="chapter" data-level="2.3.3" data-path="intro.html"><a href="intro.html#installing-and-importing-packages"><i class="fa fa-check"></i><b>2.3.3</b> Installing and Importing Packages</a></li>
+<li class="chapter" data-level="2.3.4" data-path="intro.html"><a href="intro.html#working-with-data"><i class="fa fa-check"></i><b>2.3.4</b> Working with Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#working-with-apis"><i class="fa fa-check"></i><b>2.4</b> Working with APIs</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#what-is-an-api"><i class="fa fa-check"></i><b>2.4.1</b> What is an API?</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#types-of-api-requests"><i class="fa fa-check"></i><b>2.4.2</b> Types of API Requests</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#working-with-json-objects"><i class="fa fa-check"></i><b>2.4.3</b> Working with JSON Objects</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#api-authentication"><i class="fa fa-check"></i><b>2.4.4</b> API Authentication</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#want-to-learn-more"><i class="fa fa-check"></i><b>2.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#next-steps"><i class="fa fa-check"></i><b>2.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html"><i class="fa fa-check"></i><b>3</b> Understanding Large Language Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-are-large-language-models"><i class="fa fa-check"></i><b>3.1</b> What Are Large Language Models?</a></li>
+<li class="chapter" data-level="3.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-the-foundation"><i class="fa fa-check"></i><b>3.2</b> Neural Networks: The Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-is-a-neural-network"><i class="fa fa-check"></i><b>3.2.1</b> What is a Neural Network?</a></li>
+<li class="chapter" data-level="3.2.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-information-flows"><i class="fa fa-check"></i><b>3.2.2</b> How Information Flows</a></li>
+<li class="chapter" data-level="3.2.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression"><i class="fa fa-check"></i><b>3.2.3</b> Neural Networks vs. Traditional Regression</a></li>
+<li class="chapter" data-level="3.2.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-neural-networks-learn"><i class="fa fa-check"></i><b>3.2.4</b> How Neural Networks Learn</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#from-neural-networks-to-language-models"><i class="fa fa-check"></i><b>3.3</b> From Neural Networks to Language Models</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#the-language-modeling-task"><i class="fa fa-check"></i><b>3.3.1</b> The Language Modeling Task</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-language-models-work"><i class="fa fa-check"></i><b>3.4</b> How Language Models Work</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#tokenization-from-text-to-numbers"><i class="fa fa-check"></i><b>3.4.1</b> Tokenization: From Text to Numbers</a></li>
+<li class="chapter" data-level="3.4.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#training-large-language-models"><i class="fa fa-check"></i><b>3.4.2</b> Training Large Language Models</a></li>
+<li class="chapter" data-level="3.4.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-token-prediction-the-core-of-llms"><i class="fa fa-check"></i><b>3.4.3</b> Next Token Prediction: The Core of LLMs</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#want-to-learn-more-1"><i class="fa fa-check"></i><b>3.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="3.6" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-steps-1"><i class="fa fa-check"></i><b>3.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html"><i class="fa fa-check"></i><b>4</b> Working with LLMs through APIs</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-the-openai-packages"><i class="fa fa-check"></i><b>4.1</b> Using the OpenAI Packages</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation"><i class="fa fa-check"></i><b>4.1.1</b> Installation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#essential-package-imports"><i class="fa fa-check"></i><b>4.1.2</b> Essential Package Imports</a></li>
+<li class="chapter" data-level="4.1.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration"><i class="fa fa-check"></i><b>4.1.3</b> API Configuration</a></li>
+<li class="chapter" data-level="4.1.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion"><i class="fa fa-check"></i><b>4.1.4</b> Basic Chat Completion</a></li>
+<li class="chapter" data-level="4.1.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#message-object-structure"><i class="fa fa-check"></i><b>4.1.5</b> Message Object Structure</a></li>
+<li class="chapter" data-level="4.1.6" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction"><i class="fa fa-check"></i><b>4.1.6</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.1.7" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#creating-reusable-functions"><i class="fa fa-check"></i><b>4.1.7</b> Creating Reusable Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langchain"><i class="fa fa-check"></i><b>4.2</b> Using LangChain</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation-1"><i class="fa fa-check"></i><b>4.2.1</b> Installation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration-1"><i class="fa fa-check"></i><b>4.2.2</b> API Configuration</a></li>
+<li class="chapter" data-level="4.2.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion-and-message-structure"><i class="fa fa-check"></i><b>4.2.3</b> Basic Chat Completion and Message Structure</a></li>
+<li class="chapter" data-level="4.2.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction-1"><i class="fa fa-check"></i><b>4.2.4</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.2.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#prompt-templates"><i class="fa fa-check"></i><b>4.2.5</b> Prompt Templates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#data-extraction-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1</b> Data Extraction from the Norwegian National Library</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="applications.html"><a href="applications.html#setting-up-langchain-with-azure-openai"><i class="fa fa-check"></i><b>5.1.1</b> Setting up LangChain with Azure OpenAI</a></li>
+<li class="chapter" data-level="5.1.2" data-path="applications.html"><a href="applications.html#structured-data-extraction-2"><i class="fa fa-check"></i><b>5.1.2</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="5.1.3" data-path="applications.html"><a href="applications.html#batch-processing-with-caching"><i class="fa fa-check"></i><b>5.1.3</b> Batch Processing with Caching</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#web-search-and-tools-integration"><i class="fa fa-check"></i><b>5.2</b> Web Search and Tools Integration</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#basic-web-search-with-tavily"><i class="fa fa-check"></i><b>5.2.1</b> Basic Web Search with Tavily</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#agent-with-web-search-capabilities"><i class="fa fa-check"></i><b>5.2.2</b> Agent with Web Search Capabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#retrieval-augmented-generation-rag-systems"><i class="fa fa-check"></i><b>5.3</b> Retrieval-Augmented Generation (RAG) Systems</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="applications.html"><a href="applications.html#basic-rag-implementation"><i class="fa fa-check"></i><b>5.3.1</b> Basic RAG Implementation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="applications.html"><a href="applications.html#persistent-vector-database"><i class="fa fa-check"></i><b>5.3.2</b> Persistent Vector Database</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#company-data-extraction-from-brønnøysundregisteret"><i class="fa fa-check"></i><b>5.4</b> Company Data Extraction from Brønnøysundregisteret</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="applications.html"><a href="applications.html#downloading-annual-reports"><i class="fa fa-check"></i><b>5.4.1</b> Downloading Annual Reports</a></li>
+<li class="chapter" data-level="5.4.2" data-path="applications.html"><a href="applications.html#structured-data-extraction-from-pdfs"><i class="fa fa-check"></i><b>5.4.2</b> Structured Data Extraction from PDFs</a></li>
+<li class="chapter" data-level="5.4.3" data-path="applications.html"><a href="applications.html#batch-processing-and-analysis"><i class="fa fa-check"></i><b>5.4.3</b> Batch Processing and Analysis</a></li>
+<li class="chapter" data-level="5.4.4" data-path="applications.html"><a href="applications.html#financial-data-integration"><i class="fa fa-check"></i><b>5.4.4</b> Financial Data Integration</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="applications.html"><a href="applications.html#conclusion"><i class="fa fa-check"></i><b>5.5</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#lab-1"><i class="fa fa-check"></i><b>6.1</b> Lab 1</a></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#lab-2"><i class="fa fa-check"></i><b>6.2</b> Lab 2</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Technical Companion for BAN443</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="llm-fundamentals" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Understanding Large Language Models<a href="llm-fundamentals.html#llm-fundamentals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter, we’ll explore the fundamentals of Large Language Models (LLMs) and how they work. This knowledge will help you use LLMs more effectively and understand their capabilities and limitations.</p>
+<div id="what-are-large-language-models" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> What Are Large Language Models?<a href="llm-fundamentals.html#what-are-large-language-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Large Language Models are AI systems trained on massive amounts of text data to understand and generate human-like language. At their most basic level, they are sophisticated <strong>autocomplete systems</strong> that predict the next word (or token) in a sequence.</p>
+<ul>
+<li><strong>Data</strong>: Trained on massive text corpora from the internet</li>
+<li><strong>Architecture</strong>: Based on transformer neural networks</li>
+<li><strong>Core Function</strong>: Essentially does next token prediction (autocomplete)</li>
+</ul>
+</div>
+<div id="neural-networks-the-foundation" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Neural Networks: The Foundation<a href="llm-fundamentals.html#neural-networks-the-foundation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before diving into LLMs, let’s understand the basic building blocks. LLMs are built on <strong>neural networks</strong> - computing systems inspired by how our brains work.</p>
+<div id="what-is-a-neural-network" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> What is a Neural Network?<a href="llm-fundamentals.html#what-is-a-neural-network" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The components of a neural network are:</p>
+<ul>
+<li><strong>Neurons (circles)</strong>: Each circle represents a simple computing unit that can receive information, process it, and send it forward</li>
+<li><strong>Connections (lines)</strong>: The lines show how information flows from one neuron to another, and each line has a <strong>weight</strong> (like a β coefficient in regression)</li>
+<li><strong>Layers</strong>: Neurons are organized in layers - input, hidden, and output</li>
+</ul>
+<p>The thickness of the connections in the diagram represents the strength of the weights - thicker lines mean stronger influence, just like larger β coefficients in regression have more impact on the prediction.</p>
+<div class="figure">
+<img src="images/nn.png" alt="" />
+<p class="caption">Deep neural network</p>
+</div>
+<p><sup>Image source: <a href="https://www.ibm.com/think/topics/neural-networks">IBM - Neural Networks Explained</a></sup></p>
+</div>
+<div id="how-information-flows" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> How Information Flows<a href="llm-fundamentals.html#how-information-flows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><strong>Input Layer</strong>: Receives the raw data (like tokenized text)</li>
+<li><strong>Hidden Layers</strong>: Process and transform the information through multiple steps</li>
+<li><strong>Output Layer</strong>: Produces the final result (like the next token prediction)</li>
+</ol>
+<p>The “deep” in deep neural networks refers to having multiple hidden layers, allowing the network to learn increasingly complex patterns.</p>
+</div>
+<div id="neural-networks-vs.-traditional-regression" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Neural Networks vs. Traditional Regression<a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Think of a neural network almost like a <strong>multi-stage OLS regression</strong>, but much more sophisticated:</p>
+<div id="ols-regression-simple" class="section level4 hasAnchor" number="3.2.3.1">
+<h4><span class="header-section-number">3.2.3.1</span> OLS Regression (Simple)<a href="llm-fundamentals.html#ols-regression-simple" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In a basic regression, you predict Y using: <code>Y = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ</code></p>
+<p>You find the best <strong>weights (β’s)</strong> that minimize prediction errors.</p>
+<p><strong>Example</strong>: Predicting house price = β₀ + β₁(square feet) + β₂(bedrooms) + β₃(age)
+- If β₁ = 100, each extra square foot adds $100 to the price
+- If β₃ = -500, each year of age reduces price by $500</p>
+</div>
+<div id="neural-networks-multi-stage" class="section level4 hasAnchor" number="3.2.3.2">
+<h4><span class="header-section-number">3.2.3.2</span> Neural Networks (Multi-Stage)<a href="llm-fundamentals.html#neural-networks-multi-stage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A neural network does the same thing, but in <strong>multiple stages</strong>:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Stage 1</strong>: <code>Hidden₁ = f(β₁₁X₁ + β₁₂X₂ + ... + β₁ₙXₙ)</code><br />
+where <strong>f</strong> is a simple function like <strong>ReLU</strong> or <strong>Sigmoid</strong>.</li>
+<li><strong>Stage 2</strong>: <code>Hidden₂ = f(β₂₁Hidden₁ + β₂₂Hidden₁ + ... + β₂ₘHidden₁)</code><br />
+(again, using a simple activation function such as ReLU or Sigmoid)</li>
+<li><strong>Stage 3</strong>: <code>Output = f(β₃₁Hidden₂ + β₃₂Hidden₂ + ... + β₃ₖHidden₂)</code><br />
+(the output layer often uses Softmax for classification tasks)</li>
+</ol>
+<p>Each connection between neurons has a <strong>weight</strong> (a β coefficient, just like in regression), and each neuron receives inputs (the X’s) from the previous layer. The output of a neuron is calculated as a weighted sum of its inputs (e.g., β₁₁X₁ + β₁₂X₂ + … + β₁ₙXₙ), passed through an activation function (like ReLU or Sigmoid). A big difference is that in OLS regression, you can solve for the best β weights analytically in one step, while in a neural network, the model has to “train”—gradually adjusting the weights over many iterations to get better and better at minimizing prediction errors.</p>
+</div>
+<div id="the-key-difference" class="section level4 hasAnchor" number="3.2.3.3">
+<h4><span class="header-section-number">3.2.3.3</span> The Key Difference<a href="llm-fundamentals.html#the-key-difference" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>OLS</strong>: One stage, linear relationship</li>
+<li><strong>Neural Networks</strong>: Multiple stages, with non-linear functions (f) between stages</li>
+<li><strong>Same Goal</strong>: Find the best weights to minimize prediction errors</li>
+</ul>
+</div>
+</div>
+<div id="how-neural-networks-learn" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> How Neural Networks Learn<a href="llm-fundamentals.html#how-neural-networks-learn" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Neural networks use <strong>supervised learning</strong> - just like OLS regression! During training:
+- <strong>Input</strong>: Text sequences (like “The cat sat on the”)
+- <strong>Target</strong>: The actual next word (like “mat”)
+- <strong>Goal</strong>: Adjust weights so the network predicts “mat” when given “The cat sat on the”</p>
+<p>The network learns by comparing its predictions to the correct answers and adjusting weights to reduce errors. (Here, we’re skipping over some really important details—like the process of backpropagation and stochastic gradient descent—which is how the network actually figures out how to adjust those weights. But for now, the key idea is that the network keeps tweaking its weights to get better at making predictions.)</p>
+<p><strong>A great way to build intuition is to watch this short video:</strong></p>
+<iframe src="https://www.youtube.com/embed/rEDzUT3ymw4" width="672" height="400px" data-external="1">
+</iframe>
+</div>
+</div>
+<div id="from-neural-networks-to-language-models" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> From Neural Networks to Language Models<a href="llm-fundamentals.html#from-neural-networks-to-language-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we understand how neural networks work, let’s see how they become language models. The key insight is that instead of predicting a single Y value, language models use neural networks to predict the next word in a sequence.</p>
+<p>Large language models also use a special architecture called a <strong>transformer</strong> to do this efficiently and at scale. Transformers are a big reason why modern LLMs are so powerful, but we won’t go into the details of transformers here.</p>
+<div id="the-language-modeling-task" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> The Language Modeling Task<a href="llm-fundamentals.html#the-language-modeling-task" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In language modeling, the neural network:
+1. Takes a sequence of words as input
+2. Processes them through multiple hidden layers
+3. Outputs probabilities for what the next word should be
+4. The “magic” is that with enough stages and the right weights, the network can learn incredibly complex patterns in language</p>
+</div>
+</div>
+<div id="how-language-models-work" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> How Language Models Work<a href="llm-fundamentals.html#how-language-models-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we understand the foundation, let’s see how neural networks become language models in practice.</p>
+<div id="tokenization-from-text-to-numbers" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Tokenization: From Text to Numbers<a href="llm-fundamentals.html#tokenization-from-text-to-numbers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before LLMs can process text, it must be converted into numbers. This process is called <strong>tokenization</strong>.</p>
+<div id="how-tokenization-works" class="section level4 hasAnchor" number="3.4.1.1">
+<h4><span class="header-section-number">3.4.1.1</span> How Tokenization Works<a href="llm-fundamentals.html#how-tokenization-works" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="llm-fundamentals.html#cb12-1" aria-hidden="true"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2Tokenizer</span>
+<span id="cb12-2"><a href="llm-fundamentals.html#cb12-2" aria-hidden="true"></a></span>
+<span id="cb12-3"><a href="llm-fundamentals.html#cb12-3" aria-hidden="true"></a><span class="co"># Load the GPT-2 tokenizer</span></span>
+<span id="cb12-4"><a href="llm-fundamentals.html#cb12-4" aria-hidden="true"></a>tokenizer <span class="op">=</span> GPT2Tokenizer.from_pretrained(<span class="st">&quot;gpt2&quot;</span>)</span>
+<span id="cb12-5"><a href="llm-fundamentals.html#cb12-5" aria-hidden="true"></a></span>
+<span id="cb12-6"><a href="llm-fundamentals.html#cb12-6" aria-hidden="true"></a><span class="co"># Tokenize a word</span></span>
+<span id="cb12-7"><a href="llm-fundamentals.html#cb12-7" aria-hidden="true"></a>inputs <span class="op">=</span> tokenizer(<span class="st">&quot;inequality&quot;</span>, return_tensors<span class="op">=</span><span class="st">&quot;pt&quot;</span>)</span>
+<span id="cb12-8"><a href="llm-fundamentals.html#cb12-8" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Token IDs:&quot;</span>, inputs.input_ids)</span>
+<span id="cb12-9"><a href="llm-fundamentals.html#cb12-9" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Token IDs as list:&quot;</span>, inputs.input_ids[<span class="dv">0</span>].tolist())</span></code></pre></div>
+</div>
+<div id="understanding-token-ids" class="section level4 hasAnchor" number="3.4.1.2">
+<h4><span class="header-section-number">3.4.1.2</span> Understanding Token IDs<a href="llm-fundamentals.html#understanding-token-ids" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s see what those numbers actually represent:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="llm-fundamentals.html#cb13-1" aria-hidden="true"></a><span class="co"># Convert IDs back to tokens (strings)</span></span>
+<span id="cb13-2"><a href="llm-fundamentals.html#cb13-2" aria-hidden="true"></a>ids <span class="op">=</span> inputs.input_ids[<span class="dv">0</span>].tolist()</span>
+<span id="cb13-3"><a href="llm-fundamentals.html#cb13-3" aria-hidden="true"></a>tokens <span class="op">=</span> [tokenizer.decode([i]) <span class="cf">for</span> i <span class="kw">in</span> ids]</span>
+<span id="cb13-4"><a href="llm-fundamentals.html#cb13-4" aria-hidden="true"></a></span>
+<span id="cb13-5"><a href="llm-fundamentals.html#cb13-5" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;IDs:&quot;</span>, ids)</span>
+<span id="cb13-6"><a href="llm-fundamentals.html#cb13-6" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Tokens:&quot;</span>, tokens)</span></code></pre></div>
+<p>You’ll notice that “inequality” becomes <code>[500, 13237]</code> when using the GPT-2 tokenizer. This is specific to GPT-2—other models may use different tokenizers and produce different token IDs. This means:
+- The word is split into subword tokens
+- Each token gets a unique ID number
+- The model works with these numbers, not the original text</p>
+</div>
+<div id="why-subword-tokenization" class="section level4 hasAnchor" number="3.4.1.3">
+<h4><span class="header-section-number">3.4.1.3</span> Why Subword Tokenization?<a href="llm-fundamentals.html#why-subword-tokenization" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Vocabulary Size</strong>: Instead of having a token for every possible word, models use subwords</li>
+<li><strong>Unknown Words</strong>: Can handle new words by breaking them into known subwords</li>
+</ul>
+</div>
+</div>
+<div id="training-large-language-models" class="section level3 hasAnchor" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Training Large Language Models<a href="llm-fundamentals.html#training-large-language-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Training LLMs involves two main stages: a large-scale pre-training phase, where the model learns general language patterns from massive text datasets, followed (optionally) by a fine-tuning stage, where the model is adapted for specific tasks or aligned with human preferences.</p>
+<div id="pre-training-phase" class="section level4 hasAnchor" number="3.4.2.1">
+<h4><span class="header-section-number">3.4.2.1</span> 1. Pre-training Phase<a href="llm-fundamentals.html#pre-training-phase" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Data</strong>: Massive text corpora (books, articles, websites)</li>
+<li><strong>Task</strong>: Predict the next token in a sequence</li>
+<li><strong>Duration</strong>: Weeks or months on powerful hardware</li>
+<li><strong>Cost</strong>: Millions of dollars in compute resources</li>
+</ul>
+<p>During pre-training, the model is shown huge amounts of text from the web, books, and articles. For each training example, a small part of the text is hidden (masked), and the model is asked to predict the missing word or token based on the context before it.</p>
+<p><strong>Example:</strong></p>
+<p>Suppose the original sentence is:</p>
+<blockquote>
+<p>“Artificial intelligence is transforming the world.”</p>
+</blockquote>
+<p>The model might see:</p>
+<blockquote>
+<p>“Artificial intelligence is transforming the ____.”</p>
+</blockquote>
+<p>The model’s task is to predict the missing word (“world”) using the words before it. This process is repeated billions of times with different pieces of text and different masked tokens. Over time, the model learns the patterns, grammar, facts, and even some reasoning abilities from the data.</p>
+<p>This “fill-in-the-blank” task is what enables LLMs to generate coherent and relevant text when given a prompt.</p>
+</div>
+<div id="fine-tuning-and-alignment-optional" class="section level4 hasAnchor" number="3.4.2.2">
+<h4><span class="header-section-number">3.4.2.2</span> 2. Fine-tuning and Alignment (Optional)<a href="llm-fundamentals.html#fine-tuning-and-alignment-optional" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Data</strong>: Smaller, carefully chosen datasets focused on a domain or style<br />
+</li>
+<li><strong>Purpose</strong>: Adapt a general-purpose model to perform specific tasks (like customer support, coding help, or medical Q&amp;A) or to align it with human preferences (being polite, safe, and following instructions).<br />
+</li>
+<li><strong>How it works</strong>: The base model—already trained to predict the next token—is further trained or adjusted using examples such as Q&amp;A pairs, conversations, or code snippets. In addition to traditional fine-tuning, modern approaches often use <strong>reinforcement learning from human feedback (RLHF)</strong> to make the model’s behavior better match what users want.<br />
+</li>
+<li><strong>Examples</strong>:
+<ul>
+<li>Teaching the model to follow instructions (e.g., “Summarize this article”)<br />
+</li>
+<li>Improving accuracy for domain-specific tasks (e.g., legal or medical assistance)<br />
+</li>
+<li>Shaping interaction style (e.g., friendly conversation, professional tone, storytelling)</li>
+</ul></li>
+</ul>
+<p>This stage is what turns a raw “autocomplete engine” into a <strong>useful assistant</strong>—capable not just of predicting text, but of responding helpfully, safely, and in ways that align with human expectations.</p>
+</div>
+</div>
+<div id="next-token-prediction-the-core-of-llms" class="section level3 hasAnchor" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> Next Token Prediction: The Core of LLMs<a href="llm-fundamentals.html#next-token-prediction-the-core-of-llms" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>At this point, the large language model has mastered the fundamental skill of predicting what comes next in a sequence of text. Given any input text, it can generate probabilities for thousands of possible next tokens, essentially learning the patterns and relationships that govern human language.</p>
+<div id="hands-on-example" class="section level4 hasAnchor" number="3.4.3.1">
+<h4><span class="header-section-number">3.4.3.1</span> Hands-On Example<a href="llm-fundamentals.html#hands-on-example" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s see this in action with GPT-2:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="llm-fundamentals.html#cb14-1" aria-hidden="true"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2TokenizerFast, GPT2LMHeadModel</span>
+<span id="cb14-2"><a href="llm-fundamentals.html#cb14-2" aria-hidden="true"></a><span class="im">import</span> torch</span>
+<span id="cb14-3"><a href="llm-fundamentals.html#cb14-3" aria-hidden="true"></a></span>
+<span id="cb14-4"><a href="llm-fundamentals.html#cb14-4" aria-hidden="true"></a><span class="co"># Load the model and tokenizer</span></span>
+<span id="cb14-5"><a href="llm-fundamentals.html#cb14-5" aria-hidden="true"></a>tokenizer <span class="op">=</span> GPT2TokenizerFast.from_pretrained(<span class="st">&quot;gpt2&quot;</span>)</span>
+<span id="cb14-6"><a href="llm-fundamentals.html#cb14-6" aria-hidden="true"></a>model <span class="op">=</span> GPT2LMHeadModel.from_pretrained(<span class="st">&quot;gpt2&quot;</span>)</span>
+<span id="cb14-7"><a href="llm-fundamentals.html#cb14-7" aria-hidden="true"></a></span>
+<span id="cb14-8"><a href="llm-fundamentals.html#cb14-8" aria-hidden="true"></a><span class="kw">def</span> get_next_tokens(text, num_tokens<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb14-9"><a href="llm-fundamentals.html#cb14-9" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Get the most likely next tokens for a given text.&quot;&quot;&quot;</span></span>
+<span id="cb14-10"><a href="llm-fundamentals.html#cb14-10" aria-hidden="true"></a>    <span class="co"># Tokenize input</span></span>
+<span id="cb14-11"><a href="llm-fundamentals.html#cb14-11" aria-hidden="true"></a>    inputs <span class="op">=</span> tokenizer(text, return_tensors<span class="op">=</span><span class="st">&quot;pt&quot;</span>)</span>
+<span id="cb14-12"><a href="llm-fundamentals.html#cb14-12" aria-hidden="true"></a>    </span>
+<span id="cb14-13"><a href="llm-fundamentals.html#cb14-13" aria-hidden="true"></a>    <span class="co"># Get model predictions</span></span>
+<span id="cb14-14"><a href="llm-fundamentals.html#cb14-14" aria-hidden="true"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb14-15"><a href="llm-fundamentals.html#cb14-15" aria-hidden="true"></a>        outputs <span class="op">=</span> model(<span class="op">**</span>inputs)</span>
+<span id="cb14-16"><a href="llm-fundamentals.html#cb14-16" aria-hidden="true"></a>        logits <span class="op">=</span> outputs.logits[<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, :]  <span class="co"># Last token&#39;s logits</span></span>
+<span id="cb14-17"><a href="llm-fundamentals.html#cb14-17" aria-hidden="true"></a>        probabilities <span class="op">=</span> torch.softmax(logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb14-18"><a href="llm-fundamentals.html#cb14-18" aria-hidden="true"></a>    </span>
+<span id="cb14-19"><a href="llm-fundamentals.html#cb14-19" aria-hidden="true"></a>    <span class="co"># Get top predictions</span></span>
+<span id="cb14-20"><a href="llm-fundamentals.html#cb14-20" aria-hidden="true"></a>    top_indices <span class="op">=</span> torch.topk(probabilities, num_tokens).indices</span>
+<span id="cb14-21"><a href="llm-fundamentals.html#cb14-21" aria-hidden="true"></a>    top_probs <span class="op">=</span> torch.topk(probabilities, num_tokens).values</span>
+<span id="cb14-22"><a href="llm-fundamentals.html#cb14-22" aria-hidden="true"></a>    </span>
+<span id="cb14-23"><a href="llm-fundamentals.html#cb14-23" aria-hidden="true"></a>    results <span class="op">=</span> []</span>
+<span id="cb14-24"><a href="llm-fundamentals.html#cb14-24" aria-hidden="true"></a>    <span class="cf">for</span> idx, prob <span class="kw">in</span> <span class="bu">zip</span>(top_indices, top_probs):</span>
+<span id="cb14-25"><a href="llm-fundamentals.html#cb14-25" aria-hidden="true"></a>        token <span class="op">=</span> tokenizer.decode([idx])</span>
+<span id="cb14-26"><a href="llm-fundamentals.html#cb14-26" aria-hidden="true"></a>        results.append((token, prob.item()))</span>
+<span id="cb14-27"><a href="llm-fundamentals.html#cb14-27" aria-hidden="true"></a>    </span>
+<span id="cb14-28"><a href="llm-fundamentals.html#cb14-28" aria-hidden="true"></a>    <span class="cf">return</span> results</span>
+<span id="cb14-29"><a href="llm-fundamentals.html#cb14-29" aria-hidden="true"></a></span>
+<span id="cb14-30"><a href="llm-fundamentals.html#cb14-30" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb14-31"><a href="llm-fundamentals.html#cb14-31" aria-hidden="true"></a>text <span class="op">=</span> <span class="st">&quot;The future of artificial intelligence is&quot;</span></span>
+<span id="cb14-32"><a href="llm-fundamentals.html#cb14-32" aria-hidden="true"></a>predictions <span class="op">=</span> get_next_tokens(text)</span>
+<span id="cb14-33"><a href="llm-fundamentals.html#cb14-33" aria-hidden="true"></a></span>
+<span id="cb14-34"><a href="llm-fundamentals.html#cb14-34" aria-hidden="true"></a><span class="bu">print</span>(<span class="ss">f&quot;Input: &#39;</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb14-35"><a href="llm-fundamentals.html#cb14-35" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Top 10 most likely next tokens:&quot;</span>)</span>
+<span id="cb14-36"><a href="llm-fundamentals.html#cb14-36" aria-hidden="true"></a><span class="cf">for</span> token, probability <span class="kw">in</span> predictions:</span>
+<span id="cb14-37"><a href="llm-fundamentals.html#cb14-37" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&quot;  &#39;</span><span class="sc">{</span>token<span class="sc">}</span><span class="ss">&#39;: </span><span class="sc">{</span>probability<span class="sc">:.3f}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+</div>
+<div id="sampling-from-the-probability-distribution" class="section level4 hasAnchor" number="3.4.3.2">
+<h4><span class="header-section-number">3.4.3.2</span> Sampling from the Probability Distribution<a href="llm-fundamentals.html#sampling-from-the-probability-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>When the model outputs probabilities for the next token, it doesn’t always pick the most likely one. Instead, it <strong>samples</strong> from the probability distribution. This is crucial for creating natural, varied text.</p>
+<p><strong>Example</strong>: If the model predicts these probabilities for the next word after “The weather is”:
+- “sunny” (40%)
+- “rainy” (30%)
+- “cloudy” (20%)
+- “cold” (10%)</p>
+<p>The model could:
+- <strong>Always pick “sunny”</strong> (most likely) → boring, repetitive text
+- <strong>Sample randomly</strong> based on probabilities → natural, varied text</p>
+<p>Sampling means the model randomly selects a word, but with higher probability words being chosen more often. This creates the natural variation we see in human-like text generation.</p>
+</div>
+<div id="text-generation-iterative-process" class="section level4 hasAnchor" number="3.4.3.3">
+<h4><span class="header-section-number">3.4.3.3</span> Text Generation: Iterative Process<a href="llm-fundamentals.html#text-generation-iterative-process" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To generate longer text, LLMs repeat this process:</p>
+<ol style="list-style-type: decimal">
+<li>Start with initial text</li>
+<li>Predict probability distribution for next token</li>
+<li>Sample from the distribution (or pick the most likely)</li>
+<li>Add selected token to text</li>
+<li>Use new text to predict next token</li>
+<li>Repeat until desired length</li>
+</ol>
+<p>This is why words appear one after another, iteratively, in chatgpt.com.</p>
+</div>
+</div>
+</div>
+<div id="want-to-learn-more-1" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Want to learn more?<a href="llm-fundamentals.html#want-to-learn-more-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<iframe src="https://www.youtube.com/embed/LPZh9BOjkQs" width="672" height="400px" data-external="1">
+</iframe>
+</div>
+<div id="next-steps-1" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Next Steps<a href="llm-fundamentals.html#next-steps-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that you understand how LLMs work, you’re ready to start using them through APIs. In the next chapter, we’ll learn how to interact with commercial LLM services and build your first AI-powered applications.</p>
+<p>The key takeaway is that LLMs are powerful tools, but they’re not magic. Understanding their limitations and how they work will make you a much more effective user of these technologies.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="working-with-llms-through-apis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-llms.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ai-llm-course.pdf", "ai-llm-course.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
