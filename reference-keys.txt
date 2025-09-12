@@ -70,6 +70,11 @@ api-configuration-1
 basic-chat-completion-and-message-structure
 structured-data-extraction-1
 prompt-templates
+using-langsmith-to-track-your-llm-usage
+using-langgraph-to-build-more-advanced-llm-applications
+building-chatbots-with-langgraph
+simple-chatbot-without-memory
+advanced-chatbot-with-memory
 applications
 data-extraction-from-the-norwegian-national-library
 setting-up-langchain-with-azure-openai

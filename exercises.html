@@ -226,6 +226,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction-1"><i class="fa fa-check"></i><b>4.2.4</b> Structured Data Extraction</a></li>
 <li class="chapter" data-level="4.2.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#prompt-templates"><i class="fa fa-check"></i><b>4.2.5</b> Prompt Templates</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langsmith-to-track-your-llm-usage"><i class="fa fa-check"></i><b>4.3</b> Using LangSmith to track your LLM usage</a></li>
+<li class="chapter" data-level="4.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langgraph-to-build-more-advanced-llm-applications"><i class="fa fa-check"></i><b>4.4</b> Using LangGraph to build more advanced LLM applications</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#building-chatbots-with-langgraph"><i class="fa fa-check"></i><b>4.4.1</b> Building Chatbots with LangGraph</a></li>
+<li class="chapter" data-level="4.4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#simple-chatbot-without-memory"><i class="fa fa-check"></i><b>4.4.2</b> Simple Chatbot (Without Memory)</a></li>
+<li class="chapter" data-level="4.4.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#advanced-chatbot-with-memory"><i class="fa fa-check"></i><b>4.4.3</b> Advanced Chatbot (With Memory)</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
 <ul>
@@ -291,15 +298,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="lab-2" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Lab 2<a href="exercises.html#lab-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Find a dataset on Kaggle and use the LangChain package to analyze it.
-- You can find CSV datasets with text data here: <a href="https://www.kaggle.com/datasets?search=text&amp;fileType=csv&amp;tags=13204-NLP" class="uri">https://www.kaggle.com/datasets?search=text&amp;fileType=csv&amp;tags=13204-NLP</a>
-- Import it using the pandas package. I.e. <code>df = pd.read_csv("path/to/dataset.csv")</code>
-- Use the LangChain package to analyze it. You are free to use whatever functionality in LangChain you want.
-- For example:
-- Make a chatbot that helps a journalist to make a summary of their article (easy)
-- Extract some variables from the text data using the LLM or classify it into categories (quite easy). Try to extract more than one variable from each row and store it back in the dataframe.
-- Get additional information by using the LLM to search the web (more difficult)</p>
-<p>Start working on the term paper once you are done!</p>
+<ol style="list-style-type: decimal">
+<li><strong>Journalist Chatbot</strong>: Make a chatbot that helps a journalist to make a summary of their article (easy)</li>
+<li><strong>Dataset Analysis</strong>: Find a dataset on Kaggle and use the LangChain package to analyze it.</li>
+</ol>
+<ul>
+<li>You can find CSV datasets with text data here: <a href="https://www.kaggle.com/datasets?search=text&amp;fileType=csv&amp;tags=13204-NLP" class="uri">https://www.kaggle.com/datasets?search=text&amp;fileType=csv&amp;tags=13204-NLP</a></li>
+<li>Import it using the pandas package. I.e. <code>df = pd.read_csv("path/to/dataset.csv")</code></li>
+<li>Use the LangChain package to analyze it. You are free to use whatever functionality in LangChain you want.
+<ul>
+<li>For example:
+<ul>
+<li>Extract some variables from the text data using the LLM or classify it into categories (quite easy). Try to extract more than one variable from each row and store it back in the dataframe.</li>
+<li>Get additional information by using the LLM to search the web (more difficult)</li>
+</ul></li>
+</ul></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Chatbot</strong>: Make a chatbot to help some spesific topic, making sure to include lots of extra information using RAG (more difficult).</li>
+<li><strong>Term Paper</strong>: Start working on the term paper once you are done!</li>
+</ol>
 </div>
 </div>
             </section>

@@ -226,6 +226,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction-1"><i class="fa fa-check"></i><b>4.2.4</b> Structured Data Extraction</a></li>
 <li class="chapter" data-level="4.2.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#prompt-templates"><i class="fa fa-check"></i><b>4.2.5</b> Prompt Templates</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langsmith-to-track-your-llm-usage"><i class="fa fa-check"></i><b>4.3</b> Using LangSmith to track your LLM usage</a></li>
+<li class="chapter" data-level="4.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langgraph-to-build-more-advanced-llm-applications"><i class="fa fa-check"></i><b>4.4</b> Using LangGraph to build more advanced LLM applications</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#building-chatbots-with-langgraph"><i class="fa fa-check"></i><b>4.4.1</b> Building Chatbots with LangGraph</a></li>
+<li class="chapter" data-level="4.4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#simple-chatbot-without-memory"><i class="fa fa-check"></i><b>4.4.2</b> Simple Chatbot (Without Memory)</a></li>
+<li class="chapter" data-level="4.4.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#advanced-chatbot-with-memory"><i class="fa fa-check"></i><b>4.4.3</b> Advanced Chatbot (With Memory)</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
 <ul>
@@ -587,6 +594,159 @@ This keeps your code clean and efficient.</p>
 <span id="cb32-12"><a href="working-with-llms-through-apis.html#cb32-12" aria-hidden="true"></a>    <span class="st">&quot;question&quot;</span>: <span class="st">&quot;How do I prevent overfitting?&quot;</span></span>
 <span id="cb32-13"><a href="working-with-llms-through-apis.html#cb32-13" aria-hidden="true"></a>})</span>
 <span id="cb32-14"><a href="working-with-llms-through-apis.html#cb32-14" aria-hidden="true"></a><span class="bu">print</span>(response.content)</span></code></pre></div>
+</div>
+</div>
+<div id="using-langsmith-to-track-your-llm-usage" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Using LangSmith to track your LLM usage<a href="working-with-llms-through-apis.html#using-langsmith-to-track-your-llm-usage" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A problem running many requests using APIs is that you lack visibility into what is happening. You don’t nessecarily know how many requests you are making, how long they take, or what the results are. This makes debugging and optimizing your code difficult. This is where LangSmith comes in. Luckely, the setup is very easy.</p>
+<p>You just need to visit <a href="https://smith.langchain.com/" class="uri">https://smith.langchain.com/</a> and create an account. Then, create a new project. You can name it whatever you want, but make sure to copy the project ID/name and the API key. As always, you need to set the environment variables in Colab in the sidebar and retrive it using the userdata.get() function. Once you run this code, all LLM requests will be tracked in LangSmith (check that it works).</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="working-with-llms-through-apis.html#cb33-1" aria-hidden="true"></a><span class="im">import</span> os</span>
+<span id="cb33-2"><a href="working-with-llms-through-apis.html#cb33-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb33-3"><a href="working-with-llms-through-apis.html#cb33-3" aria-hidden="true"></a></span>
+<span id="cb33-4"><a href="working-with-llms-through-apis.html#cb33-4" aria-hidden="true"></a>os.environ[<span class="st">&quot;LANGSMITH_TRACING&quot;</span>] <span class="op">=</span> <span class="st">&quot;true&quot;</span></span>
+<span id="cb33-5"><a href="working-with-llms-through-apis.html#cb33-5" aria-hidden="true"></a>os.environ[<span class="st">&quot;LANGSMITH_ENDPOINT&quot;</span>] <span class="op">=</span> <span class="st">&quot;https://api.smith.langchain.com&quot;</span></span>
+<span id="cb33-6"><a href="working-with-llms-through-apis.html#cb33-6" aria-hidden="true"></a>os.environ[<span class="st">&quot;LANGSMITH_API_KEY&quot;</span>] <span class="op">=</span> userdata.get(<span class="st">&#39;langsmith&#39;</span>)</span>
+<span id="cb33-7"><a href="working-with-llms-through-apis.html#cb33-7" aria-hidden="true"></a>os.environ[<span class="st">&quot;LANGSMITH_PROJECT&quot;</span>] <span class="op">=</span> <span class="st">&quot;pr-jaunty-eyeball-33&quot;</span></span></code></pre></div>
+</div>
+<div id="using-langgraph-to-build-more-advanced-llm-applications" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Using LangGraph to build more advanced LLM applications<a href="working-with-llms-through-apis.html#using-langgraph-to-build-more-advanced-llm-applications" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>LangGraph is a framework for building more advanced LLM applications. It is built on top of LangChain and provides a more advanced way to build LLM applications. It is particularly useful for building agents, RAG systems, and complex multi-step reasoning applications. See their website for more information and examples (<a href="https://langchain-ai.github.io/langgraph/" class="uri">https://langchain-ai.github.io/langgraph/</a>).</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="working-with-llms-through-apis.html#cb34-1" aria-hidden="true"></a><span class="co"># Install LangGraph</span></span>
+<span id="cb34-2"><a href="working-with-llms-through-apis.html#cb34-2" aria-hidden="true"></a><span class="op">!</span>pip install langgraph</span></code></pre></div>
+<div id="building-chatbots-with-langgraph" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Building Chatbots with LangGraph<a href="working-with-llms-through-apis.html#building-chatbots-with-langgraph" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>LangGraph makes it easy to build conversational chatbots. We’ll demonstrate two types: a simple chatbot without memory and an advanced chatbot with memory and tool integration.</p>
+</div>
+<div id="simple-chatbot-without-memory" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Simple Chatbot (Without Memory)<a href="working-with-llms-through-apis.html#simple-chatbot-without-memory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This is a basic chatbot that responds to each message independently, without remembering previous conversations:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="working-with-llms-through-apis.html#cb35-1" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Annotated</span>
+<span id="cb35-2"><a href="working-with-llms-through-apis.html#cb35-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb35-3"><a href="working-with-llms-through-apis.html#cb35-3" aria-hidden="true"></a><span class="im">from</span> typing_extensions <span class="im">import</span> TypedDict</span>
+<span id="cb35-4"><a href="working-with-llms-through-apis.html#cb35-4" aria-hidden="true"></a><span class="im">from</span> langgraph.graph <span class="im">import</span> StateGraph, START, END</span>
+<span id="cb35-5"><a href="working-with-llms-through-apis.html#cb35-5" aria-hidden="true"></a><span class="im">from</span> langgraph.graph.message <span class="im">import</span> add_messages</span>
+<span id="cb35-6"><a href="working-with-llms-through-apis.html#cb35-6" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb35-7"><a href="working-with-llms-through-apis.html#cb35-7" aria-hidden="true"></a></span>
+<span id="cb35-8"><a href="working-with-llms-through-apis.html#cb35-8" aria-hidden="true"></a><span class="co"># Initialize the LLM</span></span>
+<span id="cb35-9"><a href="working-with-llms-through-apis.html#cb35-9" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb35-10"><a href="working-with-llms-through-apis.html#cb35-10" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb35-11"><a href="working-with-llms-through-apis.html#cb35-11" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb35-12"><a href="working-with-llms-through-apis.html#cb35-12" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb35-13"><a href="working-with-llms-through-apis.html#cb35-13" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb35-14"><a href="working-with-llms-through-apis.html#cb35-14" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb35-15"><a href="working-with-llms-through-apis.html#cb35-15" aria-hidden="true"></a>)</span>
+<span id="cb35-16"><a href="working-with-llms-through-apis.html#cb35-16" aria-hidden="true"></a></span>
+<span id="cb35-17"><a href="working-with-llms-through-apis.html#cb35-17" aria-hidden="true"></a><span class="co"># Define the state for our chatbot</span></span>
+<span id="cb35-18"><a href="working-with-llms-through-apis.html#cb35-18" aria-hidden="true"></a><span class="kw">class</span> State(TypedDict):</span>
+<span id="cb35-19"><a href="working-with-llms-through-apis.html#cb35-19" aria-hidden="true"></a>    messages: Annotated[<span class="bu">list</span>, add_messages]</span>
+<span id="cb35-20"><a href="working-with-llms-through-apis.html#cb35-20" aria-hidden="true"></a></span>
+<span id="cb35-21"><a href="working-with-llms-through-apis.html#cb35-21" aria-hidden="true"></a><span class="co"># Create the graph builder</span></span>
+<span id="cb35-22"><a href="working-with-llms-through-apis.html#cb35-22" aria-hidden="true"></a>graph_builder <span class="op">=</span> StateGraph(State)</span>
+<span id="cb35-23"><a href="working-with-llms-through-apis.html#cb35-23" aria-hidden="true"></a></span>
+<span id="cb35-24"><a href="working-with-llms-through-apis.html#cb35-24" aria-hidden="true"></a><span class="co"># Define the chatbot function</span></span>
+<span id="cb35-25"><a href="working-with-llms-through-apis.html#cb35-25" aria-hidden="true"></a><span class="kw">def</span> chatbot(state: State):</span>
+<span id="cb35-26"><a href="working-with-llms-through-apis.html#cb35-26" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Process user input and generate a response.&quot;&quot;&quot;</span></span>
+<span id="cb35-27"><a href="working-with-llms-through-apis.html#cb35-27" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;messages&quot;</span>: [client.invoke(state[<span class="st">&quot;messages&quot;</span>])]}</span>
+<span id="cb35-28"><a href="working-with-llms-through-apis.html#cb35-28" aria-hidden="true"></a></span>
+<span id="cb35-29"><a href="working-with-llms-through-apis.html#cb35-29" aria-hidden="true"></a><span class="co"># Add the chatbot node to the graph</span></span>
+<span id="cb35-30"><a href="working-with-llms-through-apis.html#cb35-30" aria-hidden="true"></a>graph_builder.add_node(<span class="st">&quot;chatbot&quot;</span>, chatbot)</span>
+<span id="cb35-31"><a href="working-with-llms-through-apis.html#cb35-31" aria-hidden="true"></a></span>
+<span id="cb35-32"><a href="working-with-llms-through-apis.html#cb35-32" aria-hidden="true"></a><span class="co"># Define the flow: START -&gt; chatbot -&gt; </span><span class="re">END</span></span>
+<span id="cb35-33"><a href="working-with-llms-through-apis.html#cb35-33" aria-hidden="true"></a>graph_builder.add_edge(START, <span class="st">&quot;chatbot&quot;</span>)</span>
+<span id="cb35-34"><a href="working-with-llms-through-apis.html#cb35-34" aria-hidden="true"></a>graph_builder.add_edge(<span class="st">&quot;chatbot&quot;</span>, END)</span>
+<span id="cb35-35"><a href="working-with-llms-through-apis.html#cb35-35" aria-hidden="true"></a></span>
+<span id="cb35-36"><a href="working-with-llms-through-apis.html#cb35-36" aria-hidden="true"></a><span class="co"># Compile the graph</span></span>
+<span id="cb35-37"><a href="working-with-llms-through-apis.html#cb35-37" aria-hidden="true"></a>graph <span class="op">=</span> graph_builder.<span class="bu">compile</span>()</span>
+<span id="cb35-38"><a href="working-with-llms-through-apis.html#cb35-38" aria-hidden="true"></a></span>
+<span id="cb35-39"><a href="working-with-llms-through-apis.html#cb35-39" aria-hidden="true"></a><span class="co"># Function to interact with the chatbot</span></span>
+<span id="cb35-40"><a href="working-with-llms-through-apis.html#cb35-40" aria-hidden="true"></a><span class="kw">def</span> stream_graph_updates(user_input: <span class="bu">str</span>):</span>
+<span id="cb35-41"><a href="working-with-llms-through-apis.html#cb35-41" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Send user input to the chatbot and display the response.&quot;&quot;&quot;</span></span>
+<span id="cb35-42"><a href="working-with-llms-through-apis.html#cb35-42" aria-hidden="true"></a>    <span class="cf">for</span> event <span class="kw">in</span> graph.stream({<span class="st">&quot;messages&quot;</span>: [{<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: user_input}]}):</span>
+<span id="cb35-43"><a href="working-with-llms-through-apis.html#cb35-43" aria-hidden="true"></a>        <span class="cf">for</span> value <span class="kw">in</span> event.values():</span>
+<span id="cb35-44"><a href="working-with-llms-through-apis.html#cb35-44" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Assistant:&quot;</span>, value[<span class="st">&quot;messages&quot;</span>][<span class="op">-</span><span class="dv">1</span>].content)</span>
+<span id="cb35-45"><a href="working-with-llms-through-apis.html#cb35-45" aria-hidden="true"></a></span>
+<span id="cb35-46"><a href="working-with-llms-through-apis.html#cb35-46" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb35-47"><a href="working-with-llms-through-apis.html#cb35-47" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Simple Chatbot (No Memory)&quot;</span>)</span>
+<span id="cb35-48"><a href="working-with-llms-through-apis.html#cb35-48" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Type &#39;quit&#39;, &#39;exit&#39;, or &#39;q&#39; to stop&quot;</span>)</span>
+<span id="cb35-49"><a href="working-with-llms-through-apis.html#cb35-49" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;-&quot;</span> <span class="op">*</span> <span class="dv">40</span>)</span>
+<span id="cb35-50"><a href="working-with-llms-through-apis.html#cb35-50" aria-hidden="true"></a></span>
+<span id="cb35-51"><a href="working-with-llms-through-apis.html#cb35-51" aria-hidden="true"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb35-52"><a href="working-with-llms-through-apis.html#cb35-52" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb35-53"><a href="working-with-llms-through-apis.html#cb35-53" aria-hidden="true"></a>        user_input <span class="op">=</span> <span class="bu">input</span>(<span class="st">&quot;User: &quot;</span>)</span>
+<span id="cb35-54"><a href="working-with-llms-through-apis.html#cb35-54" aria-hidden="true"></a>        <span class="cf">if</span> user_input.lower() <span class="kw">in</span> [<span class="st">&quot;quit&quot;</span>, <span class="st">&quot;exit&quot;</span>, <span class="st">&quot;q&quot;</span>]:</span>
+<span id="cb35-55"><a href="working-with-llms-through-apis.html#cb35-55" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Goodbye!&quot;</span>)</span>
+<span id="cb35-56"><a href="working-with-llms-through-apis.html#cb35-56" aria-hidden="true"></a>            <span class="cf">break</span></span>
+<span id="cb35-57"><a href="working-with-llms-through-apis.html#cb35-57" aria-hidden="true"></a>        stream_graph_updates(user_input)</span>
+<span id="cb35-58"><a href="working-with-llms-through-apis.html#cb35-58" aria-hidden="true"></a>    <span class="cf">except</span>:</span>
+<span id="cb35-59"><a href="working-with-llms-through-apis.html#cb35-59" aria-hidden="true"></a>        <span class="cf">break</span></span></code></pre></div>
+</div>
+<div id="advanced-chatbot-with-memory" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Advanced Chatbot (With Memory)<a href="working-with-llms-through-apis.html#advanced-chatbot-with-memory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This chatbot remembers previous conversations and maintains context throughout the conversation:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="working-with-llms-through-apis.html#cb36-1" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Annotated</span>
+<span id="cb36-2"><a href="working-with-llms-through-apis.html#cb36-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb36-3"><a href="working-with-llms-through-apis.html#cb36-3" aria-hidden="true"></a><span class="im">from</span> typing_extensions <span class="im">import</span> TypedDict</span>
+<span id="cb36-4"><a href="working-with-llms-through-apis.html#cb36-4" aria-hidden="true"></a><span class="im">from</span> langgraph.checkpoint.memory <span class="im">import</span> InMemorySaver</span>
+<span id="cb36-5"><a href="working-with-llms-through-apis.html#cb36-5" aria-hidden="true"></a><span class="im">from</span> langgraph.graph <span class="im">import</span> StateGraph, START, END</span>
+<span id="cb36-6"><a href="working-with-llms-through-apis.html#cb36-6" aria-hidden="true"></a><span class="im">from</span> langgraph.graph.message <span class="im">import</span> add_messages</span>
+<span id="cb36-7"><a href="working-with-llms-through-apis.html#cb36-7" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb36-8"><a href="working-with-llms-through-apis.html#cb36-8" aria-hidden="true"></a></span>
+<span id="cb36-9"><a href="working-with-llms-through-apis.html#cb36-9" aria-hidden="true"></a><span class="co"># Initialize the LLM</span></span>
+<span id="cb36-10"><a href="working-with-llms-through-apis.html#cb36-10" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb36-11"><a href="working-with-llms-through-apis.html#cb36-11" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb36-12"><a href="working-with-llms-through-apis.html#cb36-12" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb36-13"><a href="working-with-llms-through-apis.html#cb36-13" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb36-14"><a href="working-with-llms-through-apis.html#cb36-14" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb36-15"><a href="working-with-llms-through-apis.html#cb36-15" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb36-16"><a href="working-with-llms-through-apis.html#cb36-16" aria-hidden="true"></a>)</span>
+<span id="cb36-17"><a href="working-with-llms-through-apis.html#cb36-17" aria-hidden="true"></a></span>
+<span id="cb36-18"><a href="working-with-llms-through-apis.html#cb36-18" aria-hidden="true"></a><span class="co"># Define the state for our advanced chatbot</span></span>
+<span id="cb36-19"><a href="working-with-llms-through-apis.html#cb36-19" aria-hidden="true"></a><span class="kw">class</span> State(TypedDict):</span>
+<span id="cb36-20"><a href="working-with-llms-through-apis.html#cb36-20" aria-hidden="true"></a>    messages: Annotated[<span class="bu">list</span>, add_messages]</span>
+<span id="cb36-21"><a href="working-with-llms-through-apis.html#cb36-21" aria-hidden="true"></a></span>
+<span id="cb36-22"><a href="working-with-llms-through-apis.html#cb36-22" aria-hidden="true"></a><span class="co"># Create the graph builder</span></span>
+<span id="cb36-23"><a href="working-with-llms-through-apis.html#cb36-23" aria-hidden="true"></a>graph_builder <span class="op">=</span> StateGraph(State)</span>
+<span id="cb36-24"><a href="working-with-llms-through-apis.html#cb36-24" aria-hidden="true"></a></span>
+<span id="cb36-25"><a href="working-with-llms-through-apis.html#cb36-25" aria-hidden="true"></a><span class="co"># Define the chatbot function</span></span>
+<span id="cb36-26"><a href="working-with-llms-through-apis.html#cb36-26" aria-hidden="true"></a><span class="kw">def</span> chatbot(state: State):</span>
+<span id="cb36-27"><a href="working-with-llms-through-apis.html#cb36-27" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Process user input and generate a response with memory.&quot;&quot;&quot;</span></span>
+<span id="cb36-28"><a href="working-with-llms-through-apis.html#cb36-28" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;messages&quot;</span>: [client.invoke(state[<span class="st">&quot;messages&quot;</span>])]}</span>
+<span id="cb36-29"><a href="working-with-llms-through-apis.html#cb36-29" aria-hidden="true"></a></span>
+<span id="cb36-30"><a href="working-with-llms-through-apis.html#cb36-30" aria-hidden="true"></a><span class="co"># Add the chatbot node to the graph</span></span>
+<span id="cb36-31"><a href="working-with-llms-through-apis.html#cb36-31" aria-hidden="true"></a>graph_builder.add_node(<span class="st">&quot;chatbot&quot;</span>, chatbot)</span>
+<span id="cb36-32"><a href="working-with-llms-through-apis.html#cb36-32" aria-hidden="true"></a></span>
+<span id="cb36-33"><a href="working-with-llms-through-apis.html#cb36-33" aria-hidden="true"></a><span class="co"># Define the flow: START -&gt; chatbot -&gt; </span><span class="re">END</span></span>
+<span id="cb36-34"><a href="working-with-llms-through-apis.html#cb36-34" aria-hidden="true"></a>graph_builder.add_edge(START, <span class="st">&quot;chatbot&quot;</span>)</span>
+<span id="cb36-35"><a href="working-with-llms-through-apis.html#cb36-35" aria-hidden="true"></a>graph_builder.add_edge(<span class="st">&quot;chatbot&quot;</span>, END)</span>
+<span id="cb36-36"><a href="working-with-llms-through-apis.html#cb36-36" aria-hidden="true"></a></span>
+<span id="cb36-37"><a href="working-with-llms-through-apis.html#cb36-37" aria-hidden="true"></a><span class="co"># Add memory using InMemorySaver</span></span>
+<span id="cb36-38"><a href="working-with-llms-through-apis.html#cb36-38" aria-hidden="true"></a>memory <span class="op">=</span> InMemorySaver()</span>
+<span id="cb36-39"><a href="working-with-llms-through-apis.html#cb36-39" aria-hidden="true"></a>graph <span class="op">=</span> graph_builder.<span class="bu">compile</span>(checkpointer<span class="op">=</span>memory)</span>
+<span id="cb36-40"><a href="working-with-llms-through-apis.html#cb36-40" aria-hidden="true"></a></span>
+<span id="cb36-41"><a href="working-with-llms-through-apis.html#cb36-41" aria-hidden="true"></a><span class="co"># Configuration for maintaining conversation thread</span></span>
+<span id="cb36-42"><a href="working-with-llms-through-apis.html#cb36-42" aria-hidden="true"></a>config <span class="op">=</span> {<span class="st">&quot;configurable&quot;</span>: {<span class="st">&quot;thread_id&quot;</span>: <span class="st">&quot;1&quot;</span>}}</span>
+<span id="cb36-43"><a href="working-with-llms-through-apis.html#cb36-43" aria-hidden="true"></a></span>
+<span id="cb36-44"><a href="working-with-llms-through-apis.html#cb36-44" aria-hidden="true"></a><span class="co"># Function to interact with the advanced chatbot</span></span>
+<span id="cb36-45"><a href="working-with-llms-through-apis.html#cb36-45" aria-hidden="true"></a><span class="kw">def</span> stream_graph_updates(user_input: <span class="bu">str</span>):</span>
+<span id="cb36-46"><a href="working-with-llms-through-apis.html#cb36-46" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Send user input to the chatbot and display the response.&quot;&quot;&quot;</span></span>
+<span id="cb36-47"><a href="working-with-llms-through-apis.html#cb36-47" aria-hidden="true"></a>    <span class="cf">for</span> event <span class="kw">in</span> graph.stream({<span class="st">&quot;messages&quot;</span>: [{<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: user_input}]}, config):</span>
+<span id="cb36-48"><a href="working-with-llms-through-apis.html#cb36-48" aria-hidden="true"></a>        <span class="cf">for</span> value <span class="kw">in</span> event.values():</span>
+<span id="cb36-49"><a href="working-with-llms-through-apis.html#cb36-49" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Assistant:&quot;</span>, value[<span class="st">&quot;messages&quot;</span>][<span class="op">-</span><span class="dv">1</span>].content)</span>
+<span id="cb36-50"><a href="working-with-llms-through-apis.html#cb36-50" aria-hidden="true"></a></span>
+<span id="cb36-51"><a href="working-with-llms-through-apis.html#cb36-51" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb36-52"><a href="working-with-llms-through-apis.html#cb36-52" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Advanced Chatbot (With Memory)&quot;</span>)</span>
+<span id="cb36-53"><a href="working-with-llms-through-apis.html#cb36-53" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Type &#39;quit&#39;, &#39;exit&#39;, or &#39;q&#39; to stop&quot;</span>)</span>
+<span id="cb36-54"><a href="working-with-llms-through-apis.html#cb36-54" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;-&quot;</span> <span class="op">*</span> <span class="dv">40</span>)</span>
+<span id="cb36-55"><a href="working-with-llms-through-apis.html#cb36-55" aria-hidden="true"></a></span>
+<span id="cb36-56"><a href="working-with-llms-through-apis.html#cb36-56" aria-hidden="true"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb36-57"><a href="working-with-llms-through-apis.html#cb36-57" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb36-58"><a href="working-with-llms-through-apis.html#cb36-58" aria-hidden="true"></a>        user_input <span class="op">=</span> <span class="bu">input</span>(<span class="st">&quot;User: &quot;</span>)</span>
+<span id="cb36-59"><a href="working-with-llms-through-apis.html#cb36-59" aria-hidden="true"></a>        <span class="cf">if</span> user_input.lower() <span class="kw">in</span> [<span class="st">&quot;quit&quot;</span>, <span class="st">&quot;exit&quot;</span>, <span class="st">&quot;q&quot;</span>]:</span>
+<span id="cb36-60"><a href="working-with-llms-through-apis.html#cb36-60" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Goodbye!&quot;</span>)</span>
+<span id="cb36-61"><a href="working-with-llms-through-apis.html#cb36-61" aria-hidden="true"></a>            <span class="cf">break</span></span>
+<span id="cb36-62"><a href="working-with-llms-through-apis.html#cb36-62" aria-hidden="true"></a>        stream_graph_updates(user_input)</span>
+<span id="cb36-63"><a href="working-with-llms-through-apis.html#cb36-63" aria-hidden="true"></a>    <span class="cf">except</span>:</span>
+<span id="cb36-64"><a href="working-with-llms-through-apis.html#cb36-64" aria-hidden="true"></a>        <span class="cf">break</span></span></code></pre></div>
 
 </div>
 </div>
