@@ -15,7 +15,7 @@ description: "BAN443: A brief course on transforming business with AI through La
 
 # Welcome to BAN443
 
-Welcome to this technical companion for the course BAN443 at the Norwegian School of Economics. This book focuses on the practical and technical aspects of the course, such as Python programming, working with LLMs, and building AI applications. Please note that this material covers only the technical portion of the overall curriculum.
+Welcome to this technical companion for the course BAN443 at the Norwegian School of Economics. Please note that this material covers only the technical portion of the overall curriculum.
 
 For a complete overview of the course, including non-technical content, visit the official course webpage: [Transforming Business with AI: The Power of Large Language Models](https://www.nhh.no/en/courses/transforming-business-with-ai-the-power-of-large-language-models/)
 
@@ -28,11 +28,11 @@ For a complete overview of the course, including non-technical content, visit th
 | 35 | Aug 26 | 14:15–16:00 | Lecture 3 | Eirik Berger Abel | Intro to Python and LLMs (Part 1) |
 | 35 | Aug 27 | 12:15–14:00 | Lecture 4 | Eirik Berger Abel | Intro to Python and LLMs (Part 2) |
 | 36 | Sep 2 | 14:15–16:00 | Lecture 5 | Eirik Berger Abel | Working with the API (Part 1) |
-| 36 | Sep 3 | 12:15–14:00 | Lecture 6 | Eirik Berger Abel | Working with the API (Part 2) |
+| 36 | Sep 3 | 12:15–14:00 | Lecture 6 | Eirik Berger Abel | Exercise session |
 | 37 | Sep 9 | 14:15–16:00 | Lecture 7 | Juan Carlos Lopez Calvet | Guest lecture |
-| 37 | Sep 10 | 12:15–14:00 | Lecture 8 | Eirik Berger Abel | API Use Cases (Part 1) |
-| 38 | Sep 16 | 14:15–16:00 | Lecture 9 | Eirik Berger Abel | API Use Cases (Part 2) |
-| 38 | Sep 17 | 12:15–14:00 | Lecture 10 | Eirik Berger Abel | Lab: hands-on with example notebooks |
+| 37 | Sep 10 | 12:15–14:00 | Lecture 8 | Eirik Berger Abel | Working with the API (Part 2) |
+| 38 | Sep 16 | 14:15–16:00 | Lecture 9 | Eirik Berger Abel | Exercise session |
+| 38 | Sep 17 | 12:15–14:00 | Lecture 10 | Eirik Berger Abel | Exercise session |
 | 39 | Sep 23 | 14:15–16:00 | Lecture 11 | Ingar Haaland | Research application: Conducting qualitative interviews with AI |
 | 39 | Sep 24 | 12:15–14:00 | Lecture 12 | Erling Risa | Guest lecture |
 | 40 | Sep 30 | 14:15–16:00 | Lecture 13 | Ingar Haaland | Introduction to the term paper |

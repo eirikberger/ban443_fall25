@@ -71,7 +71,7 @@ The most common way to interact with LLMs is through chat completions:
 ```python
 # Simple chat completion
 response = client.chat.completions.create(
-    model="gpt-4",  # or your Azure deployment name
+    model="Group01",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Explain machine learning in simple terms."}
@@ -109,6 +109,20 @@ messages = [
 ]
 ```
 
+You can insert this message object back into the chat completion function to get a response from the LLM.
+
+```python
+# Simple chat completion
+response = client.chat.completions.create(
+    model="Group01",
+    messages=messages,
+    temperature=0.7,
+    max_tokens=500
+)
+
+print(response.choices[0].message.content)
+```
+
 ### Structured Data Extraction
 
 You can extract structured data from text using Pydantic models and the `responses.parse()` method. However, note that we are now switching to using client.responses instead of client.chat.completions. This uses a newer API form OpenAI that doesnt work with the 'old' LLM model that you used through Azure. We therefore switch to using the gpt-5-mini model.
@@ -125,7 +139,6 @@ client = AzureOpenAI(
     azure_endpoint="https://ban443-1.openai.azure.com/",
     api_key=userdata.get("new_azure_gpt5"),
 )
-
 
 from pydantic import BaseModel
 
@@ -177,7 +190,7 @@ def ask(role: str, domain: str, question: str):
     
     # Use the responses API for cleaner output
     resp = client.responses.create(
-        model="gpt-4o",
+        model="Group01",
         input=msgs,
     )
     return resp.output_text
@@ -191,7 +204,7 @@ print(answer)
 
 - **f-strings**: The `f"..."` syntax allows you to insert variables directly into strings. For example, `f"You are a {role}"` becomes `"You are a data scientist"` when `role = "data scientist"`.
 - **Function parameters**: The function takes three parameters (`role`, `domain`, `question`) that can be different each time you call it.
-- **Docstrings**: The triple-quoted string at the top of the function explains what it does and what parameters it expects.
+- **Docstrings**: The triple-quoted string at the top of the function explains what it does and what parameters it expects. This is optional, but it's a good practice to always include it.
 - **Return values**: The function returns the AI's response, which you can store in a variable or use directly.
 - **Reusability**: You can now ask different questions to different types of experts without rewriting the code:
 
@@ -332,7 +345,7 @@ print(people_info.model_dump_json())
 # {"name":"John Smith","age":35,"occupation":"data scientist","location":"Oslo"}
 ```
 
-Note that if the input string contains multiple people, you simply need to add the following code and set the schema to PeopleInfo:
+Note that if the input string contains multiple people, you simply need to add the following code and set the schema to PeopleInfo. As you can see, the PeopleInfo class is a list of Person objects.
 
 ```python
 class PeopleInfo(BaseModel):

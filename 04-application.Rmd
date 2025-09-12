@@ -4,6 +4,15 @@ This chapter demonstrates real-world applications of Large Language Models (LLMs
 
 All applications in this chapter use LangChain for their implementation, showcasing the framework's capabilities for structured outputs, document processing, agent systems, and retrieval-augmented generation.
 
+Note that you might want to mount your Google Drive to Colab to save the results of your applications.
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+This will mount your Google Drive at `/content/drive`. You can now access your files using the path `/content/drive/MyDrive/`.
+
 ## Data Extraction from the Norwegian National Library
 
 The Norwegian National Library provides access to digitized historical documents through their API. This section demonstrates how to extract and structure information from these documents using LangChain.
@@ -17,10 +26,11 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 
 # Initialize LangChain with Azure OpenAI
-llm = AzureChatOpenAI(
+client = AzureChatOpenAI(
     api_key=userdata.get("AZURE_OPENAI_API_KEY"),
     azure_endpoint="https://gpt-ban443-1.openai.azure.com/",
     api_version="2025-01-01-preview",
+    azure_deployment="Group01",
     temperature=0,
 )
 ```
@@ -79,7 +89,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # Create structured extraction chain
-extractor = prompt | llm.with_structured_output(
+extractor = prompt | client.with_structured_output(
     schema=entities,
     include_raw=True,
 )
@@ -89,56 +99,169 @@ response = extractor.invoke("My name is Eirik Abel, and I was born in 1993. I am
 print(response['parsed'].people[0].model_dump_json())
 ```
 
-### Batch Processing with Caching
+### Fetching Data from the Norwegian National Library
 
 ```python
-# Setup caching for efficient batch processing
+!pip install wget
+!pip install PyMuPDF
+
+import wget
+import fitz
+from langchain_text_splitters import CharacterTextSplitter
+
+# Define the page range you want to extract from the National Library
+start_page = 500
+end_page = 520
+
+# Downloading a file from the Norwegian National Library
+url = f"https://www.nb.no/services/downloader?urn=URN:NBN:no-nb_digitidsskrift_2019091381014_001&resolutionlevel=4&pg={start_page}-{end_page}&text=true&filename=2024-10-06T1216_NB_generated"
+wget.download(url, "address_book.pdf")
+
+# Extract text from PDF
+doc = fitz.open("address_book.pdf")
+all_text = ""
+for page_num in range(0, end_page - start_page):
+    page = doc.load_page(page_num)
+    all_text += page.get_text("text")
+
+# Split text into manageable chunks
+text_splitter = CharacterTextSplitter(
+    separator="\n",
+    chunk_size=500,
+    chunk_overlap=0,
+    length_function=len,
+    is_separator_regex=False,
+)
+
+texts = text_splitter.create_documents([all_text])
+print(f"Created {len(texts)} text chunks from National Library data")
+```
+
+### Batch Processing with Caching
+
+Setting up caching. This means that the LLM will remember the results of the previous calls, so that it doesn't have to re-compute the same thing.
+
+```python
+# Cache setup.
+# https://python.langchain.com/docs/integrations/llm_caching/
 from langchain.globals import set_llm_cache
+
+## Using in memory cache:
 from langchain_community.cache import InMemoryCache
 set_llm_cache(InMemoryCache())
 
-# Process multiple documents in batch
+## OR use SQLite cache:
+# from langchain_community.cache import SQLiteCache
+# set_llm_cache(SQLiteCache(database_path=".langchain.db"))
+
+# Use either memory cache or SQLite cache.
+```
+
+Process 10 random chunks of text in parallel:
+
+```python
 import random
 random.seed(100)
 random_elements = random.sample(texts, 10)
 
+print("Processing documents with caching enabled...")
 extractions = extractor.batch(
-    [{"text": text} for text in random_elements],
+    [{"text": text.page_content} for text in random_elements],
     {"max_concurrency": 5},
 )
+print(f"Completed processing {len(extractions)} documents")
+```
 
-# Convert results to DataFrame for analysis
-import json
-import pandas as pd
-import matplotlib.pyplot as plt
+### Converting JSON Results to DataFrame
 
+Lets convert results from the batch results to a dataframe. We use the result from the batch extraction above. Note that this is the kind of tasks that chatgpt can help you produce code for if you just give it the object you want to convert.
+
+```python	
+# For batch results, process all extractions
 df_list = []
-for index, json_str in enumerate(extractions):
+for index, result in enumerate(extractions):
     try:
-        data = json.loads(json_str['parsed'].model_dump_json())
-        df = pd.json_normalize(data['people'])
+        # Get the parsed JSON data
+        json_data = result['parsed'].model_dump_json()
+        parsed_data = json.loads(json_data)
+        
+        # Convert to DataFrame
+        df = pd.json_normalize(parsed_data['people'])
         df['file_index'] = index
         df_list.append(df)
     except Exception as e:
-        print(f"Error at index {index}: {e}")
+        print(f"Error processing document {index}: {e}")
 
+# Combine all results
 combined_df = pd.concat(df_list, ignore_index=True)
+print(f"\nCombined DataFrame shape: {combined_df.shape}")
+print("\nFirst few rows:")
+print(combined_df.head())
+```
 
-# Visualize results
-occupation_counts = combined_df['occupation'].value_counts().head(10)
-plt.figure(figsize=(10, 6))
-occupation_counts.plot(kind='bar', color='skyblue')
-plt.title('Top 10 Most Common Occupations')
-plt.xlabel('Occupation')
-plt.ylabel('Number of People')
+Second, lets convert the response from a single element/answer to a dataframe.
+
+```python
+# Import
+import json
+import pandas as pd
+
+# Simple example: Convert a single extraction result to DataFrame
+sample_result = extractor.invoke("Berger, Eirik, forsker (SSB), Oscars gt. 999")
+
+# Extract the JSON data
+json_data = sample_result['parsed'].model_dump_json()
+parsed_data = json.loads(json_data)
+
+# Convert to DataFrame
+df = pd.json_normalize(parsed_data['people'])
+print("Sample DataFrame:")
+print(df)
+```
+
+### Analyzing Occupation Data
+
+```python
+import matplotlib.pyplot as plt # helps make the figure
+
+# Clean and analyze occupation data
+occupation_data = combined_df.dropna(subset=['occupation'])
+occupation_counts = occupation_data['occupation'].value_counts().head(10)
+
+print("Top 10 Most Common Occupations:")
+print(occupation_counts)
+
+# Create visualization
+plt.figure(figsize=(12, 8))
+occupation_counts.plot(kind='bar', color='skyblue', edgecolor='navy', alpha=0.7)
+plt.title('Top 10 Most Common Occupations from Norwegian National Library Data', 
+          fontsize=14, fontweight='bold')
+plt.xlabel('Occupation', fontsize=12)
+plt.ylabel('Number of People', fontsize=12)
 plt.xticks(rotation=45, ha='right')
+plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.show()
+
+# Additional analysis: Geographic distribution
+if 'address' in combined_df.columns:
+    address_data = combined_df.dropna(subset=['address'])
+    print(f"\nGeographic distribution (top 10):")
+    print(address_data['address'].value_counts().head(10))
 ```
 
 ## Web Search and Tools Integration
 
-LangChain provides powerful tools for integrating web search and other external APIs into LLM workflows.
+LangChain provides powerful tools for integrating web search and other external APIs into LLM workflows. We first need to get an API key for Tavily from their website (https://www.tavily.com/). 
+
+```python	
+import os
+from google.colab import userdata
+
+!pip install langchain_tavily
+
+os.environ["TAVILY_API_KEY"] = userdata.get('tavily') # This is where you include your API key!
+```
 
 ### Basic Web Search with Tavily
 
@@ -156,6 +279,14 @@ print(search_results)
 
 ### Agent with Web Search Capabilities
 
+We will now use the langgraph package to work with more advanced agentic systems. LangGraph is particularly useful for building conversational agents, RAG systems, and complex multi-step reasoning applications. Most of the examples where we use LangGraph is taken from their website (https://langchain-ai.github.io/langgraph/). Start by installing it. 
+
+```python
+!pip install langgraph
+```
+
+Then, we can use the following code to build an agent with web search capabilities.	
+
 ```python
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
@@ -171,7 +302,7 @@ graph_builder = StateGraph(State)
 
 tool = TavilySearch(max_results=2)
 tools = [tool]
-llm_with_tools = llm.bind_tools(tools)
+llm_with_tools = client.bind_tools(tools)
 
 def chatbot(state: State):
     return {"messages": [llm_with_tools.invoke(state["messages"])]}
@@ -201,7 +332,8 @@ stream_graph_updates("What's the latest news about NHH?")
 
 ## Retrieval-Augmented Generation (RAG) Systems
 
-RAG systems combine document retrieval with LLM generation to provide accurate, context-aware responses.
+Next we want to create a RAG system. We often want to give our LLMs more knowledge and data to work with. This can be done by 1) Training the model with more data, 2) Including data directly in the prompt, or 3) Using a RAG system. As option 1 is often expensive and option 2 is often too limiting, option 3 has become popular. Note however that we need an embedding model to make this work, which we don't have an API key for this class yet. You can create your own API key at https://platform.openai.com/ if you want to try it out, but note that it cost money depending on how much you use it (although not much). 
+
 
 ### Basic RAG Implementation
 
@@ -212,15 +344,23 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 from langgraph.graph import START, StateGraph, END
 from typing_extensions import List, TypedDict
+from langchain_core.documents import Document
+import bs4
+from langchain import hub
 
 # Setup embeddings and vector store
-llm = ChatOpenAI(api_key=userdata.get('new_openai'), model="gpt-4o-mini")
+client = ChatOpenAI(api_key=userdata.get('new_openai'), model="gpt-4o-mini")
 embeddings = OpenAIEmbeddings(api_key=userdata.get('new_openai'))
 vector_store = InMemoryVectorStore(embeddings)
 
 # Load and chunk documents
 loader = WebBaseLoader(
-    web_paths=("https://nhhs.no/nhhs-fra-a-til-a/", "https://nhhs.no/interessegrupper/")
+    web_paths=("https://nhhs.no/nhhs-fra-a-til-a/","https://nhhs.no/interessegrupper/", "https://www.dn.no/"),
+    bs_kwargs=dict(
+        parse_only=bs4.SoupStrainer(
+            class_=("post-content", "post-title", "post-header")
+        )
+    ),
 )
 docs = loader.load()
 
@@ -229,6 +369,12 @@ all_splits = text_splitter.split_documents(docs)
 
 # Index chunks
 _ = vector_store.add_documents(documents=all_splits)
+
+# Define prompt for question-answering
+# Pull a pre-built RAG prompt template from LangChain Hub
+# This prompt is specifically designed for retrieval-augmented generation (RAG) tasks
+# It includes placeholders for question and context that will be filled in during execution
+prompt = hub.pull("rlm/rag-prompt")
 
 # Define RAG state
 class State(TypedDict):
@@ -244,7 +390,7 @@ def retrieve(state: State):
 def generate(state: State):
     docs_content = "\n\n".join(doc.page_content for doc in state["context"])
     messages = prompt.invoke({"question": state["question"], "context": docs_content})
-    response = llm.invoke(messages)
+    response = client.invoke(messages)
     return {"answer": response.content}
 
 # Build RAG graph
@@ -262,26 +408,32 @@ print(response["answer"])
 ```
 
 ### Persistent Vector Database
+The last example created a vector database in memory, which will dissapear once we end our notebook session. We can instead save the database to a file, so that it persists between sessions.
 
 ```python
+!pip install -U langchain-chroma chromadb
 from langchain_community.vectorstores import Chroma
 
-# Create persistent vector database
+# Choose a stable collection name + persist dir
+collection_name = "nhhs_docs"
 persist_dir = "./chroma_db"
+
+# --- Create / upsert (auto-persisted; no .persist() needed) ---
 vector_store = Chroma.from_documents(
     documents=all_splits,
     embedding=embeddings,
-    persist_directory=persist_dir
-)
-vector_store.persist()
-
-# Load existing database
-vector_store = Chroma(
+    collection_name=collection_name,
     persist_directory=persist_dir,
-    embedding_function=embeddings
 )
 
-# Query the database
+# --- Load an existing DB later ---
+vector_store = Chroma(
+    collection_name=collection_name,
+    persist_directory=persist_dir,
+    embedding_function=embeddings,
+)
+
+# --- Query or use it in the RAG system ---
 results = vector_store.similarity_search("NHH student groups", k=3)
 for doc in results:
     print(f"Content: {doc.page_content[:200]}...")
@@ -291,263 +443,410 @@ for doc in results:
 
 ## Company Data Extraction from Brønnøysundregisteret
 
-This section demonstrates automated extraction of financial and employee data from company annual reports using LangChain's structured output capabilities.
+This section demonstrates automated extraction of financial and employee data from company annual reports using LangChain's structured output capabilities. This is a potentially very valuable application in a long range of sectors. This is quite complex compared that what we have previously looked at, but it's not expected that you understand all of this code. Its mainly a showcase of what is possible with LLMs, and if you would want to do something similar, then you could use this as a starting point.
 
-### Downloading Annual Reports
+I first get data from their open API. Then I create functions to downloade the annual reports, and extract the employee data. Finally, I plot the results.
 
+Overview of the process:
+  1) data = get_regnskap("990412987")        # API data
+     regnskap = regnskap_to_df(data)
+  2) download_annual_reports("990412987", 2020, 2025)  # PDFs + OCR if needed
+  3) df_all = collect_employees("reports/990412987")   # LLM extracts employees
+  4) plot_employees(df_all, title="Stavanger Aftenblad")
+
+Let's first create functions for everything we are going to do.
 ```python
-import requests
 import os
+import io
+import re
+import time
+import shutil
 import subprocess
 from pathlib import Path
+from typing import Optional, List, Iterable, Tuple, Union
 
-def download_annual_reports(orgnr: str, year_a: int, year_b: int,
-                            delay_s: float = 0.5, ocr_lang: str = "nor+eng") -> None:
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+from google.colab import userdata
+
+# PDF parsing
+try:
+    from pypdf import PdfReader, PdfWriter
+except Exception:
+    try:
+        from PyPDF2 import PdfReader, PdfWriter  # fallback
+    except Exception:
+        PdfReader = None
+        PdfWriter = None
+
+# LLM + PDF loading
+from pydantic import BaseModel, Field
+from langchain_openai import AzureChatOpenAI
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_core.prompts import ChatPromptTemplate
+
+# ---------
+# Config
+# ---------
+BASE_URL = "https://data.brreg.no/regnskapsregisteret/regnskap/aarsregnskap/kopi/{orgnr}/{year}"
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "\
+             "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# -------------
+# Utilities
+# -------------
+def sanitize_orgnr(orgnr: str) -> str:
+    digits = re.sub(r"\D+", "", orgnr)
+    if len(digits) < 7:
+        raise ValueError(f"orgnr looks wrong: {orgnr!r}")
+    return digits
+
+def ensure_dir(path: Union[str, Path]) -> Path:
+    p = Path(path)
+    p.mkdir(parents=True, exist_ok=True)
+    return p
+
+def have(cmd: str) -> bool:
+    return shutil.which(cmd) is not None
+
+def http_get_pdf(url: str, timeout: int = 30) -> bytes:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "application/pdf,application/octet-stream;q=0.9,*/*;q=0.8",
+        "Accept-Language": "nb-NO,nb;q=0.9,no;q=0.8,en-US;q=0.7,en;q=0.6",
+    }
+    r = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True, stream=True)
+    ctype = (r.headers.get("Content-Type") or "").lower()
+    if r.status_code == 200 and ("pdf" in ctype or "octet-stream" in ctype or ctype == ""):
+        return r.content
+    r.raise_for_status()
+    return r.content  # defensive
+
+def has_extractable_text(pdf_path: Union[str, Path], max_pages: int = 3) -> bool:
+    if PdfReader is None:
+        return False
+    try:
+        reader = PdfReader(str(pdf_path))
+        n = len(getattr(reader, "pages", []))
+        to_check = min(n, max_pages) if n else max_pages
+        for i in range(to_check):
+            try:
+                txt = reader.pages[i].extract_text() or ""
+            except Exception:
+                txt = ""
+            if txt.strip():
+                return True
+        return False
+    except Exception:
+        return False
+
+def ocr_inplace(pdf_path: Union[str, Path], lang: str = "nor+eng") -> None:
     """
-    Download årsrapporter from Brreg for orgnr in [year_a, year_b] inclusive.
-    If a PDF has no text, perform OCR and replace the file with a searchable PDF.
+    If the PDF has no text, run OCR. Prefer ocrmypdf; otherwise a simple pytesseract fallback.
+    Mutates the file in place.
     """
-    orgnr = sanitize_orgnr(orgnr)
-    if year_b < year_a:
-        year_a, year_b = year_b, year_a  # swap
+    pdf_path = str(pdf_path)
+    if has_extractable_text(pdf_path):
+        return
 
-    out_dir = os.path.join("reports", orgnr)
-    ensure_dir(out_dir)
-    
-    for year in range(year_a, year_b + 1):
-        url = f"https://data.brreg.no/regnskapsregisteret/regnskap/aarsregnskap/kopi/{orgnr}/{year}"
-        out_path = os.path.join(out_dir, f"{orgnr}_{year}.pdf")
+    if have("ocrmypdf"):
+        tmp_out = pdf_path + ".ocr.tmp.pdf"
+        cmd = ["ocrmypdf", "-l", lang, "--skip-text", "--output-type", "pdf", pdf_path, tmp_out]
+        try:
+            subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            os.replace(tmp_out, pdf_path)
+            return
+        finally:
+            if os.path.exists(tmp_out):
+                try: os.remove(tmp_out)
+                except: pass
 
-        if os.path.exists(out_path) and os.path.getsize(out_path) > 0:
+    # Fallback (best-effort)
+    try:
+        from pdf2image import convert_from_path
+        from PIL import Image  # noqa: F401
+        import pytesseract
+    except Exception:
+        # No fallback libs → just return un-OCR'd
+        return
+
+    if PdfReader is None or PdfWriter is None:
+        return
+
+    try:
+        images = convert_from_path(pdf_path, dpi=300)
+        writer = PdfWriter()
+        for img in images:
+            page_bytes = pytesseract.image_to_pdf_or_hocr(img, extension="pdf", lang=lang)
+            temp_reader = PdfReader(io.BytesIO(page_bytes))
+            for p in temp_reader.pages:
+                writer.add_page(p)
+        with open(pdf_path, "wb") as f:
+            writer.write(f)
+    except Exception:
+        # swallow; keep original file
+        pass
+
+def download_annual_reports(
+    orgnr: str,
+    year_start: int,
+    year_end: int,
+    out_dir: Optional[Union[str, Path]] = None,
+    delay_s: float = 0.5,
+    do_ocr: bool = True,
+    ocr_lang: str = "nor+eng",
+) -> Path:
+    """
+    Download Brreg årsrapporter PDFs for orgnr in [year_start, year_end] inclusive.
+    If `do_ocr=True`, run OCR when no extractable text is found.
+    Returns the folder path containing the PDFs.
+    """
+    org = sanitize_orgnr(orgnr)
+    a, b = sorted([int(year_start), int(year_end)])
+    folder = ensure_dir(out_dir or Path("reports") / org)
+
+    for year in range(a, b + 1):
+        url = BASE_URL.format(orgnr=org, year=year)
+        out_path = folder / f"{org}_{year}.pdf"
+        if out_path.exists() and out_path.stat().st_size > 0:
+            if do_ocr:
+                ocr_inplace(out_path, lang=ocr_lang)
             continue
 
         try:
             pdf_bytes = http_get_pdf(url)
             with open(out_path, "wb") as f:
                 f.write(pdf_bytes)
-            
-            # OCR if needed
-            ocr_inplace(out_path, lang=ocr_lang)
-            time.sleep(delay_s)  # be polite
-        except Exception as e:
-            print(f"Skipping {year} for {orgnr}: {e}")
+            if do_ocr:
+                ocr_inplace(out_path, lang=ocr_lang)
+            time.sleep(max(0.0, delay_s))
+        except Exception:
+            # keep going; skip failures silently
             continue
 
-# Download reports for a company
-download_annual_reports("990412987", 2020, 2025)
-```
+    return folder
 
-### Structured Data Extraction from PDFs
-
-```python
-from pydantic import BaseModel, Field
-from langchain_openai import ChatOpenAI
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_core.prompts import ChatPromptTemplate
-
+# --------------------------------
+# LLM: extract employees from PDF
+# --------------------------------
 class EmployeeInfo(BaseModel):
-    """Structured extraction of employee counts from PDF documents."""
     employees: Optional[int] = Field(
         default=None,
-        description=(
-            "Total number of employees (headcount). If multiple figures appear, "
-            "return the most recent TOTAL headcount. Use integers only. "
-            "Return null if not stated."
-        ),
+        description="Total headcount (integer). If absent, use FTE if present."
     )
-    page_numbers: List[int] = Field(
-        default_factory=list,
-        description="1-based page numbers where the employee figure was found."
-    )
-    confidence: float = Field(
-        ge=0.0, le=1.0,
-        description="Model confidence in the extracted value (0–1)."
-    )
-    rationale: Optional[str] = Field(
-        default=None,
-        description="Short explanation and any assumptions made."
-    )
-    raw_evidence: Optional[str] = Field(
-        default=None,
-        description="Short verbatim snippet(s) supporting the value (<= 300 chars)."
-    )
+    page_numbers: List[int] = Field(default_factory=list, description="1-based pages with evidence.")
+    confidence: float = Field(..., ge=0.0, le=1.0)
+    rationale: Optional[str] = None
+    raw_evidence: Optional[str] = None
 
-# System prompt for extraction
-SYSTEM = """You extract facts from text with great care.
+SYSTEM = """You extract facts from text with care.
 Task: determine the company's total number of employees (headcount).
-Prefer the most recent period if multiple are present.
-Accept common variations and languages (e.g., 'employees', 'staff', 'FTE', 'årsverk', 'antall ansatte', 'ansatte').
-Of several possible numbers are found, prefer the average number of employees ('Gjennomsnittlig antall årsverk')
-If only FTE (årsverk) is given and headcount is absent, return that number but note it in rationale.
-Return strictly the specified schema. If unknown, set employees=null, but still provide confidence and rationale."""
+If multiple values exist, prefer the most recent total headcount.
+Accept language variants: ansatte, antall ansatte, årsverk (FTE), staff, headcount.
+If only FTE is present, use it and note this in rationale.
+Return the specified schema. If unknown, employees=null, but provide confidence and rationale."""
 
 USER_TMPL = """You are given OCR/parsed text from a PDF annual report.
-Extract the number of employees.
+Extract the number of employees (prefer headcount; use FTE only if headcount is missing).
 
 --- BEGIN TEXT (page-tagged) ---
 {page_tagged_text}
 --- END TEXT ---
 
 Rules:
-- If multiple employee counts exist, choose the latest overall headcount (or FTE if headcount is absent).
+- If multiple values exist, choose the latest overall figure.
 - Include the 1-based page numbers where the evidence appears.
 """
 
-def main(pdf_path: str, model: str = "gpt-5-mini", temperature: float = 0.0):
-    # Load PDF using LangChain
-    loader = PyPDFLoader(pdf_path)
+def _select_relevant_pages(
+    pages: Iterable,
+    keywords: Iterable[str] = (
+        "employee", "employees", "staff",
+        "ansatt", "ansatte", "antall ansatte", "bemanning",
+        "årsverk", "fte", "headcount"
+    ),
+    fallback_first_n: int = 5,
+) -> List[Tuple[int, str]]:
+    keys = {k.lower() for k in keywords}
+    sel: List[Tuple[int, str]] = []
+    for i, page in enumerate(pages, start=1):
+        txt = (page.page_content or "")
+        low = txt.lower()
+        if any(k in low for k in keys):
+            sel.append((i, txt))
+    if not sel:
+        # fallback to first N
+        sel = [(i, (p.page_content or "")) for i, p in enumerate(pages[:fallback_first_n], start=1)]
+    return sel
+
+def _make_page_tagged(selected_pages: List[Tuple[int, str]], per_page_limit: int = 8000) -> str:
+    chunks = []
+    for i, txt in selected_pages:
+        s = (txt or "").strip()
+        if len(s) > per_page_limit:
+            s = s[:per_page_limit]
+        chunks.append(f"[Page {i}]\n{s}")
+    return "\n\n".join(chunks)
+
+def extract_employees_from_pdf(pdf_path: Union[str, Path], model: str = "gpt-5-mini", temperature: float = 0.0) -> EmployeeInfo:
+    loader = PyPDFLoader(str(pdf_path))
     docs = loader.load()
-    
-    # Select relevant pages
     selected = _select_relevant_pages(docs)
     page_tagged_text = _make_page_tagged(selected)
-    
-    # LangChain with structured output
-    llm = ChatOpenAI(model=model, temperature=temperature)
-    structured_llm = llm.with_structured_output(EmployeeInfo)
-    
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", SYSTEM),
-        ("user", USER_TMPL),
-    ])
-    
-    chain = prompt | structured_llm
-    result: EmployeeInfo = chain.invoke({"page_tagged_text": page_tagged_text})
-    
-    return result.model_dump()
 
-# Extract employee data from a specific PDF
-result = main("reports/990412987/990412987_2020.pdf")
-print(json.dumps(result, indent=2, ensure_ascii=False))
-```
+    client = AzureChatOpenAI(
+        api_key=userdata.get("AZURE_OPENAI_API_KEY"),
+        azure_endpoint="https://gpt-ban443-1.openai.azure.com/",
+        api_version="2025-01-01-preview",
+        azure_deployment="Group01",
+        temperature=0,
+    )
 
-### Batch Processing and Analysis
+    structured_llm = client.with_structured_output(EmployeeInfo)
+    prompt = ChatPromptTemplate.from_messages([("system", SYSTEM), ("user", USER_TMPL)])
+    result: EmployeeInfo = (prompt | structured_llm).invoke({"page_tagged_text": page_tagged_text})
+    return result
 
-```python
-import matplotlib.pyplot as plt
+YEAR_RE = re.compile(r"(?<!\d)(20\d{2})(?!\d)")  # 2000–2099
 
-def collect_with_main(
-    company_folder: str,
-    years: Optional[List[int]] = None,
-    model: str = "gpt-5",
+def _infer_year_from_name(path: Union[str, Path]) -> Optional[int]:
+    m = YEAR_RE.search(Path(path).stem)
+    return int(m.group(1)) if m else None
+
+def collect_employees(
+    company_folder: Union[str, Path],
+    years: Optional[Union[int, List[int]]] = None,
+    model: str = "gpt-5-mini",
     temperature: float = 0.0,
 ) -> pd.DataFrame:
     """
-    Process multiple PDFs and return results as DataFrame.
+    Run employee extraction over all PDFs in folder.
+    Returns a tidy DataFrame with one row per PDF.
     """
     company_folder = Path(company_folder)
     pdfs = sorted(company_folder.glob("*.pdf"))
-    company_id = company_folder.name
-    rows = []
+    if not pdfs:
+        return pd.DataFrame(columns=["company_id","year","employees","page_numbers","confidence","rationale","raw_evidence","source_path"])
 
-    for pdf in tqdm(pdfs, desc=f"Processing PDFs for {company_id}", unit="file"):
+    target_years = None
+    if isinstance(years, int):
+        target_years = {years}
+    elif isinstance(years, list):
+        target_years = set(map(int, years))
+
+    rows = []
+    company_id = company_folder.name
+    for pdf in pdfs:
         yr = _infer_year_from_name(pdf)
-        if years is not None and yr not in years:
+        if target_years is not None and (yr is None or yr not in target_years):
             continue
         try:
-            data = run_main_capture(pdf, model=model, temperature=temperature)
-            df_row = employee_dict_to_df(data, company_id=company_id, year=yr, source_path=pdf)
-        except Exception as e:
-            df_row = pd.DataFrame([{
+            info = extract_employees_from_pdf(pdf, model=model, temperature=temperature)
+            rows.append({
+                "company_id": company_id,
+                "year": yr,
+                "employees": info.employees,
+                "page_numbers": info.page_numbers,
+                "confidence": info.confidence,
+                "rationale": info.rationale,
+                "raw_evidence": info.raw_evidence,
+                "source_path": str(pdf),
+            })
+        except Exception:
+            rows.append({
                 "company_id": company_id,
                 "year": yr,
                 "employees": None,
                 "page_numbers": [],
                 "confidence": 0.0,
-                "rationale": f"Extraction failed: {e}",
+                "rationale": "extraction failed",
                 "raw_evidence": None,
                 "source_path": str(pdf),
-            }])
-        rows.append(df_row)
+            })
+    return pd.DataFrame.from_records(rows)
 
-    return pd.concat(rows, ignore_index=True)
-
-# Process all PDFs for a company
-df_all = collect_with_main("reports/990412987")
-
-# Visualize employee trends over time
-plt.figure(figsize=(8,5))
-plt.plot(df_all["year"], df_all["employees"], marker="o", linestyle="-", linewidth=2)
-plt.xlabel("Year")
-plt.ylabel("Number of Employees")
-plt.title("Stavanger Aftenblad - Employee Count Over Time")
-plt.xticks(df_all["year"])
-plt.grid(True, linestyle="--", alpha=0.6)
-plt.show()
-```
-
-### Financial Data Integration
-
-```python
-def get_regnskap(orgnr: str, regnskapstype: str = "SELSKAP") -> dict:
+# -------------------------
+# Brreg Regnskap (API)
+# -------------------------
+def get_regnskap(orgnr: str, year: Optional[int] = None, regnskapstype: str = "SELSKAP") -> list:
     """
-    Fetch resultatregnskap (financial statements) from Brønnøysundregisteret API.
+    Fetch regnskap JSON list from Brønnøysundregisteret.
+    If year is None, API typically returns latest (and sometimes history).
     """
-    base_url = f"https://data.brreg.no/regnskapsregisteret/regnskap/{orgnr}"
-    params = {
-        "regnskapstype": regnskapstype
-    }
-    headers = {"accept": "application/json"}
-
-    response = requests.get(base_url, headers=headers, params=params)
-    response.raise_for_status()
-    return response.json()
+    org = sanitize_orgnr(orgnr)
+    base_url = f"https://data.brreg.no/regnskapsregisteret/regnskap/{org}"
+    params = {"regnskapstype": regnskapstype}
+    if year is not None:
+        params["år"] = int(year)  # note 'å'
+    r = requests.get(base_url, headers={"accept": "application/json"}, params=params, timeout=30)
+    r.raise_for_status()
+    return r.json()
 
 def regnskap_to_df(data: list) -> pd.DataFrame:
-    """Convert financial data to DataFrame."""
-    records = []
+    recs = []
     for item in data:
         orgnr = item["virksomhet"]["organisasjonsnummer"]
         year = pd.to_datetime(item["regnskapsperiode"]["tilDato"]).year
-
-        rec = {
+        R = item.get("resultatregnskapResultat", {}) or {}
+        DR = R.get("driftsresultat", {}) or {}
+        FR = R.get("finansresultat", {}) or {}
+        recs.append({
             "orgnr": orgnr,
+            "year": year,
             "regnskapstype": item.get("regnskapstype"),
             "valuta": item.get("valuta"),
-            "sumEiendeler": item["eiendeler"].get("sumEiendeler"),
-            "sumEgenkapitalGjeld": item["egenkapitalGjeld"].get("sumEgenkapitalGjeld"),
-            "sumDriftsinntekter": item["resultatregnskapResultat"]["driftsresultat"]["driftsinntekter"].get("sumDriftsinntekter"),
-            "sumDriftskostnad": item["resultatregnskapResultat"]["driftsresultat"]["driftskostnad"].get("sumDriftskostnad"),
-            "driftsresultat": item["resultatregnskapResultat"]["driftsresultat"].get("driftsresultat"),
-            "aarsresultat": item["resultatregnskapResultat"].get("aarsresultat"),
-        }
-        records.append(rec)
+            "sumEiendeler": (item.get("eiendeler") or {}).get("sumEiendeler"),
+            "sumEgenkapitalGjeld": (item.get("egenkapitalGjeld") or {}).get("sumEgenkapitalGjeld"),
+            "sumDriftsinntekter": (DR.get("driftsinntekter") or {}).get("sumDriftsinntekter"),
+            "sumDriftskostnad": (DR.get("driftskostnad") or {}).get("sumDriftskostnad"),
+            "driftsresultat": DR.get("driftsresultat"),
+            "nettoFinans": FR.get("nettoFinans"),
+            "ordinaertResultatFoerSkattekostnad": R.get("ordinaertResultatFoerSkattekostnad"),
+            "aarsresultat": R.get("aarsresultat"),
+        })
+    return pd.DataFrame.from_records(recs) if recs else pd.DataFrame()
 
-    return pd.DataFrame.from_records(records)
+# -------------------------
+# Plot helper
+# -------------------------
+def plot_employees(df: pd.DataFrame, title: str = "Employees over time") -> None:
+    if df.empty:
+        print("No employee data to plot.")
+        return
+    d = df.dropna(subset=["year", "employees"]).sort_values("year")
+    if d.empty:
+        print("No valid (year, employees) rows to plot.")
+        return
+    plt.figure(figsize=(8, 5))
+    plt.plot(d["year"], d["employees"], marker="o", linestyle="-", linewidth=2)
+    plt.xlabel("Year")
+    plt.ylabel("Number of Employees")
+    plt.title(title)
+    plt.xticks(d["year"])
+    plt.grid(True, linestyle="--", alpha=0.6)
+    plt.show()
+```
 
-# Get financial data
-data = get_regnskap("990412987")
+Now, it's as simple as running the following code. First, to get the data from the open API. 
+
+```**python**
+org = "990412987"
+data = get_regnskap(org)          # latest or list
 regnskap = regnskap_to_df(data)
 print(regnskap)
 ```
+Then, to download the annual reports and extract the employee data. Note that this part is slow, so it might take a while to run. Reduce the numbers of years to 2021-2022 if you want to run it faster.
 
-## Conclusion
+```python
+folder = download_annual_reports(org, 2020, 2025)   # PDFs saved to reports/<org>/
+df_all = collect_employees(folder)
+print(df_all)
+```
 
-This chapter demonstrates the power of LangChain for building sophisticated LLM applications. The key advantages of using LangChain include:
+Finally, to plot the results.
 
-**Structured Outputs:**
-- Pydantic models ensure consistent, validated data extraction
-- Type safety and automatic validation
-- Easy integration with downstream data processing
+```python
+plot_employees(df_all, title="Stavanger Aftenblad")
+```
 
-**Document Processing:**
-- Built-in loaders for various document types (PDF, web, etc.)
-- Intelligent text chunking and splitting
-- OCR integration for scanned documents
-
-**Vector Databases and RAG:**
-- Seamless integration with embedding models
-- Persistent vector storage with Chroma
-- Efficient similarity search and retrieval
-
-**Agent Systems:**
-- Tool integration for external APIs and search
-- Memory management for conversational agents
-- Graph-based workflow orchestration
-
-**Batch Processing:**
-- Efficient parallel processing with caching
-- Error handling and retry mechanisms
-- Progress tracking and monitoring
-
-LangChain provides a comprehensive framework for building production-ready LLM applications that can handle complex data extraction, processing, and analysis tasks. The examples in this chapter showcase how to combine multiple LangChain components to create sophisticated workflows for real-world applications.

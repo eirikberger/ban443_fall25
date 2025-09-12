@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Working with LLMs through APIs | A Technical Companion for BAN443</title>
+  <meta name="description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Working with LLMs through APIs | A Technical Companion for BAN443" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Working with LLMs through APIs | A Technical Companion for BAN443" />
+  
+  <meta name="twitter:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  
+
+<meta name="author" content="Eirik Berger Abel" />
+
+
+<meta name="date" content="2025-09-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="llm-fundamentals.html"/>
+<link rel="next" href="applications.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6KCKS5548F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6KCKS5548F');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BAN443: Transforming Business with AI</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome to BAN443</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-schedule"><i class="fa fa-check"></i><b>1.1</b> Course Schedule</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#compulsory-activity"><i class="fa fa-check"></i><b>1.2</b> Compulsory Activity</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.3</b> Assessment</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#course-overview"><i class="fa fa-check"></i><b>1.4</b> Course Overview</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#getting-started"><i class="fa fa-check"></i><b>1.5</b> Getting Started</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#contact-and-support"><i class="fa fa-check"></i><b>1.6</b> Contact and Support</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to Python</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#why-python-for-ai"><i class="fa fa-check"></i><b>2.1</b> Why Python for AI?</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#setting-up-your-environment"><i class="fa fa-check"></i><b>2.2</b> Setting Up Your Environment</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#option-1-google-colab-recommended-for-beginners"><i class="fa fa-check"></i><b>2.2.1</b> Option 1: Google Colab (Recommended for Beginners)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#option-2-local-installation"><i class="fa fa-check"></i><b>2.2.2</b> Option 2: Local Installation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#essential-python-concepts"><i class="fa fa-check"></i><b>2.3</b> Essential Python Concepts</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.3.1</b> Variables and Data Types</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#functions"><i class="fa fa-check"></i><b>2.3.2</b> Functions</a></li>
+<li class="chapter" data-level="2.3.3" data-path="intro.html"><a href="intro.html#installing-and-importing-packages"><i class="fa fa-check"></i><b>2.3.3</b> Installing and Importing Packages</a></li>
+<li class="chapter" data-level="2.3.4" data-path="intro.html"><a href="intro.html#working-with-data"><i class="fa fa-check"></i><b>2.3.4</b> Working with Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#working-with-apis"><i class="fa fa-check"></i><b>2.4</b> Working with APIs</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#what-is-an-api"><i class="fa fa-check"></i><b>2.4.1</b> What is an API?</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#example-of-using-api-to-get-got-quotes"><i class="fa fa-check"></i><b>2.4.2</b> Example of using API to get GoT quotes</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#working-with-json-objects"><i class="fa fa-check"></i><b>2.4.3</b> Working with JSON Objects</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#api-authentication"><i class="fa fa-check"></i><b>2.4.4</b> API Authentication</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#google-drive-integration"><i class="fa fa-check"></i><b>2.4.5</b> Google Drive Integration</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#want-to-learn-more"><i class="fa fa-check"></i><b>2.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#next-steps"><i class="fa fa-check"></i><b>2.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html"><i class="fa fa-check"></i><b>3</b> Understanding Large Language Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-are-large-language-models"><i class="fa fa-check"></i><b>3.1</b> What Are Large Language Models?</a></li>
+<li class="chapter" data-level="3.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-the-foundation"><i class="fa fa-check"></i><b>3.2</b> Neural Networks: The Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-is-a-neural-network"><i class="fa fa-check"></i><b>3.2.1</b> What is a Neural Network?</a></li>
+<li class="chapter" data-level="3.2.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-information-flows"><i class="fa fa-check"></i><b>3.2.2</b> How Information Flows</a></li>
+<li class="chapter" data-level="3.2.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression"><i class="fa fa-check"></i><b>3.2.3</b> Neural Networks vs. Traditional Regression</a></li>
+<li class="chapter" data-level="3.2.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-neural-networks-learn"><i class="fa fa-check"></i><b>3.2.4</b> How Neural Networks Learn</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#from-neural-networks-to-language-models"><i class="fa fa-check"></i><b>3.3</b> From Neural Networks to Language Models</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#the-language-modeling-task"><i class="fa fa-check"></i><b>3.3.1</b> The Language Modeling Task</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-language-models-work"><i class="fa fa-check"></i><b>3.4</b> How Language Models Work</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#tokenization-from-text-to-numbers"><i class="fa fa-check"></i><b>3.4.1</b> Tokenization: From Text to Numbers</a></li>
+<li class="chapter" data-level="3.4.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#training-large-language-models"><i class="fa fa-check"></i><b>3.4.2</b> Training Large Language Models</a></li>
+<li class="chapter" data-level="3.4.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-token-prediction-the-core-of-llms"><i class="fa fa-check"></i><b>3.4.3</b> Next Token Prediction: The Core of LLMs</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#want-to-learn-more-1"><i class="fa fa-check"></i><b>3.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="3.6" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-steps-1"><i class="fa fa-check"></i><b>3.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html"><i class="fa fa-check"></i><b>4</b> Working with LLMs through APIs</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-the-openai-packages"><i class="fa fa-check"></i><b>4.1</b> Using the OpenAI Packages</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation"><i class="fa fa-check"></i><b>4.1.1</b> Installation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#essential-package-imports"><i class="fa fa-check"></i><b>4.1.2</b> Essential Package Imports</a></li>
+<li class="chapter" data-level="4.1.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration"><i class="fa fa-check"></i><b>4.1.3</b> API Configuration</a></li>
+<li class="chapter" data-level="4.1.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion"><i class="fa fa-check"></i><b>4.1.4</b> Basic Chat Completion</a></li>
+<li class="chapter" data-level="4.1.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#message-object-structure"><i class="fa fa-check"></i><b>4.1.5</b> Message Object Structure</a></li>
+<li class="chapter" data-level="4.1.6" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction"><i class="fa fa-check"></i><b>4.1.6</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.1.7" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#creating-reusable-functions"><i class="fa fa-check"></i><b>4.1.7</b> Creating Reusable Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langchain"><i class="fa fa-check"></i><b>4.2</b> Using LangChain</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation-1"><i class="fa fa-check"></i><b>4.2.1</b> Installation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration-1"><i class="fa fa-check"></i><b>4.2.2</b> API Configuration</a></li>
+<li class="chapter" data-level="4.2.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion-and-message-structure"><i class="fa fa-check"></i><b>4.2.3</b> Basic Chat Completion and Message Structure</a></li>
+<li class="chapter" data-level="4.2.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction-1"><i class="fa fa-check"></i><b>4.2.4</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.2.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#prompt-templates"><i class="fa fa-check"></i><b>4.2.5</b> Prompt Templates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#data-extraction-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1</b> Data Extraction from the Norwegian National Library</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="applications.html"><a href="applications.html#setting-up-langchain-with-azure-openai"><i class="fa fa-check"></i><b>5.1.1</b> Setting up LangChain with Azure OpenAI</a></li>
+<li class="chapter" data-level="5.1.2" data-path="applications.html"><a href="applications.html#structured-data-extraction-2"><i class="fa fa-check"></i><b>5.1.2</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="5.1.3" data-path="applications.html"><a href="applications.html#fetching-data-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1.3</b> Fetching Data from the Norwegian National Library</a></li>
+<li class="chapter" data-level="5.1.4" data-path="applications.html"><a href="applications.html#batch-processing-with-caching"><i class="fa fa-check"></i><b>5.1.4</b> Batch Processing with Caching</a></li>
+<li class="chapter" data-level="5.1.5" data-path="applications.html"><a href="applications.html#converting-json-results-to-dataframe"><i class="fa fa-check"></i><b>5.1.5</b> Converting JSON Results to DataFrame</a></li>
+<li class="chapter" data-level="5.1.6" data-path="applications.html"><a href="applications.html#analyzing-occupation-data"><i class="fa fa-check"></i><b>5.1.6</b> Analyzing Occupation Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#web-search-and-tools-integration"><i class="fa fa-check"></i><b>5.2</b> Web Search and Tools Integration</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#basic-web-search-with-tavily"><i class="fa fa-check"></i><b>5.2.1</b> Basic Web Search with Tavily</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#agent-with-web-search-capabilities"><i class="fa fa-check"></i><b>5.2.2</b> Agent with Web Search Capabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#retrieval-augmented-generation-rag-systems"><i class="fa fa-check"></i><b>5.3</b> Retrieval-Augmented Generation (RAG) Systems</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="applications.html"><a href="applications.html#basic-rag-implementation"><i class="fa fa-check"></i><b>5.3.1</b> Basic RAG Implementation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="applications.html"><a href="applications.html#persistent-vector-database"><i class="fa fa-check"></i><b>5.3.2</b> Persistent Vector Database</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#company-data-extraction-from-brønnøysundregisteret"><i class="fa fa-check"></i><b>5.4</b> Company Data Extraction from Brønnøysundregisteret</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#lab-1"><i class="fa fa-check"></i><b>6.1</b> Lab 1</a></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#lab-2"><i class="fa fa-check"></i><b>6.2</b> Lab 2</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Technical Companion for BAN443</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="working-with-llms-through-apis" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Working with LLMs through APIs<a href="working-with-llms-through-apis.html#working-with-llms-through-apis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter provides a guide to using Large Language Models (LLMs) through APIs, covering basic interactions with the LLM, creating and using prompt templates, and structured data extraction. We will show all this using both the <code>openai</code> package and <code>langchain</code>.</p>
+<p><strong>Note:</strong> Using LLMs through APIs mean that somebody else is doing the hard work for you, we are essentially renting the model from them and paying for the usage. The alternative would be to run an open source model ourselfs, using our own hardware (like we did in the previous chapter with GPT-2).</p>
+<p><strong>Why use both? What’s the difference?</strong><br />
+The <code>openai</code> package is the official Python client for directly interacting with OpenAI (and Azure OpenAI) models. It’s simple and great for basic LLM calls, such as sending a prompt and receiving a response. In contrast, <code>langchain</code> is a higher-level framework that sits on top of LLM APIs (including OpenAI) and enables more advanced workflows—such as chaining multiple LLM calls, integrating external tools, building agents, and managing complex prompts.</p>
+<p>A key advantage of <code>langchain</code> is that it can work with many different LLM APIs (OpenAI, Azure, Anthropic, Google, etc.) with minimal code changes. This makes it much easier to switch between providers or support multiple models in your application.</p>
+<div id="using-the-openai-packages" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Using the OpenAI Packages<a href="working-with-llms-through-apis.html#using-the-openai-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>openai</code> package is the official Python client for interacting with OpenAI and Azure OpenAI services. It provides a simple, intuitive interface for LLM interactions.</p>
+<div id="installation" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Installation<a href="working-with-llms-through-apis.html#installation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, install the required packages:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="working-with-llms-through-apis.html#cb16-1" aria-hidden="true"></a><span class="co"># Install the OpenAI package</span></span>
+<span id="cb16-2"><a href="working-with-llms-through-apis.html#cb16-2" aria-hidden="true"></a><span class="op">!</span>pip install openai</span></code></pre></div>
+</div>
+<div id="essential-package-imports" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Essential Package Imports<a href="working-with-llms-through-apis.html#essential-package-imports" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The two imports below serve different purposes:
+- <code>from openai import OpenAI</code> imports the standard OpenAI client for accessing OpenAI’s public API.
+- <code>from openai import AzureOpenAI</code> imports the client specifically designed for interacting with Azure OpenAI endpoint.</p>
+<p>Use <code>OpenAI</code> for OpenAI’s own API, and <code>AzureOpenAI</code> when working with Azure-hosted OpenAI models. Note that when using Azure OpenAI, the “model” parameter is just the deployment name (e.g., “Group01” in our case).</p>
+</div>
+<div id="api-configuration" class="section level3 hasAnchor" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> API Configuration<a href="working-with-llms-through-apis.html#api-configuration" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For Azure OpenAI, we need to use the <code>AzureOpenAI</code> client.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="working-with-llms-through-apis.html#cb17-1" aria-hidden="true"></a><span class="co"># Basic Azure OpenAI setup (using openai package)</span></span>
+<span id="cb17-2"><a href="working-with-llms-through-apis.html#cb17-2" aria-hidden="true"></a></span>
+<span id="cb17-3"><a href="working-with-llms-through-apis.html#cb17-3" aria-hidden="true"></a><span class="im">from</span> openai <span class="im">import</span> AzureOpenAI </span>
+<span id="cb17-4"><a href="working-with-llms-through-apis.html#cb17-4" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb17-5"><a href="working-with-llms-through-apis.html#cb17-5" aria-hidden="true"></a></span>
+<span id="cb17-6"><a href="working-with-llms-through-apis.html#cb17-6" aria-hidden="true"></a>client <span class="op">=</span> AzureOpenAI(</span>
+<span id="cb17-7"><a href="working-with-llms-through-apis.html#cb17-7" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&#39;AZURE_OPENAI_API_KEY&#39;</span>),</span>
+<span id="cb17-8"><a href="working-with-llms-through-apis.html#cb17-8" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb17-9"><a href="working-with-llms-through-apis.html#cb17-9" aria-hidden="true"></a>    base_url<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/openai/deployments/Group01/&quot;</span></span>
+<span id="cb17-10"><a href="working-with-llms-through-apis.html#cb17-10" aria-hidden="true"></a>)</span></code></pre></div>
+<p>For OpenAI’s own API, we use the <code>OpenAI</code> client.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="working-with-llms-through-apis.html#cb18-1" aria-hidden="true"></a><span class="co"># Standard OpenAI setup</span></span>
+<span id="cb18-2"><a href="working-with-llms-through-apis.html#cb18-2" aria-hidden="true"></a></span>
+<span id="cb18-3"><a href="working-with-llms-through-apis.html#cb18-3" aria-hidden="true"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb18-4"><a href="working-with-llms-through-apis.html#cb18-4" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb18-5"><a href="working-with-llms-through-apis.html#cb18-5" aria-hidden="true"></a></span>
+<span id="cb18-6"><a href="working-with-llms-through-apis.html#cb18-6" aria-hidden="true"></a>client <span class="op">=</span> OpenAI(</span>
+<span id="cb18-7"><a href="working-with-llms-through-apis.html#cb18-7" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&#39;OPENAI_API_KEY&#39;</span>)</span>
+<span id="cb18-8"><a href="working-with-llms-through-apis.html#cb18-8" aria-hidden="true"></a>)</span></code></pre></div>
+<p>Once the client is set up (as shown above), you can use it throughout your code to make API calls.
+You do not need to re-initialize the client for each request—just use the same <code>client</code> object.
+This keeps your code clean and efficient.</p>
+</div>
+<div id="basic-chat-completion" class="section level3 hasAnchor" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> Basic Chat Completion<a href="working-with-llms-through-apis.html#basic-chat-completion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The most common way to interact with LLMs is through chat completions:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="working-with-llms-through-apis.html#cb19-1" aria-hidden="true"></a><span class="co"># Simple chat completion</span></span>
+<span id="cb19-2"><a href="working-with-llms-through-apis.html#cb19-2" aria-hidden="true"></a>response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb19-3"><a href="working-with-llms-through-apis.html#cb19-3" aria-hidden="true"></a>    model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb19-4"><a href="working-with-llms-through-apis.html#cb19-4" aria-hidden="true"></a>    messages<span class="op">=</span>[</span>
+<span id="cb19-5"><a href="working-with-llms-through-apis.html#cb19-5" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="st">&quot;You are a helpful assistant.&quot;</span>},</span>
+<span id="cb19-6"><a href="working-with-llms-through-apis.html#cb19-6" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="st">&quot;Explain machine learning in simple terms.&quot;</span>}</span>
+<span id="cb19-7"><a href="working-with-llms-through-apis.html#cb19-7" aria-hidden="true"></a>    ],</span>
+<span id="cb19-8"><a href="working-with-llms-through-apis.html#cb19-8" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="fl">0.7</span>,</span>
+<span id="cb19-9"><a href="working-with-llms-through-apis.html#cb19-9" aria-hidden="true"></a>    max_tokens<span class="op">=</span><span class="dv">500</span></span>
+<span id="cb19-10"><a href="working-with-llms-through-apis.html#cb19-10" aria-hidden="true"></a>)</span>
+<span id="cb19-11"><a href="working-with-llms-through-apis.html#cb19-11" aria-hidden="true"></a></span>
+<span id="cb19-12"><a href="working-with-llms-through-apis.html#cb19-12" aria-hidden="true"></a><span class="bu">print</span>(response.choices[<span class="dv">0</span>].message.content)</span></code></pre></div>
+</div>
+<div id="message-object-structure" class="section level3 hasAnchor" number="4.1.5">
+<h3><span class="header-section-number">4.1.5</span> Message Object Structure<a href="working-with-llms-through-apis.html#message-object-structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Understanding the message object is crucial for effective LLM interactions:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="working-with-llms-through-apis.html#cb20-1" aria-hidden="true"></a><span class="co"># Message roles and their purposes</span></span>
+<span id="cb20-2"><a href="working-with-llms-through-apis.html#cb20-2" aria-hidden="true"></a>messages <span class="op">=</span> [</span>
+<span id="cb20-3"><a href="working-with-llms-through-apis.html#cb20-3" aria-hidden="true"></a>    {</span>
+<span id="cb20-4"><a href="working-with-llms-through-apis.html#cb20-4" aria-hidden="true"></a>        <span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>,    <span class="co"># Sets the behavior and context</span></span>
+<span id="cb20-5"><a href="working-with-llms-through-apis.html#cb20-5" aria-hidden="true"></a>        <span class="st">&quot;content&quot;</span>: <span class="st">&quot;You are an expert data scientist.&quot;</span></span>
+<span id="cb20-6"><a href="working-with-llms-through-apis.html#cb20-6" aria-hidden="true"></a>    },</span>
+<span id="cb20-7"><a href="working-with-llms-through-apis.html#cb20-7" aria-hidden="true"></a>    {</span>
+<span id="cb20-8"><a href="working-with-llms-through-apis.html#cb20-8" aria-hidden="true"></a>        <span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>,      <span class="co"># User&#39;s input/question</span></span>
+<span id="cb20-9"><a href="working-with-llms-through-apis.html#cb20-9" aria-hidden="true"></a>        <span class="st">&quot;content&quot;</span>: <span class="st">&quot;How do I implement a neural network?&quot;</span></span>
+<span id="cb20-10"><a href="working-with-llms-through-apis.html#cb20-10" aria-hidden="true"></a>    },</span>
+<span id="cb20-11"><a href="working-with-llms-through-apis.html#cb20-11" aria-hidden="true"></a>    {</span>
+<span id="cb20-12"><a href="working-with-llms-through-apis.html#cb20-12" aria-hidden="true"></a>        <span class="st">&quot;role&quot;</span>: <span class="st">&quot;assistant&quot;</span>, <span class="co"># Model&#39;s previous response</span></span>
+<span id="cb20-13"><a href="working-with-llms-through-apis.html#cb20-13" aria-hidden="true"></a>        <span class="st">&quot;content&quot;</span>: <span class="st">&quot;Neural networks consist of layers of interconnected nodes...&quot;</span></span>
+<span id="cb20-14"><a href="working-with-llms-through-apis.html#cb20-14" aria-hidden="true"></a>    },</span>
+<span id="cb20-15"><a href="working-with-llms-through-apis.html#cb20-15" aria-hidden="true"></a>    {</span>
+<span id="cb20-16"><a href="working-with-llms-through-apis.html#cb20-16" aria-hidden="true"></a>        <span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>,      <span class="co"># Follow-up question</span></span>
+<span id="cb20-17"><a href="working-with-llms-through-apis.html#cb20-17" aria-hidden="true"></a>        <span class="st">&quot;content&quot;</span>: <span class="st">&quot;Can you provide a code example?&quot;</span></span>
+<span id="cb20-18"><a href="working-with-llms-through-apis.html#cb20-18" aria-hidden="true"></a>    }</span>
+<span id="cb20-19"><a href="working-with-llms-through-apis.html#cb20-19" aria-hidden="true"></a>]</span></code></pre></div>
+<p>You can insert this message object back into the chat completion function to get a response from the LLM.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="working-with-llms-through-apis.html#cb21-1" aria-hidden="true"></a><span class="co"># Simple chat completion</span></span>
+<span id="cb21-2"><a href="working-with-llms-through-apis.html#cb21-2" aria-hidden="true"></a>response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb21-3"><a href="working-with-llms-through-apis.html#cb21-3" aria-hidden="true"></a>    model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb21-4"><a href="working-with-llms-through-apis.html#cb21-4" aria-hidden="true"></a>    messages<span class="op">=</span>messages,</span>
+<span id="cb21-5"><a href="working-with-llms-through-apis.html#cb21-5" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="fl">0.7</span>,</span>
+<span id="cb21-6"><a href="working-with-llms-through-apis.html#cb21-6" aria-hidden="true"></a>    max_tokens<span class="op">=</span><span class="dv">500</span></span>
+<span id="cb21-7"><a href="working-with-llms-through-apis.html#cb21-7" aria-hidden="true"></a>)</span>
+<span id="cb21-8"><a href="working-with-llms-through-apis.html#cb21-8" aria-hidden="true"></a></span>
+<span id="cb21-9"><a href="working-with-llms-through-apis.html#cb21-9" aria-hidden="true"></a><span class="bu">print</span>(response.choices[<span class="dv">0</span>].message.content)</span></code></pre></div>
+</div>
+<div id="structured-data-extraction" class="section level3 hasAnchor" number="4.1.6">
+<h3><span class="header-section-number">4.1.6</span> Structured Data Extraction<a href="working-with-llms-through-apis.html#structured-data-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can extract structured data from text using Pydantic models and the <code>responses.parse()</code> method. However, note that we are now switching to using client.responses instead of client.chat.completions. This uses a newer API form OpenAI that doesnt work with the ‘old’ LLM model that you used through Azure. We therefore switch to using the gpt-5-mini model.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="working-with-llms-through-apis.html#cb22-1" aria-hidden="true"></a><span class="co"># Install required packages</span></span>
+<span id="cb22-2"><a href="working-with-llms-through-apis.html#cb22-2" aria-hidden="true"></a><span class="op">!</span>pip install pydantic</span>
+<span id="cb22-3"><a href="working-with-llms-through-apis.html#cb22-3" aria-hidden="true"></a></span>
+<span id="cb22-4"><a href="working-with-llms-through-apis.html#cb22-4" aria-hidden="true"></a><span class="im">from</span> openai <span class="im">import</span> AzureOpenAI </span>
+<span id="cb22-5"><a href="working-with-llms-through-apis.html#cb22-5" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb22-6"><a href="working-with-llms-through-apis.html#cb22-6" aria-hidden="true"></a></span>
+<span id="cb22-7"><a href="working-with-llms-through-apis.html#cb22-7" aria-hidden="true"></a>client <span class="op">=</span> AzureOpenAI(</span>
+<span id="cb22-8"><a href="working-with-llms-through-apis.html#cb22-8" aria-hidden="true"></a>    api_version<span class="op">=</span> <span class="st">&quot;2025-03-01-preview&quot;</span>,</span>
+<span id="cb22-9"><a href="working-with-llms-through-apis.html#cb22-9" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb22-10"><a href="working-with-llms-through-apis.html#cb22-10" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;new_azure_gpt5&quot;</span>),</span>
+<span id="cb22-11"><a href="working-with-llms-through-apis.html#cb22-11" aria-hidden="true"></a>)</span>
+<span id="cb22-12"><a href="working-with-llms-through-apis.html#cb22-12" aria-hidden="true"></a></span>
+<span id="cb22-13"><a href="working-with-llms-through-apis.html#cb22-13" aria-hidden="true"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
+<span id="cb22-14"><a href="working-with-llms-through-apis.html#cb22-14" aria-hidden="true"></a></span>
+<span id="cb22-15"><a href="working-with-llms-through-apis.html#cb22-15" aria-hidden="true"></a><span class="co"># Define the structure you want to extract</span></span>
+<span id="cb22-16"><a href="working-with-llms-through-apis.html#cb22-16" aria-hidden="true"></a><span class="kw">class</span> PersonInfo(BaseModel):</span>
+<span id="cb22-17"><a href="working-with-llms-through-apis.html#cb22-17" aria-hidden="true"></a>    name: <span class="bu">str</span></span>
+<span id="cb22-18"><a href="working-with-llms-through-apis.html#cb22-18" aria-hidden="true"></a>    age: <span class="bu">int</span></span>
+<span id="cb22-19"><a href="working-with-llms-through-apis.html#cb22-19" aria-hidden="true"></a>    occupation: <span class="bu">str</span></span>
+<span id="cb22-20"><a href="working-with-llms-through-apis.html#cb22-20" aria-hidden="true"></a>    location: <span class="bu">str</span></span>
+<span id="cb22-21"><a href="working-with-llms-through-apis.html#cb22-21" aria-hidden="true"></a></span>
+<span id="cb22-22"><a href="working-with-llms-through-apis.html#cb22-22" aria-hidden="true"></a><span class="co"># Extract structured data from text</span></span>
+<span id="cb22-23"><a href="working-with-llms-through-apis.html#cb22-23" aria-hidden="true"></a>completion <span class="op">=</span> client.responses.parse(</span>
+<span id="cb22-24"><a href="working-with-llms-through-apis.html#cb22-24" aria-hidden="true"></a>    model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb22-25"><a href="working-with-llms-through-apis.html#cb22-25" aria-hidden="true"></a>    <span class="bu">input</span><span class="op">=</span>[</span>
+<span id="cb22-26"><a href="working-with-llms-through-apis.html#cb22-26" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="st">&quot;Extract person information from the text.&quot;</span>},</span>
+<span id="cb22-27"><a href="working-with-llms-through-apis.html#cb22-27" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="st">&quot;John Smith is 35 years old, works as a data scientist, and lives in Oslo.&quot;</span>}</span>
+<span id="cb22-28"><a href="working-with-llms-through-apis.html#cb22-28" aria-hidden="true"></a>    ],</span>
+<span id="cb22-29"><a href="working-with-llms-through-apis.html#cb22-29" aria-hidden="true"></a>    text_format<span class="op">=</span>PersonInfo,</span>
+<span id="cb22-30"><a href="working-with-llms-through-apis.html#cb22-30" aria-hidden="true"></a>)</span>
+<span id="cb22-31"><a href="working-with-llms-through-apis.html#cb22-31" aria-hidden="true"></a></span>
+<span id="cb22-32"><a href="working-with-llms-through-apis.html#cb22-32" aria-hidden="true"></a><span class="co"># Get the structured result</span></span>
+<span id="cb22-33"><a href="working-with-llms-through-apis.html#cb22-33" aria-hidden="true"></a>person <span class="op">=</span> completion.output_parsed</span>
+<span id="cb22-34"><a href="working-with-llms-through-apis.html#cb22-34" aria-hidden="true"></a><span class="bu">print</span>(person.model_dump_json())</span>
+<span id="cb22-35"><a href="working-with-llms-through-apis.html#cb22-35" aria-hidden="true"></a><span class="co"># Output: {&quot;name&quot;: &quot;John Smith&quot;, &quot;age&quot;: 35, &quot;occupation&quot;: &quot;data scientist&quot;, &quot;location&quot;: &quot;Oslo&quot;}```</span></span></code></pre></div>
+</div>
+<div id="creating-reusable-functions" class="section level3 hasAnchor" number="4.1.7">
+<h3><span class="header-section-number">4.1.7</span> Creating Reusable Functions<a href="working-with-llms-through-apis.html#creating-reusable-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can create functions to make your LLM interactions more organized and reusable. Here’s an example that combines several concepts:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="working-with-llms-through-apis.html#cb23-1" aria-hidden="true"></a><span class="kw">def</span> ask(role: <span class="bu">str</span>, domain: <span class="bu">str</span>, question: <span class="bu">str</span>):</span>
+<span id="cb23-2"><a href="working-with-llms-through-apis.html#cb23-2" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb23-3"><a href="working-with-llms-through-apis.html#cb23-3" aria-hidden="true"></a><span class="co">    Ask a question to an AI assistant with a specific role and domain expertise.</span></span>
+<span id="cb23-4"><a href="working-with-llms-through-apis.html#cb23-4" aria-hidden="true"></a><span class="co">    </span></span>
+<span id="cb23-5"><a href="working-with-llms-through-apis.html#cb23-5" aria-hidden="true"></a><span class="co">    Args:</span></span>
+<span id="cb23-6"><a href="working-with-llms-through-apis.html#cb23-6" aria-hidden="true"></a><span class="co">        role: The role of the assistant (e.g., &quot;data scientist&quot;, &quot;teacher&quot;)</span></span>
+<span id="cb23-7"><a href="working-with-llms-through-apis.html#cb23-7" aria-hidden="true"></a><span class="co">        domain: The domain of expertise (e.g., &quot;machine learning&quot;, &quot;statistics&quot;)</span></span>
+<span id="cb23-8"><a href="working-with-llms-through-apis.html#cb23-8" aria-hidden="true"></a><span class="co">        question: The question to ask</span></span>
+<span id="cb23-9"><a href="working-with-llms-through-apis.html#cb23-9" aria-hidden="true"></a><span class="co">    </span></span>
+<span id="cb23-10"><a href="working-with-llms-through-apis.html#cb23-10" aria-hidden="true"></a><span class="co">    Returns:</span></span>
+<span id="cb23-11"><a href="working-with-llms-through-apis.html#cb23-11" aria-hidden="true"></a><span class="co">        The AI&#39;s response as a string</span></span>
+<span id="cb23-12"><a href="working-with-llms-through-apis.html#cb23-12" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb23-13"><a href="working-with-llms-through-apis.html#cb23-13" aria-hidden="true"></a>    <span class="co"># Create messages using f-strings for dynamic content</span></span>
+<span id="cb23-14"><a href="working-with-llms-through-apis.html#cb23-14" aria-hidden="true"></a>    msgs <span class="op">=</span> [</span>
+<span id="cb23-15"><a href="working-with-llms-through-apis.html#cb23-15" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="ss">f&quot;You are a </span><span class="sc">{</span>role<span class="sc">}</span><span class="ss"> with expertise in </span><span class="sc">{</span>domain<span class="sc">}</span><span class="ss">.&quot;</span>},</span>
+<span id="cb23-16"><a href="working-with-llms-through-apis.html#cb23-16" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: question},</span>
+<span id="cb23-17"><a href="working-with-llms-through-apis.html#cb23-17" aria-hidden="true"></a>    ]</span>
+<span id="cb23-18"><a href="working-with-llms-through-apis.html#cb23-18" aria-hidden="true"></a>    </span>
+<span id="cb23-19"><a href="working-with-llms-through-apis.html#cb23-19" aria-hidden="true"></a>    <span class="co"># Use the responses API for cleaner output</span></span>
+<span id="cb23-20"><a href="working-with-llms-through-apis.html#cb23-20" aria-hidden="true"></a>    resp <span class="op">=</span> client.responses.create(</span>
+<span id="cb23-21"><a href="working-with-llms-through-apis.html#cb23-21" aria-hidden="true"></a>        model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb23-22"><a href="working-with-llms-through-apis.html#cb23-22" aria-hidden="true"></a>        <span class="bu">input</span><span class="op">=</span>msgs,</span>
+<span id="cb23-23"><a href="working-with-llms-through-apis.html#cb23-23" aria-hidden="true"></a>    )</span>
+<span id="cb23-24"><a href="working-with-llms-through-apis.html#cb23-24" aria-hidden="true"></a>    <span class="cf">return</span> resp.output_text</span>
+<span id="cb23-25"><a href="working-with-llms-through-apis.html#cb23-25" aria-hidden="true"></a></span>
+<span id="cb23-26"><a href="working-with-llms-through-apis.html#cb23-26" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb23-27"><a href="working-with-llms-through-apis.html#cb23-27" aria-hidden="true"></a>answer <span class="op">=</span> ask(<span class="st">&quot;data scientist&quot;</span>, <span class="st">&quot;machine learning&quot;</span>, <span class="st">&quot;How do I prevent overfitting?&quot;</span>)</span>
+<span id="cb23-28"><a href="working-with-llms-through-apis.html#cb23-28" aria-hidden="true"></a><span class="bu">print</span>(answer)</span></code></pre></div>
+<p><strong>Key concepts explained:</strong></p>
+<ul>
+<li><strong>f-strings</strong>: The <code>f"..."</code> syntax allows you to insert variables directly into strings. For example, <code>f"You are a {role}"</code> becomes <code>"You are a data scientist"</code> when <code>role = "data scientist"</code>.</li>
+<li><strong>Function parameters</strong>: The function takes three parameters (<code>role</code>, <code>domain</code>, <code>question</code>) that can be different each time you call it.</li>
+<li><strong>Docstrings</strong>: The triple-quoted string at the top of the function explains what it does and what parameters it expects. This is optional, but it’s a good practice to always include it.</li>
+<li><strong>Return values</strong>: The function returns the AI’s response, which you can store in a variable or use directly.</li>
+<li><strong>Reusability</strong>: You can now ask different questions to different types of experts without rewriting the code:</li>
+</ul>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="working-with-llms-through-apis.html#cb24-1" aria-hidden="true"></a><span class="co"># Ask a statistics expert</span></span>
+<span id="cb24-2"><a href="working-with-llms-through-apis.html#cb24-2" aria-hidden="true"></a>stats_answer <span class="op">=</span> ask(<span class="st">&quot;statistician&quot;</span>, <span class="st">&quot;statistics&quot;</span>, <span class="st">&quot;What is a p-value?&quot;</span>)</span>
+<span id="cb24-3"><a href="working-with-llms-through-apis.html#cb24-3" aria-hidden="true"></a></span>
+<span id="cb24-4"><a href="working-with-llms-through-apis.html#cb24-4" aria-hidden="true"></a><span class="co"># Ask a business expert  </span></span>
+<span id="cb24-5"><a href="working-with-llms-through-apis.html#cb24-5" aria-hidden="true"></a>business_answer <span class="op">=</span> ask(<span class="st">&quot;business analyst&quot;</span>, <span class="st">&quot;finance&quot;</span>, <span class="st">&quot;How do I calculate ROI?&quot;</span>)</span>
+<span id="cb24-6"><a href="working-with-llms-through-apis.html#cb24-6" aria-hidden="true"></a></span>
+<span id="cb24-7"><a href="working-with-llms-through-apis.html#cb24-7" aria-hidden="true"></a><span class="co"># Ask a programming expert</span></span>
+<span id="cb24-8"><a href="working-with-llms-through-apis.html#cb24-8" aria-hidden="true"></a>code_answer <span class="op">=</span> ask(<span class="st">&quot;software engineer&quot;</span>, <span class="st">&quot;Python&quot;</span>, <span class="st">&quot;How do I handle exceptions?&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="using-langchain" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Using LangChain<a href="working-with-llms-through-apis.html#using-langchain" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>LangChain is a framework for developing applications powered by language models. It provides abstractions and tools for building complex LLM applications. At the most basic level its almost identical to the <code>openai</code> package, but it has much more functionality.</p>
+<div id="installation-1" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Installation<a href="working-with-llms-through-apis.html#installation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, install the required LangChain packages:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="working-with-llms-through-apis.html#cb25-1" aria-hidden="true"></a><span class="co"># Install LangChain packages</span></span>
+<span id="cb25-2"><a href="working-with-llms-through-apis.html#cb25-2" aria-hidden="true"></a><span class="op">!</span>pip install <span class="op">-</span>U langchain<span class="op">-</span>openai langchain_community</span></code></pre></div>
+</div>
+<div id="api-configuration-1" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> API Configuration<a href="working-with-llms-through-apis.html#api-configuration-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For Azure OpenAI through LangChain, we use the <code>AzureChatOpenAI</code> class:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="working-with-llms-through-apis.html#cb26-1" aria-hidden="true"></a><span class="co"># LangChain Azure OpenAI setup</span></span>
+<span id="cb26-2"><a href="working-with-llms-through-apis.html#cb26-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb26-3"><a href="working-with-llms-through-apis.html#cb26-3" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb26-4"><a href="working-with-llms-through-apis.html#cb26-4" aria-hidden="true"></a></span>
+<span id="cb26-5"><a href="working-with-llms-through-apis.html#cb26-5" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb26-6"><a href="working-with-llms-through-apis.html#cb26-6" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb26-7"><a href="working-with-llms-through-apis.html#cb26-7" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb26-8"><a href="working-with-llms-through-apis.html#cb26-8" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb26-9"><a href="working-with-llms-through-apis.html#cb26-9" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb26-10"><a href="working-with-llms-through-apis.html#cb26-10" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb26-11"><a href="working-with-llms-through-apis.html#cb26-11" aria-hidden="true"></a>)</span></code></pre></div>
+<p>For OpenAI’s own API through LangChain, we use the <code>ChatOpenAI</code> class:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="working-with-llms-through-apis.html#cb27-1" aria-hidden="true"></a><span class="co"># LangChain standard OpenAI setup</span></span>
+<span id="cb27-2"><a href="working-with-llms-through-apis.html#cb27-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> ChatOpenAI</span>
+<span id="cb27-3"><a href="working-with-llms-through-apis.html#cb27-3" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb27-4"><a href="working-with-llms-through-apis.html#cb27-4" aria-hidden="true"></a></span>
+<span id="cb27-5"><a href="working-with-llms-through-apis.html#cb27-5" aria-hidden="true"></a>client <span class="op">=</span> ChatOpenAI(</span>
+<span id="cb27-6"><a href="working-with-llms-through-apis.html#cb27-6" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb27-7"><a href="working-with-llms-through-apis.html#cb27-7" aria-hidden="true"></a>    model<span class="op">=</span><span class="st">&quot;gpt-4&quot;</span>,</span>
+<span id="cb27-8"><a href="working-with-llms-through-apis.html#cb27-8" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="fl">0.7</span></span>
+<span id="cb27-9"><a href="working-with-llms-through-apis.html#cb27-9" aria-hidden="true"></a>)</span></code></pre></div>
+<p>Once the LLM is set up (as shown above), you can use it throughout your code to make API calls.
+You do not need to re-initialize the LLM for each request—just use the same <code>client</code> object.
+This keeps your code clean and efficient.</p>
+</div>
+<div id="basic-chat-completion-and-message-structure" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Basic Chat Completion and Message Structure<a href="working-with-llms-through-apis.html#basic-chat-completion-and-message-structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The most common way to interact with LLMs through LangChain is using the <code>invoke</code> method. LangChain uses its own message classes for structured communication:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="working-with-llms-through-apis.html#cb28-1" aria-hidden="true"></a><span class="co"># LangChain message types and their purposes</span></span>
+<span id="cb28-2"><a href="working-with-llms-through-apis.html#cb28-2" aria-hidden="true"></a><span class="im">from</span> langchain_core.messages <span class="im">import</span> SystemMessage, HumanMessage, AIMessage</span>
+<span id="cb28-3"><a href="working-with-llms-through-apis.html#cb28-3" aria-hidden="true"></a></span>
+<span id="cb28-4"><a href="working-with-llms-through-apis.html#cb28-4" aria-hidden="true"></a>messages <span class="op">=</span> [</span>
+<span id="cb28-5"><a href="working-with-llms-through-apis.html#cb28-5" aria-hidden="true"></a>    SystemMessage(content<span class="op">=</span><span class="st">&quot;You are an expert data scientist.&quot;</span>),  <span class="co"># Sets behavior and context</span></span>
+<span id="cb28-6"><a href="working-with-llms-through-apis.html#cb28-6" aria-hidden="true"></a>    HumanMessage(content<span class="op">=</span><span class="st">&quot;How do I implement a neural network?&quot;</span>),  <span class="co"># User&#39;s input/question</span></span>
+<span id="cb28-7"><a href="working-with-llms-through-apis.html#cb28-7" aria-hidden="true"></a>    AIMessage(content<span class="op">=</span><span class="st">&quot;Neural networks consist of layers of interconnected nodes...&quot;</span>),  <span class="co"># Model&#39;s previous response</span></span>
+<span id="cb28-8"><a href="working-with-llms-through-apis.html#cb28-8" aria-hidden="true"></a>    HumanMessage(content<span class="op">=</span><span class="st">&quot;Can you provide a code example?&quot;</span>)  <span class="co"># Follow-up question</span></span>
+<span id="cb28-9"><a href="working-with-llms-through-apis.html#cb28-9" aria-hidden="true"></a>]</span>
+<span id="cb28-10"><a href="working-with-llms-through-apis.html#cb28-10" aria-hidden="true"></a></span>
+<span id="cb28-11"><a href="working-with-llms-through-apis.html#cb28-11" aria-hidden="true"></a>response <span class="op">=</span> client.invoke(messages)</span>
+<span id="cb28-12"><a href="working-with-llms-through-apis.html#cb28-12" aria-hidden="true"></a><span class="bu">print</span>(response.content)</span></code></pre></div>
+<p><strong>Alternative: Using tuples for simpler prompts</strong></p>
+<p>LangChain also supports a simpler tuple format for basic use cases:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="working-with-llms-through-apis.html#cb29-1" aria-hidden="true"></a><span class="co"># Simple tuple format (easier for basic prompts)</span></span>
+<span id="cb29-2"><a href="working-with-llms-through-apis.html#cb29-2" aria-hidden="true"></a>messages <span class="op">=</span> [</span>
+<span id="cb29-3"><a href="working-with-llms-through-apis.html#cb29-3" aria-hidden="true"></a>    (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;You are a helpful assistant that translates English to French.&quot;</span>),</span>
+<span id="cb29-4"><a href="working-with-llms-through-apis.html#cb29-4" aria-hidden="true"></a>    (<span class="st">&quot;human&quot;</span>, <span class="st">&quot;I love programming.&quot;</span>)</span>
+<span id="cb29-5"><a href="working-with-llms-through-apis.html#cb29-5" aria-hidden="true"></a>]</span>
+<span id="cb29-6"><a href="working-with-llms-through-apis.html#cb29-6" aria-hidden="true"></a></span>
+<span id="cb29-7"><a href="working-with-llms-through-apis.html#cb29-7" aria-hidden="true"></a>response <span class="op">=</span> client.invoke(messages)</span>
+<span id="cb29-8"><a href="working-with-llms-through-apis.html#cb29-8" aria-hidden="true"></a><span class="bu">print</span>(response.content)</span></code></pre></div>
+</div>
+<div id="structured-data-extraction-1" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Structured Data Extraction<a href="working-with-llms-through-apis.html#structured-data-extraction-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>LangChain excels at structured data extraction using Pydantic models and the <code>with_structured_output()</code> method:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="working-with-llms-through-apis.html#cb30-1" aria-hidden="true"></a><span class="co"># Install required packages</span></span>
+<span id="cb30-2"><a href="working-with-llms-through-apis.html#cb30-2" aria-hidden="true"></a><span class="op">!</span>pip install pydantic</span>
+<span id="cb30-3"><a href="working-with-llms-through-apis.html#cb30-3" aria-hidden="true"></a></span>
+<span id="cb30-4"><a href="working-with-llms-through-apis.html#cb30-4" aria-hidden="true"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb30-5"><a href="working-with-llms-through-apis.html#cb30-5" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List</span>
+<span id="cb30-6"><a href="working-with-llms-through-apis.html#cb30-6" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb30-7"><a href="working-with-llms-through-apis.html#cb30-7" aria-hidden="true"></a></span>
+<span id="cb30-8"><a href="working-with-llms-through-apis.html#cb30-8" aria-hidden="true"></a><span class="co"># Define the structure you want to extract</span></span>
+<span id="cb30-9"><a href="working-with-llms-through-apis.html#cb30-9" aria-hidden="true"></a><span class="kw">class</span> Person(BaseModel):</span>
+<span id="cb30-10"><a href="working-with-llms-through-apis.html#cb30-10" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Information about a person from text.&quot;&quot;&quot;</span></span>
+<span id="cb30-11"><a href="working-with-llms-through-apis.html#cb30-11" aria-hidden="true"></a>    name: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(default<span class="op">=</span><span class="va">None</span>, description<span class="op">=</span><span class="st">&quot;Full name of the person&quot;</span>)</span>
+<span id="cb30-12"><a href="working-with-llms-through-apis.html#cb30-12" aria-hidden="true"></a>    age: Optional[<span class="bu">int</span>] <span class="op">=</span> Field(default<span class="op">=</span><span class="va">None</span>, description<span class="op">=</span><span class="st">&quot;Age of the person&quot;</span>)</span>
+<span id="cb30-13"><a href="working-with-llms-through-apis.html#cb30-13" aria-hidden="true"></a>    occupation: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(default<span class="op">=</span><span class="va">None</span>, description<span class="op">=</span><span class="st">&quot;Job or profession&quot;</span>)</span>
+<span id="cb30-14"><a href="working-with-llms-through-apis.html#cb30-14" aria-hidden="true"></a>    location: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(default<span class="op">=</span><span class="va">None</span>, description<span class="op">=</span><span class="st">&quot;Where they live&quot;</span>)</span>
+<span id="cb30-15"><a href="working-with-llms-through-apis.html#cb30-15" aria-hidden="true"></a></span>
+<span id="cb30-16"><a href="working-with-llms-through-apis.html#cb30-16" aria-hidden="true"></a><span class="co"># Create a prompt template</span></span>
+<span id="cb30-17"><a href="working-with-llms-through-apis.html#cb30-17" aria-hidden="true"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb30-18"><a href="working-with-llms-through-apis.html#cb30-18" aria-hidden="true"></a>    (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;You are an expert at extracting person information from text. Extract all people mentioned.&quot;</span>),</span>
+<span id="cb30-19"><a href="working-with-llms-through-apis.html#cb30-19" aria-hidden="true"></a>    (<span class="st">&quot;human&quot;</span>, <span class="st">&quot;</span><span class="sc">{text}</span><span class="st">&quot;</span>)</span>
+<span id="cb30-20"><a href="working-with-llms-through-apis.html#cb30-20" aria-hidden="true"></a>])</span>
+<span id="cb30-21"><a href="working-with-llms-through-apis.html#cb30-21" aria-hidden="true"></a></span>
+<span id="cb30-22"><a href="working-with-llms-through-apis.html#cb30-22" aria-hidden="true"></a><span class="co"># Create the structured extractor</span></span>
+<span id="cb30-23"><a href="working-with-llms-through-apis.html#cb30-23" aria-hidden="true"></a>extractor <span class="op">=</span> prompt <span class="op">|</span> client.with_structured_output(</span>
+<span id="cb30-24"><a href="working-with-llms-through-apis.html#cb30-24" aria-hidden="true"></a>    schema<span class="op">=</span>Person,</span>
+<span id="cb30-25"><a href="working-with-llms-through-apis.html#cb30-25" aria-hidden="true"></a>    include_raw<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb30-26"><a href="working-with-llms-through-apis.html#cb30-26" aria-hidden="true"></a>)</span>
+<span id="cb30-27"><a href="working-with-llms-through-apis.html#cb30-27" aria-hidden="true"></a></span>
+<span id="cb30-28"><a href="working-with-llms-through-apis.html#cb30-28" aria-hidden="true"></a><span class="co"># Extract structured data</span></span>
+<span id="cb30-29"><a href="working-with-llms-through-apis.html#cb30-29" aria-hidden="true"></a>response <span class="op">=</span> extractor.invoke({</span>
+<span id="cb30-30"><a href="working-with-llms-through-apis.html#cb30-30" aria-hidden="true"></a>    <span class="st">&quot;text&quot;</span>: <span class="st">&quot;John Smith is 35 years old and works as a data scientist in Oslo.&quot;</span></span>
+<span id="cb30-31"><a href="working-with-llms-through-apis.html#cb30-31" aria-hidden="true"></a>})</span>
+<span id="cb30-32"><a href="working-with-llms-through-apis.html#cb30-32" aria-hidden="true"></a></span>
+<span id="cb30-33"><a href="working-with-llms-through-apis.html#cb30-33" aria-hidden="true"></a><span class="co"># Get the structured result</span></span>
+<span id="cb30-34"><a href="working-with-llms-through-apis.html#cb30-34" aria-hidden="true"></a>people_info <span class="op">=</span> response[<span class="st">&#39;parsed&#39;</span>]</span>
+<span id="cb30-35"><a href="working-with-llms-through-apis.html#cb30-35" aria-hidden="true"></a><span class="bu">print</span>(people_info.model_dump_json())</span>
+<span id="cb30-36"><a href="working-with-llms-through-apis.html#cb30-36" aria-hidden="true"></a><span class="co"># {&quot;name&quot;:&quot;John Smith&quot;,&quot;age&quot;:35,&quot;occupation&quot;:&quot;data scientist&quot;,&quot;location&quot;:&quot;Oslo&quot;}</span></span></code></pre></div>
+<p>Note that if the input string contains multiple people, you simply need to add the following code and set the schema to PeopleInfo. As you can see, the PeopleInfo class is a list of Person objects.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="working-with-llms-through-apis.html#cb31-1" aria-hidden="true"></a><span class="kw">class</span> PeopleInfo(BaseModel):</span>
+<span id="cb31-2"><a href="working-with-llms-through-apis.html#cb31-2" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Information about all people mentioned in the text.&quot;&quot;&quot;</span></span>
+<span id="cb31-3"><a href="working-with-llms-through-apis.html#cb31-3" aria-hidden="true"></a>    people: List[Person]</span></code></pre></div>
+</div>
+<div id="prompt-templates" class="section level3 hasAnchor" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Prompt Templates<a href="working-with-llms-through-apis.html#prompt-templates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>LangChain’s strength lies in its prompt management:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="working-with-llms-through-apis.html#cb32-1" aria-hidden="true"></a><span class="co"># Create a prompt template</span></span>
+<span id="cb32-2"><a href="working-with-llms-through-apis.html#cb32-2" aria-hidden="true"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb32-3"><a href="working-with-llms-through-apis.html#cb32-3" aria-hidden="true"></a>    (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;You are a </span><span class="sc">{role}</span><span class="st"> with expertise in </span><span class="sc">{domain}</span><span class="st">.&quot;</span>),</span>
+<span id="cb32-4"><a href="working-with-llms-through-apis.html#cb32-4" aria-hidden="true"></a>    (<span class="st">&quot;user&quot;</span>, <span class="st">&quot;</span><span class="sc">{question}</span><span class="st">&quot;</span>)</span>
+<span id="cb32-5"><a href="working-with-llms-through-apis.html#cb32-5" aria-hidden="true"></a>])</span>
+<span id="cb32-6"><a href="working-with-llms-through-apis.html#cb32-6" aria-hidden="true"></a></span>
+<span id="cb32-7"><a href="working-with-llms-through-apis.html#cb32-7" aria-hidden="true"></a>chain <span class="op">=</span> prompt <span class="op">|</span> client</span>
+<span id="cb32-8"><a href="working-with-llms-through-apis.html#cb32-8" aria-hidden="true"></a></span>
+<span id="cb32-9"><a href="working-with-llms-through-apis.html#cb32-9" aria-hidden="true"></a>response <span class="op">=</span> chain.invoke({</span>
+<span id="cb32-10"><a href="working-with-llms-through-apis.html#cb32-10" aria-hidden="true"></a>    <span class="st">&quot;role&quot;</span>: <span class="st">&quot;data scientist&quot;</span>,</span>
+<span id="cb32-11"><a href="working-with-llms-through-apis.html#cb32-11" aria-hidden="true"></a>    <span class="st">&quot;domain&quot;</span>: <span class="st">&quot;machine learning&quot;</span>,</span>
+<span id="cb32-12"><a href="working-with-llms-through-apis.html#cb32-12" aria-hidden="true"></a>    <span class="st">&quot;question&quot;</span>: <span class="st">&quot;How do I prevent overfitting?&quot;</span></span>
+<span id="cb32-13"><a href="working-with-llms-through-apis.html#cb32-13" aria-hidden="true"></a>})</span>
+<span id="cb32-14"><a href="working-with-llms-through-apis.html#cb32-14" aria-hidden="true"></a><span class="bu">print</span>(response.content)</span></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="llm-fundamentals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-method.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ai-llm-course.pdf", "ai-llm-course.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,725 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Introduction to AI and Large Language Models},
+  pdfauthor={Eirik Berger Abel},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Introduction to AI and Large Language Models}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{A Practical Course in Python, APIs, and LLM Applications}
+\author{Eirik Berger Abel}
+\date{2025-09-10}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\chapter{Welcome to AI and Large Language Models}\label{welcome-to-ai-and-large-language-models}
+
+Welcome to this comprehensive course on \textbf{Artificial Intelligence and Large Language Models (LLMs)}. This book is designed to take you from the fundamentals of Python programming to advanced applications of AI in real-world scenarios.
+
+\section{Course Overview}\label{course-overview}
+
+This course covers the essential skills needed to work with modern AI systems, particularly Large Language Models. You'll learn:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Python Programming}: Essential Python skills for AI and data analysis
+\item
+  \textbf{LLM Fundamentals}: Understanding how language models work under the hood
+\item
+  \textbf{API Integration}: Working with commercial and open-source LLM APIs
+\item
+  \textbf{LangChain Framework}: Building sophisticated AI applications
+\item
+  \textbf{Practical Applications}: Real-world projects including data scraping, analysis, and automation
+\end{itemize}
+
+\section{Learning Objectives}\label{learning-objectives}
+
+By the end of this course, you will be able to:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Write Python code for data manipulation and analysis
+\item
+  Understand the technical foundations of Large Language Models
+\item
+  Integrate LLM APIs into your applications
+\item
+  Use the LangChain framework for complex AI workflows
+\item
+  Build practical AI applications for business and research
+\item
+  Apply AI techniques to real-world data analysis problems
+\end{enumerate}
+
+\section{Prerequisites}\label{prerequisites}
+
+This course assumes:
+
+\begin{itemize}
+\tightlist
+\item
+  Basic familiarity with programming concepts (variables, functions, loops)
+\item
+  Comfort with using computers and installing software
+\item
+  No prior experience with AI or machine learning required
+\item
+  Willingness to experiment and learn through hands-on practice
+\end{itemize}
+
+\section{Course Structure}\label{course-structure}
+
+The course is organized into progressive chapters, each building upon the previous:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Chapter 1}: Introduction to Python for AI
+\item
+  \textbf{Chapter 2}: Understanding Large Language Models
+\item
+  \textbf{Chapter 3}: Working with LLM APIs
+\item
+  \textbf{Chapter 4}: LangChain Framework
+\item
+  \textbf{Chapter 5}: Advanced LangChain and Caching
+\item
+  \textbf{Chapter 6}: Practical Applications and Case Studies
+\end{itemize}
+
+\section{Getting Started}\label{getting-started}
+
+To get the most out of this course:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Set up a Python environment (we recommend Google Colab for beginners)
+\item
+  Create accounts for the required APIs (instructions provided in each chapter)
+\item
+  Follow along with the code examples
+\item
+  Complete the hands-on exercises
+\item
+  Experiment with variations of the examples
+\end{enumerate}
+
+\section{Contact and Support}\label{contact-and-support}
+
+For questions about this course, please contact the instructor at \href{mailto:eirik.berger@gmail.com}{\nolinkurl{eirik.berger@gmail.com}} with `BAN443' included in the subject line.
+
+\chapter{Introduction to Python for AI}\label{intro}
+
+This chapter introduces the essential Python programming concepts you'll need to work with AI and Large Language Models. While the focus of this course is on understanding and applying AI technologies, having solid Python fundamentals will make everything else much easier.
+
+\section{Why Python for AI?}\label{why-python-for-ai}
+
+Python has become the de facto language for AI and machine learning for several reasons:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Rich ecosystem}: Extensive libraries for data science, machine learning, and AI
+\item
+  \textbf{Readable syntax}: Easy to learn and understand, even for beginners
+\item
+  \textbf{Strong community}: Large community with excellent documentation and support
+\item
+  \textbf{Industry standard}: Most AI companies and researchers use Python
+\end{itemize}
+
+\section{Setting Up Your Environment}\label{setting-up-your-environment}
+
+\subsection{Option 1: Google Colab (Recommended for Beginners)}\label{option-1-google-colab-recommended-for-beginners}
+
+Google Colab provides a free, cloud-based Python environment that's perfect for learning:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \href{https://colab.research.google.com}{colab.research.google.com}
+\item
+  Sign in with your Google account
+\item
+  Create a new notebook
+\item
+  Start coding immediately!
+\end{enumerate}
+
+\subsection{Option 2: Local Installation}\label{option-2-local-installation}
+
+If you prefer to work locally, install Python and Jupyter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Install Python (if not already installed)}
+\CommentTok{\# Download from python.org or use a package manager}
+
+\CommentTok{\# Install Jupyter}
+\ExtensionTok{pip}\NormalTok{ install jupyter}
+
+\CommentTok{\# Install required packages}
+\ExtensionTok{pip}\NormalTok{ install pandas numpy matplotlib requests transformers torch}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Essential Python Concepts}\label{essential-python-concepts}
+
+\subsection{Variables and Data Types}\label{variables-and-data-types}
+
+Python uses dynamic typing, meaning you don't need to declare variable types:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Numbers}
+\NormalTok{age }\OperatorTok{=} \DecValTok{25}
+\NormalTok{height }\OperatorTok{=} \FloatTok{5.9}
+\NormalTok{is\_student }\OperatorTok{=} \VariableTok{True}
+
+\CommentTok{\# Strings}
+\NormalTok{name }\OperatorTok{=} \StringTok{"Alice"}
+\NormalTok{message }\OperatorTok{=} \StringTok{\textquotesingle{}Hello, World!\textquotesingle{}}
+
+\CommentTok{\# Lists (arrays)}
+\NormalTok{fruits }\OperatorTok{=}\NormalTok{ [}\StringTok{"apple"}\NormalTok{, }\StringTok{"banana"}\NormalTok{, }\StringTok{"orange"}\NormalTok{]}
+\NormalTok{numbers }\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{]}
+
+\CommentTok{\# Dictionaries (key{-}value pairs)}
+\NormalTok{person }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{"name"}\NormalTok{: }\StringTok{"Alice"}\NormalTok{,}
+    \StringTok{"age"}\NormalTok{: }\DecValTok{25}\NormalTok{,}
+    \StringTok{"city"}\NormalTok{: }\StringTok{"New York"}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Functions}\label{functions}
+
+Functions allow you to organize and reuse code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ greet(name):}
+    \CommentTok{"""A simple function that greets someone."""}
+    \ControlFlowTok{return} \SpecialStringTok{f"Hello, }\SpecialCharTok{\{}\NormalTok{name}\SpecialCharTok{\}}\SpecialStringTok{!"}
+
+\CommentTok{\# Using the function}
+\NormalTok{message }\OperatorTok{=}\NormalTok{ greet(}\StringTok{"Alice"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(message)  }\CommentTok{\# Output: Hello, Alice!}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Working with Data}\label{working-with-data}
+
+For AI work, you'll frequently work with structured data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+
+\CommentTok{\# Create a simple dataset}
+\NormalTok{data }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{: [}\StringTok{\textquotesingle{}Alice\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Bob\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Charlie\textquotesingle{}}\NormalTok{],}
+    \StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{: [}\DecValTok{25}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{35}\NormalTok{],}
+    \StringTok{\textquotesingle{}city\textquotesingle{}}\NormalTok{: [}\StringTok{\textquotesingle{}New York\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}London\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Tokyo\textquotesingle{}}\NormalTok{]}
+\NormalTok{\}}
+
+\NormalTok{df }\OperatorTok{=}\NormalTok{ pd.DataFrame(data)}
+\BuiltInTok{print}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Error Handling}\label{error-handling}
+
+Learning to handle errors gracefully is crucial:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{try}\NormalTok{:}
+    \CommentTok{\# Code that might fail}
+\NormalTok{    result }\OperatorTok{=} \DecValTok{10} \OperatorTok{/} \DecValTok{0}
+\ControlFlowTok{except} \PreprocessorTok{ZeroDivisionError}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Cannot divide by zero!"}\NormalTok{)}
+\ControlFlowTok{except} \PreprocessorTok{Exception} \ImportTok{as}\NormalTok{ e:}
+    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"An error occurred: }\SpecialCharTok{\{}\NormalTok{e}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Working with APIs}\label{working-with-apis}
+
+APIs (Application Programming Interfaces) are how you'll interact with AI services:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ requests}
+
+\CommentTok{\# Example API call}
+\NormalTok{url }\OperatorTok{=} \StringTok{"https://api.example.com/data"}
+\NormalTok{response }\OperatorTok{=}\NormalTok{ requests.get(url)}
+
+\ControlFlowTok{if}\NormalTok{ response.status\_code }\OperatorTok{==} \DecValTok{200}\NormalTok{:}
+\NormalTok{    data }\OperatorTok{=}\NormalTok{ response.json()}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Success!"}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Error: }\SpecialCharTok{\{}\NormalTok{response}\SpecialCharTok{.}\NormalTok{status\_code}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Key Libraries for AI Work}\label{key-libraries-for-ai-work}
+
+Here are the essential Python libraries you'll use throughout this course:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{pandas}: Data manipulation and analysis
+\item
+  \textbf{numpy}: Numerical computing
+\item
+  \textbf{requests}: Making HTTP requests to APIs
+\item
+  \textbf{transformers}: Working with pre-trained language models
+\item
+  \textbf{torch}: Deep learning framework
+\item
+  \textbf{langchain}: Framework for building LLM applications
+\end{itemize}
+
+\section{Best Practices}\label{best-practices}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Use meaningful variable names}: \texttt{user\_age} instead of \texttt{a}
+\item
+  \textbf{Add comments}: Explain what your code does
+\item
+  \textbf{Handle errors}: Always include error handling
+\item
+  \textbf{Test incrementally}: Run code frequently to catch errors early
+\item
+  \textbf{Use functions}: Break complex tasks into smaller functions
+\end{enumerate}
+
+\section{Next Steps}\label{next-steps}
+
+Now that you have the Python basics, you're ready to dive into the fascinating world of Large Language Models. In the next chapter, we'll explore how these models work and get hands-on experience with GPT-2.
+
+Remember: Don't worry if you're not a Python expert yet. The most important thing is to start experimenting and learning through practice. Each chapter will build your skills progressively.
+
+\chapter{Understanding Large Language Models}\label{llm-fundamentals}
+
+In this chapter, we'll dive deep into how Large Language Models (LLMs) work under the hood. Understanding these fundamentals will help you use LLMs more effectively and troubleshoot issues when they arise.
+
+\section{What Are Large Language Models?}\label{what-are-large-language-models}
+
+Large Language Models are AI systems trained on vast amounts of text data to understand and generate human-like language. At their core, they are sophisticated pattern recognition systems that learn to predict the next word (or token) in a sequence.
+
+\subsection{Key Characteristics}\label{key-characteristics}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Scale}: Trained on billions or trillions of parameters
+\item
+  \textbf{Data}: Trained on massive text corpora from the internet
+\item
+  \textbf{Architecture}: Based on transformer neural networks
+\item
+  \textbf{Capability}: Can perform a wide range of language tasks
+\end{itemize}
+
+\section{The Transformer Architecture}\label{the-transformer-architecture}
+
+The transformer architecture, introduced in the paper ``Attention Is All You Need'' (Vaswani et al., 2017), is the foundation of modern LLMs:
+
+\subsection{Key Components}\label{key-components}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Attention Mechanism}: Allows the model to focus on relevant parts of the input
+\item
+  \textbf{Self-Attention}: Enables the model to understand relationships between words
+\item
+  \textbf{Feed-Forward Networks}: Process the attended information
+\item
+  \textbf{Layer Normalization}: Stabilizes training and improves performance
+\end{enumerate}
+
+\section{Tokenization: From Text to Numbers}\label{tokenization-from-text-to-numbers}
+
+Before LLMs can process text, it must be converted into numbers. This process is called \textbf{tokenization}.
+
+\subsection{How Tokenization Works}\label{how-tokenization-works}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ transformers }\ImportTok{import}\NormalTok{ GPT2Tokenizer}
+
+\CommentTok{\# Load the GPT{-}2 tokenizer}
+\NormalTok{tokenizer }\OperatorTok{=}\NormalTok{ GPT2Tokenizer.from\_pretrained(}\StringTok{"gpt2"}\NormalTok{)}
+
+\CommentTok{\# Tokenize a word}
+\NormalTok{inputs }\OperatorTok{=}\NormalTok{ tokenizer(}\StringTok{"inequality"}\NormalTok{, return\_tensors}\OperatorTok{=}\StringTok{"pt"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Token IDs:"}\NormalTok{, inputs.input\_ids)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Token IDs as list:"}\NormalTok{, inputs.input\_ids[}\DecValTok{0}\NormalTok{].tolist())}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Understanding Token IDs}\label{understanding-token-ids}
+
+Let's see what those numbers actually represent:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convert IDs back to tokens (strings)}
+\NormalTok{ids }\OperatorTok{=}\NormalTok{ inputs.input\_ids[}\DecValTok{0}\NormalTok{].tolist()}
+\NormalTok{tokens }\OperatorTok{=}\NormalTok{ [tokenizer.decode([i]) }\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in}\NormalTok{ ids]}
+
+\BuiltInTok{print}\NormalTok{(}\StringTok{"IDs:"}\NormalTok{, ids)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Tokens:"}\NormalTok{, tokens)}
+\end{Highlighting}
+\end{Shaded}
+
+You'll notice that ``inequality'' becomes \texttt{{[}500,\ 13237{]}}. This means:
+- The word is split into subword tokens
+- Each token gets a unique ID number
+- The model works with these numbers, not the original text
+
+\section{Next Token Prediction: The Core of LLMs}\label{next-token-prediction-the-core-of-llms}
+
+At their most basic level, LLMs are \textbf{autocomplete systems}. They predict the next word given some input text.
+
+\subsection{How It Works}\label{how-it-works}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Input}: A sequence of tokens (words/subwords)
+\item
+  \textbf{Processing}: The model processes this sequence through multiple layers
+\item
+  \textbf{Output}: A probability distribution over all possible next tokens
+\item
+  \textbf{Selection}: The model selects the most likely next token
+\end{enumerate}
+
+\subsection{Hands-On Example}\label{hands-on-example}
+
+Let's see this in action with GPT-2:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ transformers }\ImportTok{import}\NormalTok{ GPT2TokenizerFast, GPT2LMHeadModel}
+\ImportTok{import}\NormalTok{ torch}
+
+\CommentTok{\# Load the model and tokenizer}
+\NormalTok{tokenizer }\OperatorTok{=}\NormalTok{ GPT2TokenizerFast.from\_pretrained(}\StringTok{"gpt2"}\NormalTok{)}
+\NormalTok{model }\OperatorTok{=}\NormalTok{ GPT2LMHeadModel.from\_pretrained(}\StringTok{"gpt2"}\NormalTok{)}
+
+\KeywordTok{def}\NormalTok{ get\_next\_tokens(text, num\_tokens}\OperatorTok{=}\DecValTok{10}\NormalTok{):}
+    \CommentTok{"""Get the most likely next tokens for a given text."""}
+    \CommentTok{\# Tokenize input}
+\NormalTok{    inputs }\OperatorTok{=}\NormalTok{ tokenizer(text, return\_tensors}\OperatorTok{=}\StringTok{"pt"}\NormalTok{)}
+    
+    \CommentTok{\# Get model predictions}
+    \ControlFlowTok{with}\NormalTok{ torch.no\_grad():}
+\NormalTok{        outputs }\OperatorTok{=}\NormalTok{ model(}\OperatorTok{**}\NormalTok{inputs)}
+\NormalTok{        logits }\OperatorTok{=}\NormalTok{ outputs.logits[}\DecValTok{0}\NormalTok{, }\OperatorTok{{-}}\DecValTok{1}\NormalTok{, :]  }\CommentTok{\# Last token\textquotesingle{}s logits}
+\NormalTok{        probabilities }\OperatorTok{=}\NormalTok{ torch.softmax(logits, dim}\OperatorTok{={-}}\DecValTok{1}\NormalTok{)}
+    
+    \CommentTok{\# Get top predictions}
+\NormalTok{    top\_indices }\OperatorTok{=}\NormalTok{ torch.topk(probabilities, num\_tokens).indices}
+\NormalTok{    top\_probs }\OperatorTok{=}\NormalTok{ torch.topk(probabilities, num\_tokens).values}
+    
+\NormalTok{    results }\OperatorTok{=}\NormalTok{ []}
+    \ControlFlowTok{for}\NormalTok{ idx, prob }\KeywordTok{in} \BuiltInTok{zip}\NormalTok{(top\_indices, top\_probs):}
+\NormalTok{        token }\OperatorTok{=}\NormalTok{ tokenizer.decode([idx])}
+\NormalTok{        results.append((token, prob.item()))}
+    
+    \ControlFlowTok{return}\NormalTok{ results}
+
+\CommentTok{\# Example usage}
+\NormalTok{text }\OperatorTok{=} \StringTok{"The future of artificial intelligence is"}
+\NormalTok{predictions }\OperatorTok{=}\NormalTok{ get\_next\_tokens(text)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Input: \textquotesingle{}}\SpecialCharTok{\{}\NormalTok{text}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Top 10 most likely next tokens:"}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ token, probability }\KeywordTok{in}\NormalTok{ predictions:}
+    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  \textquotesingle{}}\SpecialCharTok{\{}\NormalTok{token}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}: }\SpecialCharTok{\{}\NormalTok{probability}\SpecialCharTok{:.3f\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Training Process}\label{training-process}
+
+Understanding how LLMs are trained helps explain their capabilities and limitations:
+
+\subsection{1. Pre-training Phase}\label{pre-training-phase}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data}: Massive text corpora (books, articles, websites)
+\item
+  \textbf{Task}: Predict the next token in a sequence
+\item
+  \textbf{Duration}: Weeks or months on powerful hardware
+\item
+  \textbf{Cost}: Millions of dollars in compute resources
+\end{itemize}
+
+\subsection{2. Fine-tuning Phase (Optional)}\label{fine-tuning-phase-optional}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data}: Smaller, task-specific datasets
+\item
+  \textbf{Task}: Adapt the model for specific applications
+\item
+  \textbf{Examples}: Instruction following, code generation, conversation
+\end{itemize}
+
+\section{Model Sizes and Capabilities}\label{model-sizes-and-capabilities}
+
+Different model sizes offer different capabilities:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Model Size & Parameters & Capabilities \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Small (117M) & 117 million & Basic text completion \\
+Medium (345M) & 345 million & Better coherence \\
+Large (774M) & 774 million & Good performance \\
+XL (1.5B) & 1.5 billion & High-quality generation \\
+2.5B+ & 2.5+ billion & State-of-the-art performance \\
+\end{longtable}
+
+\section{Practical Implications}\label{practical-implications}
+
+\subsection{What This Means for You}\label{what-this-means-for-you}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Context Windows}: Models have limits on how much text they can process at once
+\item
+  \textbf{Temperature}: Controls randomness in generation (0 = deterministic, 1 = creative)
+\item
+  \textbf{Token Limits}: Responses are limited by the model's maximum output length
+\item
+  \textbf{Cost}: Larger models are more expensive to use
+\end{enumerate}
+
+\subsection{Best Practices}\label{best-practices-1}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Be specific}: Clear prompts lead to better responses
+\item
+  \textbf{Provide context}: Give the model relevant background information
+\item
+  \textbf{Iterate}: Refine your prompts based on results
+\item
+  \textbf{Understand limitations}: Models can make mistakes or hallucinate
+\end{enumerate}
+
+\section{Common Misconceptions}\label{common-misconceptions}
+
+\subsection{What LLMs Are NOT}\label{what-llms-are-not}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Not databases}: They don't store facts, they predict based on patterns
+\item
+  \textbf{Not calculators}: Math abilities are limited and error-prone
+\item
+  \textbf{Not always factual}: They can generate plausible but incorrect information
+\item
+  \textbf{Not conscious}: They're sophisticated pattern matching systems
+\end{itemize}
+
+\subsection{What LLMs ARE}\label{what-llms-are}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Pattern recognition systems}: Excellent at finding patterns in text
+\item
+  \textbf{Language models}: Trained to understand and generate human language
+\item
+  \textbf{General-purpose tools}: Can be adapted for many different tasks
+\item
+  \textbf{Statistical systems}: Based on probability and statistics
+\end{itemize}
+
+\section{Next Steps}\label{next-steps-1}
+
+Now that you understand how LLMs work, you're ready to start using them through APIs. In the next chapter, we'll learn how to interact with commercial LLM services and build your first AI-powered applications.
+
+The key takeaway is that LLMs are powerful tools, but they're not magic. Understanding their limitations and how they work will make you a much more effective user of these technologies.
+
+\chapter{Applications}\label{applications}
+
+Some \emph{significant} applications are demonstrated in this chapter.
+
+\section{Example one}\label{example-one}
+
+\section{Example two}\label{example-two}
+
+\chapter{Final Words}\label{final-words}
+
+We have finished a nice book.
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}

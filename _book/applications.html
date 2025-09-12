@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Applications | A Technical Companion for BAN443</title>
+  <meta name="description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Applications | A Technical Companion for BAN443" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Applications | A Technical Companion for BAN443" />
+  
+  <meta name="twitter:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  
+
+<meta name="author" content="Eirik Berger Abel" />
+
+
+<meta name="date" content="2025-09-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="working-with-llms-through-apis.html"/>
+<link rel="next" href="exercises.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6KCKS5548F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6KCKS5548F');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BAN443: Transforming Business with AI</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome to BAN443</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-schedule"><i class="fa fa-check"></i><b>1.1</b> Course Schedule</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#compulsory-activity"><i class="fa fa-check"></i><b>1.2</b> Compulsory Activity</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.3</b> Assessment</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#course-overview"><i class="fa fa-check"></i><b>1.4</b> Course Overview</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#getting-started"><i class="fa fa-check"></i><b>1.5</b> Getting Started</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#contact-and-support"><i class="fa fa-check"></i><b>1.6</b> Contact and Support</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to Python</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#why-python-for-ai"><i class="fa fa-check"></i><b>2.1</b> Why Python for AI?</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#setting-up-your-environment"><i class="fa fa-check"></i><b>2.2</b> Setting Up Your Environment</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#option-1-google-colab-recommended-for-beginners"><i class="fa fa-check"></i><b>2.2.1</b> Option 1: Google Colab (Recommended for Beginners)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#option-2-local-installation"><i class="fa fa-check"></i><b>2.2.2</b> Option 2: Local Installation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#essential-python-concepts"><i class="fa fa-check"></i><b>2.3</b> Essential Python Concepts</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.3.1</b> Variables and Data Types</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#functions"><i class="fa fa-check"></i><b>2.3.2</b> Functions</a></li>
+<li class="chapter" data-level="2.3.3" data-path="intro.html"><a href="intro.html#installing-and-importing-packages"><i class="fa fa-check"></i><b>2.3.3</b> Installing and Importing Packages</a></li>
+<li class="chapter" data-level="2.3.4" data-path="intro.html"><a href="intro.html#working-with-data"><i class="fa fa-check"></i><b>2.3.4</b> Working with Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#working-with-apis"><i class="fa fa-check"></i><b>2.4</b> Working with APIs</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#what-is-an-api"><i class="fa fa-check"></i><b>2.4.1</b> What is an API?</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#example-of-using-api-to-get-got-quotes"><i class="fa fa-check"></i><b>2.4.2</b> Example of using API to get GoT quotes</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#working-with-json-objects"><i class="fa fa-check"></i><b>2.4.3</b> Working with JSON Objects</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#api-authentication"><i class="fa fa-check"></i><b>2.4.4</b> API Authentication</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#google-drive-integration"><i class="fa fa-check"></i><b>2.4.5</b> Google Drive Integration</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#want-to-learn-more"><i class="fa fa-check"></i><b>2.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#next-steps"><i class="fa fa-check"></i><b>2.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html"><i class="fa fa-check"></i><b>3</b> Understanding Large Language Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-are-large-language-models"><i class="fa fa-check"></i><b>3.1</b> What Are Large Language Models?</a></li>
+<li class="chapter" data-level="3.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-the-foundation"><i class="fa fa-check"></i><b>3.2</b> Neural Networks: The Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-is-a-neural-network"><i class="fa fa-check"></i><b>3.2.1</b> What is a Neural Network?</a></li>
+<li class="chapter" data-level="3.2.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-information-flows"><i class="fa fa-check"></i><b>3.2.2</b> How Information Flows</a></li>
+<li class="chapter" data-level="3.2.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression"><i class="fa fa-check"></i><b>3.2.3</b> Neural Networks vs. Traditional Regression</a></li>
+<li class="chapter" data-level="3.2.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-neural-networks-learn"><i class="fa fa-check"></i><b>3.2.4</b> How Neural Networks Learn</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#from-neural-networks-to-language-models"><i class="fa fa-check"></i><b>3.3</b> From Neural Networks to Language Models</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#the-language-modeling-task"><i class="fa fa-check"></i><b>3.3.1</b> The Language Modeling Task</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-language-models-work"><i class="fa fa-check"></i><b>3.4</b> How Language Models Work</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#tokenization-from-text-to-numbers"><i class="fa fa-check"></i><b>3.4.1</b> Tokenization: From Text to Numbers</a></li>
+<li class="chapter" data-level="3.4.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#training-large-language-models"><i class="fa fa-check"></i><b>3.4.2</b> Training Large Language Models</a></li>
+<li class="chapter" data-level="3.4.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-token-prediction-the-core-of-llms"><i class="fa fa-check"></i><b>3.4.3</b> Next Token Prediction: The Core of LLMs</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#want-to-learn-more-1"><i class="fa fa-check"></i><b>3.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="3.6" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-steps-1"><i class="fa fa-check"></i><b>3.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html"><i class="fa fa-check"></i><b>4</b> Working with LLMs through APIs</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-the-openai-packages"><i class="fa fa-check"></i><b>4.1</b> Using the OpenAI Packages</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation"><i class="fa fa-check"></i><b>4.1.1</b> Installation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#essential-package-imports"><i class="fa fa-check"></i><b>4.1.2</b> Essential Package Imports</a></li>
+<li class="chapter" data-level="4.1.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration"><i class="fa fa-check"></i><b>4.1.3</b> API Configuration</a></li>
+<li class="chapter" data-level="4.1.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion"><i class="fa fa-check"></i><b>4.1.4</b> Basic Chat Completion</a></li>
+<li class="chapter" data-level="4.1.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#message-object-structure"><i class="fa fa-check"></i><b>4.1.5</b> Message Object Structure</a></li>
+<li class="chapter" data-level="4.1.6" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction"><i class="fa fa-check"></i><b>4.1.6</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.1.7" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#creating-reusable-functions"><i class="fa fa-check"></i><b>4.1.7</b> Creating Reusable Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langchain"><i class="fa fa-check"></i><b>4.2</b> Using LangChain</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation-1"><i class="fa fa-check"></i><b>4.2.1</b> Installation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration-1"><i class="fa fa-check"></i><b>4.2.2</b> API Configuration</a></li>
+<li class="chapter" data-level="4.2.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion-and-message-structure"><i class="fa fa-check"></i><b>4.2.3</b> Basic Chat Completion and Message Structure</a></li>
+<li class="chapter" data-level="4.2.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction-1"><i class="fa fa-check"></i><b>4.2.4</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.2.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#prompt-templates"><i class="fa fa-check"></i><b>4.2.5</b> Prompt Templates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#data-extraction-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1</b> Data Extraction from the Norwegian National Library</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="applications.html"><a href="applications.html#setting-up-langchain-with-azure-openai"><i class="fa fa-check"></i><b>5.1.1</b> Setting up LangChain with Azure OpenAI</a></li>
+<li class="chapter" data-level="5.1.2" data-path="applications.html"><a href="applications.html#structured-data-extraction-2"><i class="fa fa-check"></i><b>5.1.2</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="5.1.3" data-path="applications.html"><a href="applications.html#fetching-data-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1.3</b> Fetching Data from the Norwegian National Library</a></li>
+<li class="chapter" data-level="5.1.4" data-path="applications.html"><a href="applications.html#batch-processing-with-caching"><i class="fa fa-check"></i><b>5.1.4</b> Batch Processing with Caching</a></li>
+<li class="chapter" data-level="5.1.5" data-path="applications.html"><a href="applications.html#converting-json-results-to-dataframe"><i class="fa fa-check"></i><b>5.1.5</b> Converting JSON Results to DataFrame</a></li>
+<li class="chapter" data-level="5.1.6" data-path="applications.html"><a href="applications.html#analyzing-occupation-data"><i class="fa fa-check"></i><b>5.1.6</b> Analyzing Occupation Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#web-search-and-tools-integration"><i class="fa fa-check"></i><b>5.2</b> Web Search and Tools Integration</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#basic-web-search-with-tavily"><i class="fa fa-check"></i><b>5.2.1</b> Basic Web Search with Tavily</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#agent-with-web-search-capabilities"><i class="fa fa-check"></i><b>5.2.2</b> Agent with Web Search Capabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#retrieval-augmented-generation-rag-systems"><i class="fa fa-check"></i><b>5.3</b> Retrieval-Augmented Generation (RAG) Systems</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="applications.html"><a href="applications.html#basic-rag-implementation"><i class="fa fa-check"></i><b>5.3.1</b> Basic RAG Implementation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="applications.html"><a href="applications.html#persistent-vector-database"><i class="fa fa-check"></i><b>5.3.2</b> Persistent Vector Database</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#company-data-extraction-from-brønnøysundregisteret"><i class="fa fa-check"></i><b>5.4</b> Company Data Extraction from Brønnøysundregisteret</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#lab-1"><i class="fa fa-check"></i><b>6.1</b> Lab 1</a></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#lab-2"><i class="fa fa-check"></i><b>6.2</b> Lab 2</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Technical Companion for BAN443</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="applications" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Applications<a href="applications.html#applications" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter demonstrates real-world applications of Large Language Models (LLMs) using the LangChain framework. We’ll explore various use cases ranging from data extraction from the Norwegian National Library to political analysis, web search integration, RAG systems, and automated company data extraction from Brønnøysundregisteret.</p>
+<p>All applications in this chapter use LangChain for their implementation, showcasing the framework’s capabilities for structured outputs, document processing, agent systems, and retrieval-augmented generation.</p>
+<p>Note that you might want to mount your Google Drive to Colab to save the results of your applications.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="applications.html#cb33-1" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb33-2"><a href="applications.html#cb33-2" aria-hidden="true"></a>drive.mount(<span class="st">&#39;/content/drive&#39;</span>)</span></code></pre></div>
+<p>This will mount your Google Drive at <code>/content/drive</code>. You can now access your files using the path <code>/content/drive/MyDrive/</code>.</p>
+<div id="data-extraction-from-the-norwegian-national-library" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Data Extraction from the Norwegian National Library<a href="applications.html#data-extraction-from-the-norwegian-national-library" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Norwegian National Library provides access to digitized historical documents through their API. This section demonstrates how to extract and structure information from these documents using LangChain.</p>
+<div id="setting-up-langchain-with-azure-openai" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Setting up LangChain with Azure OpenAI<a href="applications.html#setting-up-langchain-with-azure-openai" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="applications.html#cb34-1" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb34-2"><a href="applications.html#cb34-2" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb34-3"><a href="applications.html#cb34-3" aria-hidden="true"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb34-4"><a href="applications.html#cb34-4" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List</span>
+<span id="cb34-5"><a href="applications.html#cb34-5" aria-hidden="true"></a></span>
+<span id="cb34-6"><a href="applications.html#cb34-6" aria-hidden="true"></a><span class="co"># Initialize LangChain with Azure OpenAI</span></span>
+<span id="cb34-7"><a href="applications.html#cb34-7" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb34-8"><a href="applications.html#cb34-8" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb34-9"><a href="applications.html#cb34-9" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb34-10"><a href="applications.html#cb34-10" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb34-11"><a href="applications.html#cb34-11" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb34-12"><a href="applications.html#cb34-12" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb34-13"><a href="applications.html#cb34-13" aria-hidden="true"></a>)</span></code></pre></div>
+</div>
+<div id="structured-data-extraction-2" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Structured Data Extraction<a href="applications.html#structured-data-extraction-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="applications.html#cb35-1" aria-hidden="true"></a><span class="co"># Define Pydantic models for structured extraction</span></span>
+<span id="cb35-2"><a href="applications.html#cb35-2" aria-hidden="true"></a><span class="kw">class</span> entity(BaseModel):</span>
+<span id="cb35-3"><a href="applications.html#cb35-3" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Structure data about a person from noisy text.&quot;&quot;&quot;</span></span>
+<span id="cb35-4"><a href="applications.html#cb35-4" aria-hidden="true"></a>    surname: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(</span>
+<span id="cb35-5"><a href="applications.html#cb35-5" aria-hidden="true"></a>        default<span class="op">=</span><span class="va">None</span>, </span>
+<span id="cb35-6"><a href="applications.html#cb35-6" aria-hidden="true"></a>        description<span class="op">=</span><span class="st">&quot;The surname of a person. A dash indicates that the surname is same as last person (indicate this with &#39;-&#39;)&quot;</span></span>
+<span id="cb35-7"><a href="applications.html#cb35-7" aria-hidden="true"></a>    )</span>
+<span id="cb35-8"><a href="applications.html#cb35-8" aria-hidden="true"></a>    firstname: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(</span>
+<span id="cb35-9"><a href="applications.html#cb35-9" aria-hidden="true"></a>        default<span class="op">=</span><span class="va">None</span>, </span>
+<span id="cb35-10"><a href="applications.html#cb35-10" aria-hidden="true"></a>        description<span class="op">=</span><span class="st">&quot;The firstname of a person. Listed after a surname and a comma or a dash.&quot;</span></span>
+<span id="cb35-11"><a href="applications.html#cb35-11" aria-hidden="true"></a>    )</span>
+<span id="cb35-12"><a href="applications.html#cb35-12" aria-hidden="true"></a>    occupation: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(</span>
+<span id="cb35-13"><a href="applications.html#cb35-13" aria-hidden="true"></a>        default<span class="op">=</span><span class="va">None</span>, </span>
+<span id="cb35-14"><a href="applications.html#cb35-14" aria-hidden="true"></a>        description<span class="op">=</span><span class="st">&quot;The occupation of that person, not including firm names in parenthesis.&quot;</span></span>
+<span id="cb35-15"><a href="applications.html#cb35-15" aria-hidden="true"></a>    )</span>
+<span id="cb35-16"><a href="applications.html#cb35-16" aria-hidden="true"></a>    firm: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(</span>
+<span id="cb35-17"><a href="applications.html#cb35-17" aria-hidden="true"></a>        default<span class="op">=</span><span class="va">None</span>, </span>
+<span id="cb35-18"><a href="applications.html#cb35-18" aria-hidden="true"></a>        description<span class="op">=</span><span class="st">&quot;The firm that a person works at. It is included in parentheses (if at all).&quot;</span></span>
+<span id="cb35-19"><a href="applications.html#cb35-19" aria-hidden="true"></a>    )</span>
+<span id="cb35-20"><a href="applications.html#cb35-20" aria-hidden="true"></a>    address: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(</span>
+<span id="cb35-21"><a href="applications.html#cb35-21" aria-hidden="true"></a>        default<span class="op">=</span><span class="va">None</span>, </span>
+<span id="cb35-22"><a href="applications.html#cb35-22" aria-hidden="true"></a>        description<span class="op">=</span><span class="st">&quot;The place of residence for the person&quot;</span></span>
+<span id="cb35-23"><a href="applications.html#cb35-23" aria-hidden="true"></a>    )</span>
+<span id="cb35-24"><a href="applications.html#cb35-24" aria-hidden="true"></a></span>
+<span id="cb35-25"><a href="applications.html#cb35-25" aria-hidden="true"></a><span class="kw">class</span> entities(BaseModel):</span>
+<span id="cb35-26"><a href="applications.html#cb35-26" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Identifying information about all people in a text.&quot;&quot;&quot;</span></span>
+<span id="cb35-27"><a href="applications.html#cb35-27" aria-hidden="true"></a>    people: List[entity]</span>
+<span id="cb35-28"><a href="applications.html#cb35-28" aria-hidden="true"></a></span>
+<span id="cb35-29"><a href="applications.html#cb35-29" aria-hidden="true"></a><span class="co"># Create extraction prompt template</span></span>
+<span id="cb35-30"><a href="applications.html#cb35-30" aria-hidden="true"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb35-31"><a href="applications.html#cb35-31" aria-hidden="true"></a>    (</span>
+<span id="cb35-32"><a href="applications.html#cb35-32" aria-hidden="true"></a>        <span class="st">&quot;system&quot;</span>,</span>
+<span id="cb35-33"><a href="applications.html#cb35-33" aria-hidden="true"></a>        <span class="st">&quot;&quot;&quot;You are an expert at identifying information on individuals from address books.</span></span>
+<span id="cb35-34"><a href="applications.html#cb35-34" aria-hidden="true"></a><span class="st">        Only extract information on individuals and ignore what appears to be noise.</span></span>
+<span id="cb35-35"><a href="applications.html#cb35-35" aria-hidden="true"></a><span class="st">        Extract nothing if no important information can be found in the text.</span></span>
+<span id="cb35-36"><a href="applications.html#cb35-36" aria-hidden="true"></a><span class="st">        The content you see is from OCR scans of historical documents and will be noisy,</span></span>
+<span id="cb35-37"><a href="applications.html#cb35-37" aria-hidden="true"></a><span class="st">        so if there are obvious errors you can correct them in your response.</span></span>
+<span id="cb35-38"><a href="applications.html#cb35-38" aria-hidden="true"></a><span class="st">        If surname is indicated with a dash (&#39;-&#39;), then include this as surname, the rest of the name is in firstname.</span></span>
+<span id="cb35-39"><a href="applications.html#cb35-39" aria-hidden="true"></a><span class="st">        All names should start with upper case letters, while occupations start with lower case letters.</span></span>
+<span id="cb35-40"><a href="applications.html#cb35-40" aria-hidden="true"></a></span>
+<span id="cb35-41"><a href="applications.html#cb35-41" aria-hidden="true"></a><span class="st">        Firm names in parenthesis should not be included in the occupation, but in the firm variable.</span></span>
+<span id="cb35-42"><a href="applications.html#cb35-42" aria-hidden="true"></a><span class="st">        Everyone should have a firstname.</span></span>
+<span id="cb35-43"><a href="applications.html#cb35-43" aria-hidden="true"></a></span>
+<span id="cb35-44"><a href="applications.html#cb35-44" aria-hidden="true"></a><span class="st">        A typical observation in the book are like this:</span></span>
+<span id="cb35-45"><a href="applications.html#cb35-45" aria-hidden="true"></a><span class="st">        Berger, Eirik, forsker (SSB), Oscars gt. 999</span></span>
+<span id="cb35-46"><a href="applications.html#cb35-46" aria-hidden="true"></a><span class="st">        &quot;&quot;&quot;</span>,</span>
+<span id="cb35-47"><a href="applications.html#cb35-47" aria-hidden="true"></a>    ),</span>
+<span id="cb35-48"><a href="applications.html#cb35-48" aria-hidden="true"></a>    (<span class="st">&quot;human&quot;</span>, <span class="st">&quot;</span><span class="sc">{text}</span><span class="st">&quot;</span>),</span>
+<span id="cb35-49"><a href="applications.html#cb35-49" aria-hidden="true"></a>])</span>
+<span id="cb35-50"><a href="applications.html#cb35-50" aria-hidden="true"></a></span>
+<span id="cb35-51"><a href="applications.html#cb35-51" aria-hidden="true"></a><span class="co"># Create structured extraction chain</span></span>
+<span id="cb35-52"><a href="applications.html#cb35-52" aria-hidden="true"></a>extractor <span class="op">=</span> prompt <span class="op">|</span> client.with_structured_output(</span>
+<span id="cb35-53"><a href="applications.html#cb35-53" aria-hidden="true"></a>    schema<span class="op">=</span>entities,</span>
+<span id="cb35-54"><a href="applications.html#cb35-54" aria-hidden="true"></a>    include_raw<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb35-55"><a href="applications.html#cb35-55" aria-hidden="true"></a>)</span>
+<span id="cb35-56"><a href="applications.html#cb35-56" aria-hidden="true"></a></span>
+<span id="cb35-57"><a href="applications.html#cb35-57" aria-hidden="true"></a><span class="co"># Extract information from text</span></span>
+<span id="cb35-58"><a href="applications.html#cb35-58" aria-hidden="true"></a>response <span class="op">=</span> extractor.invoke(<span class="st">&quot;My name is Eirik Abel, and I was born in 1993. I am a student. There is another person named Barne Ollson who is 34 years old and lives in Bergen&quot;</span>)</span>
+<span id="cb35-59"><a href="applications.html#cb35-59" aria-hidden="true"></a><span class="bu">print</span>(response[<span class="st">&#39;parsed&#39;</span>].people[<span class="dv">0</span>].model_dump_json())</span></code></pre></div>
+</div>
+<div id="fetching-data-from-the-norwegian-national-library" class="section level3 hasAnchor" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Fetching Data from the Norwegian National Library<a href="applications.html#fetching-data-from-the-norwegian-national-library" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="applications.html#cb36-1" aria-hidden="true"></a><span class="op">!</span>pip install wget</span>
+<span id="cb36-2"><a href="applications.html#cb36-2" aria-hidden="true"></a><span class="op">!</span>pip install PyMuPDF</span>
+<span id="cb36-3"><a href="applications.html#cb36-3" aria-hidden="true"></a></span>
+<span id="cb36-4"><a href="applications.html#cb36-4" aria-hidden="true"></a><span class="im">import</span> wget</span>
+<span id="cb36-5"><a href="applications.html#cb36-5" aria-hidden="true"></a><span class="im">import</span> fitz</span>
+<span id="cb36-6"><a href="applications.html#cb36-6" aria-hidden="true"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> CharacterTextSplitter</span>
+<span id="cb36-7"><a href="applications.html#cb36-7" aria-hidden="true"></a></span>
+<span id="cb36-8"><a href="applications.html#cb36-8" aria-hidden="true"></a><span class="co"># Define the page range you want to extract from the National Library</span></span>
+<span id="cb36-9"><a href="applications.html#cb36-9" aria-hidden="true"></a>start_page <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb36-10"><a href="applications.html#cb36-10" aria-hidden="true"></a>end_page <span class="op">=</span> <span class="dv">520</span></span>
+<span id="cb36-11"><a href="applications.html#cb36-11" aria-hidden="true"></a></span>
+<span id="cb36-12"><a href="applications.html#cb36-12" aria-hidden="true"></a><span class="co"># Downloading a file from the Norwegian National Library</span></span>
+<span id="cb36-13"><a href="applications.html#cb36-13" aria-hidden="true"></a>url <span class="op">=</span> <span class="ss">f&quot;https://www.nb.no/services/downloader?urn=URN:NBN:no-nb_digitidsskrift_2019091381014_001&amp;resolutionlevel=4&amp;pg=</span><span class="sc">{</span>start_page<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>end_page<span class="sc">}</span><span class="ss">&amp;text=true&amp;filename=2024-10-06T1216_NB_generated&quot;</span></span>
+<span id="cb36-14"><a href="applications.html#cb36-14" aria-hidden="true"></a>wget.download(url, <span class="st">&quot;address_book.pdf&quot;</span>)</span>
+<span id="cb36-15"><a href="applications.html#cb36-15" aria-hidden="true"></a></span>
+<span id="cb36-16"><a href="applications.html#cb36-16" aria-hidden="true"></a><span class="co"># Extract text from PDF</span></span>
+<span id="cb36-17"><a href="applications.html#cb36-17" aria-hidden="true"></a>doc <span class="op">=</span> fitz.<span class="bu">open</span>(<span class="st">&quot;address_book.pdf&quot;</span>)</span>
+<span id="cb36-18"><a href="applications.html#cb36-18" aria-hidden="true"></a>all_text <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb36-19"><a href="applications.html#cb36-19" aria-hidden="true"></a><span class="cf">for</span> page_num <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, end_page <span class="op">-</span> start_page):</span>
+<span id="cb36-20"><a href="applications.html#cb36-20" aria-hidden="true"></a>    page <span class="op">=</span> doc.load_page(page_num)</span>
+<span id="cb36-21"><a href="applications.html#cb36-21" aria-hidden="true"></a>    all_text <span class="op">+=</span> page.get_text(<span class="st">&quot;text&quot;</span>)</span>
+<span id="cb36-22"><a href="applications.html#cb36-22" aria-hidden="true"></a></span>
+<span id="cb36-23"><a href="applications.html#cb36-23" aria-hidden="true"></a><span class="co"># Split text into manageable chunks</span></span>
+<span id="cb36-24"><a href="applications.html#cb36-24" aria-hidden="true"></a>text_splitter <span class="op">=</span> CharacterTextSplitter(</span>
+<span id="cb36-25"><a href="applications.html#cb36-25" aria-hidden="true"></a>    separator<span class="op">=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb36-26"><a href="applications.html#cb36-26" aria-hidden="true"></a>    chunk_size<span class="op">=</span><span class="dv">500</span>,</span>
+<span id="cb36-27"><a href="applications.html#cb36-27" aria-hidden="true"></a>    chunk_overlap<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb36-28"><a href="applications.html#cb36-28" aria-hidden="true"></a>    length_function<span class="op">=</span><span class="bu">len</span>,</span>
+<span id="cb36-29"><a href="applications.html#cb36-29" aria-hidden="true"></a>    is_separator_regex<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb36-30"><a href="applications.html#cb36-30" aria-hidden="true"></a>)</span>
+<span id="cb36-31"><a href="applications.html#cb36-31" aria-hidden="true"></a></span>
+<span id="cb36-32"><a href="applications.html#cb36-32" aria-hidden="true"></a>texts <span class="op">=</span> text_splitter.create_documents([all_text])</span>
+<span id="cb36-33"><a href="applications.html#cb36-33" aria-hidden="true"></a><span class="bu">print</span>(<span class="ss">f&quot;Created </span><span class="sc">{</span><span class="bu">len</span>(texts)<span class="sc">}</span><span class="ss"> text chunks from National Library data&quot;</span>)</span></code></pre></div>
+</div>
+<div id="batch-processing-with-caching" class="section level3 hasAnchor" number="5.1.4">
+<h3><span class="header-section-number">5.1.4</span> Batch Processing with Caching<a href="applications.html#batch-processing-with-caching" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Setting up caching. This means that the LLM will remember the results of the previous calls, so that it doesn’t have to re-compute the same thing.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="applications.html#cb37-1" aria-hidden="true"></a><span class="co"># Cache setup.</span></span>
+<span id="cb37-2"><a href="applications.html#cb37-2" aria-hidden="true"></a><span class="co"># https://python.langchain.com/docs/integrations/llm_caching/</span></span>
+<span id="cb37-3"><a href="applications.html#cb37-3" aria-hidden="true"></a><span class="im">from</span> langchain.<span class="bu">globals</span> <span class="im">import</span> set_llm_cache</span>
+<span id="cb37-4"><a href="applications.html#cb37-4" aria-hidden="true"></a></span>
+<span id="cb37-5"><a href="applications.html#cb37-5" aria-hidden="true"></a><span class="co">## Using in memory cache:</span></span>
+<span id="cb37-6"><a href="applications.html#cb37-6" aria-hidden="true"></a><span class="im">from</span> langchain_community.cache <span class="im">import</span> InMemoryCache</span>
+<span id="cb37-7"><a href="applications.html#cb37-7" aria-hidden="true"></a>set_llm_cache(InMemoryCache())</span>
+<span id="cb37-8"><a href="applications.html#cb37-8" aria-hidden="true"></a></span>
+<span id="cb37-9"><a href="applications.html#cb37-9" aria-hidden="true"></a><span class="co">## OR use SQLite cache:</span></span>
+<span id="cb37-10"><a href="applications.html#cb37-10" aria-hidden="true"></a><span class="co"># from langchain_community.cache import SQLiteCache</span></span>
+<span id="cb37-11"><a href="applications.html#cb37-11" aria-hidden="true"></a><span class="co"># set_llm_cache(SQLiteCache(database_path=&quot;.langchain.db&quot;))</span></span>
+<span id="cb37-12"><a href="applications.html#cb37-12" aria-hidden="true"></a></span>
+<span id="cb37-13"><a href="applications.html#cb37-13" aria-hidden="true"></a><span class="co"># Use either memory cache or SQLite cache.</span></span></code></pre></div>
+<p>Process 10 random chunks of text in parallel:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="applications.html#cb38-1" aria-hidden="true"></a><span class="im">import</span> random</span>
+<span id="cb38-2"><a href="applications.html#cb38-2" aria-hidden="true"></a>random.seed(<span class="dv">100</span>)</span>
+<span id="cb38-3"><a href="applications.html#cb38-3" aria-hidden="true"></a>random_elements <span class="op">=</span> random.sample(texts, <span class="dv">10</span>)</span>
+<span id="cb38-4"><a href="applications.html#cb38-4" aria-hidden="true"></a></span>
+<span id="cb38-5"><a href="applications.html#cb38-5" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Processing documents with caching enabled...&quot;</span>)</span>
+<span id="cb38-6"><a href="applications.html#cb38-6" aria-hidden="true"></a>extractions <span class="op">=</span> extractor.batch(</span>
+<span id="cb38-7"><a href="applications.html#cb38-7" aria-hidden="true"></a>    [{<span class="st">&quot;text&quot;</span>: text.page_content} <span class="cf">for</span> text <span class="kw">in</span> random_elements],</span>
+<span id="cb38-8"><a href="applications.html#cb38-8" aria-hidden="true"></a>    {<span class="st">&quot;max_concurrency&quot;</span>: <span class="dv">5</span>},</span>
+<span id="cb38-9"><a href="applications.html#cb38-9" aria-hidden="true"></a>)</span>
+<span id="cb38-10"><a href="applications.html#cb38-10" aria-hidden="true"></a><span class="bu">print</span>(<span class="ss">f&quot;Completed processing </span><span class="sc">{</span><span class="bu">len</span>(extractions)<span class="sc">}</span><span class="ss"> documents&quot;</span>)</span></code></pre></div>
+</div>
+<div id="converting-json-results-to-dataframe" class="section level3 hasAnchor" number="5.1.5">
+<h3><span class="header-section-number">5.1.5</span> Converting JSON Results to DataFrame<a href="applications.html#converting-json-results-to-dataframe" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Lets convert results from the batch results to a dataframe. We use the result from the batch extraction above. Note that this is the kind of tasks that chatgpt can help you produce code for if you just give it the object you want to convert.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="applications.html#cb39-1" aria-hidden="true"></a><span class="co"># For batch results, process all extractions</span></span>
+<span id="cb39-2"><a href="applications.html#cb39-2" aria-hidden="true"></a>df_list <span class="op">=</span> []</span>
+<span id="cb39-3"><a href="applications.html#cb39-3" aria-hidden="true"></a><span class="cf">for</span> index, result <span class="kw">in</span> <span class="bu">enumerate</span>(extractions):</span>
+<span id="cb39-4"><a href="applications.html#cb39-4" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb39-5"><a href="applications.html#cb39-5" aria-hidden="true"></a>        <span class="co"># Get the parsed JSON data</span></span>
+<span id="cb39-6"><a href="applications.html#cb39-6" aria-hidden="true"></a>        json_data <span class="op">=</span> result[<span class="st">&#39;parsed&#39;</span>].model_dump_json()</span>
+<span id="cb39-7"><a href="applications.html#cb39-7" aria-hidden="true"></a>        parsed_data <span class="op">=</span> json.loads(json_data)</span>
+<span id="cb39-8"><a href="applications.html#cb39-8" aria-hidden="true"></a>        </span>
+<span id="cb39-9"><a href="applications.html#cb39-9" aria-hidden="true"></a>        <span class="co"># Convert to DataFrame</span></span>
+<span id="cb39-10"><a href="applications.html#cb39-10" aria-hidden="true"></a>        df <span class="op">=</span> pd.json_normalize(parsed_data[<span class="st">&#39;people&#39;</span>])</span>
+<span id="cb39-11"><a href="applications.html#cb39-11" aria-hidden="true"></a>        df[<span class="st">&#39;file_index&#39;</span>] <span class="op">=</span> index</span>
+<span id="cb39-12"><a href="applications.html#cb39-12" aria-hidden="true"></a>        df_list.append(df)</span>
+<span id="cb39-13"><a href="applications.html#cb39-13" aria-hidden="true"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb39-14"><a href="applications.html#cb39-14" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Error processing document </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">: </span><span class="sc">{e}</span><span class="ss">&quot;</span>)</span>
+<span id="cb39-15"><a href="applications.html#cb39-15" aria-hidden="true"></a></span>
+<span id="cb39-16"><a href="applications.html#cb39-16" aria-hidden="true"></a><span class="co"># Combine all results</span></span>
+<span id="cb39-17"><a href="applications.html#cb39-17" aria-hidden="true"></a>combined_df <span class="op">=</span> pd.concat(df_list, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-18"><a href="applications.html#cb39-18" aria-hidden="true"></a><span class="bu">print</span>(<span class="ss">f&quot;</span><span class="ch">\n</span><span class="ss">Combined DataFrame shape: </span><span class="sc">{</span>combined_df<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb39-19"><a href="applications.html#cb39-19" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">First few rows:&quot;</span>)</span>
+<span id="cb39-20"><a href="applications.html#cb39-20" aria-hidden="true"></a><span class="bu">print</span>(combined_df.head())</span></code></pre></div>
+<p>Second, lets convert the response from a single element/answer to a dataframe.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="applications.html#cb40-1" aria-hidden="true"></a><span class="co"># Import</span></span>
+<span id="cb40-2"><a href="applications.html#cb40-2" aria-hidden="true"></a><span class="im">import</span> json</span>
+<span id="cb40-3"><a href="applications.html#cb40-3" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb40-4"><a href="applications.html#cb40-4" aria-hidden="true"></a></span>
+<span id="cb40-5"><a href="applications.html#cb40-5" aria-hidden="true"></a><span class="co"># Simple example: Convert a single extraction result to DataFrame</span></span>
+<span id="cb40-6"><a href="applications.html#cb40-6" aria-hidden="true"></a>sample_result <span class="op">=</span> extractor.invoke(<span class="st">&quot;Berger, Eirik, forsker (SSB), Oscars gt. 999&quot;</span>)</span>
+<span id="cb40-7"><a href="applications.html#cb40-7" aria-hidden="true"></a></span>
+<span id="cb40-8"><a href="applications.html#cb40-8" aria-hidden="true"></a><span class="co"># Extract the JSON data</span></span>
+<span id="cb40-9"><a href="applications.html#cb40-9" aria-hidden="true"></a>json_data <span class="op">=</span> sample_result[<span class="st">&#39;parsed&#39;</span>].model_dump_json()</span>
+<span id="cb40-10"><a href="applications.html#cb40-10" aria-hidden="true"></a>parsed_data <span class="op">=</span> json.loads(json_data)</span>
+<span id="cb40-11"><a href="applications.html#cb40-11" aria-hidden="true"></a></span>
+<span id="cb40-12"><a href="applications.html#cb40-12" aria-hidden="true"></a><span class="co"># Convert to DataFrame</span></span>
+<span id="cb40-13"><a href="applications.html#cb40-13" aria-hidden="true"></a>df <span class="op">=</span> pd.json_normalize(parsed_data[<span class="st">&#39;people&#39;</span>])</span>
+<span id="cb40-14"><a href="applications.html#cb40-14" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Sample DataFrame:&quot;</span>)</span>
+<span id="cb40-15"><a href="applications.html#cb40-15" aria-hidden="true"></a><span class="bu">print</span>(df)</span></code></pre></div>
+</div>
+<div id="analyzing-occupation-data" class="section level3 hasAnchor" number="5.1.6">
+<h3><span class="header-section-number">5.1.6</span> Analyzing Occupation Data<a href="applications.html#analyzing-occupation-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="applications.html#cb41-1" aria-hidden="true"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># helps make the figure</span></span>
+<span id="cb41-2"><a href="applications.html#cb41-2" aria-hidden="true"></a></span>
+<span id="cb41-3"><a href="applications.html#cb41-3" aria-hidden="true"></a><span class="co"># Clean and analyze occupation data</span></span>
+<span id="cb41-4"><a href="applications.html#cb41-4" aria-hidden="true"></a>occupation_data <span class="op">=</span> combined_df.dropna(subset<span class="op">=</span>[<span class="st">&#39;occupation&#39;</span>])</span>
+<span id="cb41-5"><a href="applications.html#cb41-5" aria-hidden="true"></a>occupation_counts <span class="op">=</span> occupation_data[<span class="st">&#39;occupation&#39;</span>].value_counts().head(<span class="dv">10</span>)</span>
+<span id="cb41-6"><a href="applications.html#cb41-6" aria-hidden="true"></a></span>
+<span id="cb41-7"><a href="applications.html#cb41-7" aria-hidden="true"></a><span class="bu">print</span>(<span class="st">&quot;Top 10 Most Common Occupations:&quot;</span>)</span>
+<span id="cb41-8"><a href="applications.html#cb41-8" aria-hidden="true"></a><span class="bu">print</span>(occupation_counts)</span>
+<span id="cb41-9"><a href="applications.html#cb41-9" aria-hidden="true"></a></span>
+<span id="cb41-10"><a href="applications.html#cb41-10" aria-hidden="true"></a><span class="co"># Create visualization</span></span>
+<span id="cb41-11"><a href="applications.html#cb41-11" aria-hidden="true"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb41-12"><a href="applications.html#cb41-12" aria-hidden="true"></a>occupation_counts.plot(kind<span class="op">=</span><span class="st">&#39;bar&#39;</span>, color<span class="op">=</span><span class="st">&#39;skyblue&#39;</span>, edgecolor<span class="op">=</span><span class="st">&#39;navy&#39;</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb41-13"><a href="applications.html#cb41-13" aria-hidden="true"></a>plt.title(<span class="st">&#39;Top 10 Most Common Occupations from Norwegian National Library Data&#39;</span>, </span>
+<span id="cb41-14"><a href="applications.html#cb41-14" aria-hidden="true"></a>          fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">&#39;bold&#39;</span>)</span>
+<span id="cb41-15"><a href="applications.html#cb41-15" aria-hidden="true"></a>plt.xlabel(<span class="st">&#39;Occupation&#39;</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb41-16"><a href="applications.html#cb41-16" aria-hidden="true"></a>plt.ylabel(<span class="st">&#39;Number of People&#39;</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb41-17"><a href="applications.html#cb41-17" aria-hidden="true"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">&#39;right&#39;</span>)</span>
+<span id="cb41-18"><a href="applications.html#cb41-18" aria-hidden="true"></a>plt.grid(axis<span class="op">=</span><span class="st">&#39;y&#39;</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb41-19"><a href="applications.html#cb41-19" aria-hidden="true"></a>plt.tight_layout()</span>
+<span id="cb41-20"><a href="applications.html#cb41-20" aria-hidden="true"></a>plt.show()</span>
+<span id="cb41-21"><a href="applications.html#cb41-21" aria-hidden="true"></a></span>
+<span id="cb41-22"><a href="applications.html#cb41-22" aria-hidden="true"></a><span class="co"># Additional analysis: Geographic distribution</span></span>
+<span id="cb41-23"><a href="applications.html#cb41-23" aria-hidden="true"></a><span class="cf">if</span> <span class="st">&#39;address&#39;</span> <span class="kw">in</span> combined_df.columns:</span>
+<span id="cb41-24"><a href="applications.html#cb41-24" aria-hidden="true"></a>    address_data <span class="op">=</span> combined_df.dropna(subset<span class="op">=</span>[<span class="st">&#39;address&#39;</span>])</span>
+<span id="cb41-25"><a href="applications.html#cb41-25" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="ch">\n</span><span class="ss">Geographic distribution (top 10):&quot;</span>)</span>
+<span id="cb41-26"><a href="applications.html#cb41-26" aria-hidden="true"></a>    <span class="bu">print</span>(address_data[<span class="st">&#39;address&#39;</span>].value_counts().head(<span class="dv">10</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="web-search-and-tools-integration" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Web Search and Tools Integration<a href="applications.html#web-search-and-tools-integration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>LangChain provides powerful tools for integrating web search and other external APIs into LLM workflows. We first need to get an API key for Tavily from their website (<a href="https://www.tavily.com/" class="uri">https://www.tavily.com/</a>).</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="applications.html#cb42-1" aria-hidden="true"></a><span class="im">import</span> os</span>
+<span id="cb42-2"><a href="applications.html#cb42-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb42-3"><a href="applications.html#cb42-3" aria-hidden="true"></a></span>
+<span id="cb42-4"><a href="applications.html#cb42-4" aria-hidden="true"></a><span class="op">!</span>pip install langchain_tavily</span>
+<span id="cb42-5"><a href="applications.html#cb42-5" aria-hidden="true"></a></span>
+<span id="cb42-6"><a href="applications.html#cb42-6" aria-hidden="true"></a>os.environ[<span class="st">&quot;TAVILY_API_KEY&quot;</span>] <span class="op">=</span> userdata.get(<span class="st">&#39;tavily&#39;</span>) <span class="co"># This is where you include your API key!</span></span></code></pre></div>
+<div id="basic-web-search-with-tavily" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Basic Web Search with Tavily<a href="applications.html#basic-web-search-with-tavily" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="applications.html#cb43-1" aria-hidden="true"></a><span class="im">from</span> langchain_tavily <span class="im">import</span> TavilySearch</span>
+<span id="cb43-2"><a href="applications.html#cb43-2" aria-hidden="true"></a></span>
+<span id="cb43-3"><a href="applications.html#cb43-3" aria-hidden="true"></a><span class="co"># Initialize search tool</span></span>
+<span id="cb43-4"><a href="applications.html#cb43-4" aria-hidden="true"></a>tool <span class="op">=</span> TavilySearch(max_results<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb43-5"><a href="applications.html#cb43-5" aria-hidden="true"></a>tools <span class="op">=</span> [tool]</span>
+<span id="cb43-6"><a href="applications.html#cb43-6" aria-hidden="true"></a></span>
+<span id="cb43-7"><a href="applications.html#cb43-7" aria-hidden="true"></a><span class="co"># Perform search</span></span>
+<span id="cb43-8"><a href="applications.html#cb43-8" aria-hidden="true"></a>search_results <span class="op">=</span> tool.invoke(<span class="st">&quot;What was the result of the football match between Norway and Moldova?&quot;</span>)</span>
+<span id="cb43-9"><a href="applications.html#cb43-9" aria-hidden="true"></a><span class="bu">print</span>(search_results)</span></code></pre></div>
+</div>
+<div id="agent-with-web-search-capabilities" class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Agent with Web Search Capabilities<a href="applications.html#agent-with-web-search-capabilities" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will now use the langgraph package to work with more advanced agentic systems. LangGraph is particularly useful for building conversational agents, RAG systems, and complex multi-step reasoning applications. Most of the examples where we use LangGraph is taken from their website (<a href="https://langchain-ai.github.io/langgraph/" class="uri">https://langchain-ai.github.io/langgraph/</a>). Start by installing it.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="applications.html#cb44-1" aria-hidden="true"></a><span class="op">!</span>pip install langgraph</span></code></pre></div>
+<p>Then, we can use the following code to build an agent with web search capabilities.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="applications.html#cb45-1" aria-hidden="true"></a><span class="im">from</span> langgraph.graph <span class="im">import</span> StateGraph, START, END</span>
+<span id="cb45-2"><a href="applications.html#cb45-2" aria-hidden="true"></a><span class="im">from</span> langgraph.graph.message <span class="im">import</span> add_messages</span>
+<span id="cb45-3"><a href="applications.html#cb45-3" aria-hidden="true"></a><span class="im">from</span> langgraph.prebuilt <span class="im">import</span> ToolNode, tools_condition</span>
+<span id="cb45-4"><a href="applications.html#cb45-4" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Annotated</span>
+<span id="cb45-5"><a href="applications.html#cb45-5" aria-hidden="true"></a><span class="im">from</span> typing_extensions <span class="im">import</span> TypedDict</span>
+<span id="cb45-6"><a href="applications.html#cb45-6" aria-hidden="true"></a></span>
+<span id="cb45-7"><a href="applications.html#cb45-7" aria-hidden="true"></a><span class="kw">class</span> State(TypedDict):</span>
+<span id="cb45-8"><a href="applications.html#cb45-8" aria-hidden="true"></a>    messages: Annotated[<span class="bu">list</span>, add_messages]</span>
+<span id="cb45-9"><a href="applications.html#cb45-9" aria-hidden="true"></a></span>
+<span id="cb45-10"><a href="applications.html#cb45-10" aria-hidden="true"></a><span class="co"># Create agent with search capabilities</span></span>
+<span id="cb45-11"><a href="applications.html#cb45-11" aria-hidden="true"></a>graph_builder <span class="op">=</span> StateGraph(State)</span>
+<span id="cb45-12"><a href="applications.html#cb45-12" aria-hidden="true"></a></span>
+<span id="cb45-13"><a href="applications.html#cb45-13" aria-hidden="true"></a>tool <span class="op">=</span> TavilySearch(max_results<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb45-14"><a href="applications.html#cb45-14" aria-hidden="true"></a>tools <span class="op">=</span> [tool]</span>
+<span id="cb45-15"><a href="applications.html#cb45-15" aria-hidden="true"></a>llm_with_tools <span class="op">=</span> client.bind_tools(tools)</span>
+<span id="cb45-16"><a href="applications.html#cb45-16" aria-hidden="true"></a></span>
+<span id="cb45-17"><a href="applications.html#cb45-17" aria-hidden="true"></a><span class="kw">def</span> chatbot(state: State):</span>
+<span id="cb45-18"><a href="applications.html#cb45-18" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;messages&quot;</span>: [llm_with_tools.invoke(state[<span class="st">&quot;messages&quot;</span>])]}</span>
+<span id="cb45-19"><a href="applications.html#cb45-19" aria-hidden="true"></a></span>
+<span id="cb45-20"><a href="applications.html#cb45-20" aria-hidden="true"></a>graph_builder.add_node(<span class="st">&quot;chatbot&quot;</span>, chatbot)</span>
+<span id="cb45-21"><a href="applications.html#cb45-21" aria-hidden="true"></a></span>
+<span id="cb45-22"><a href="applications.html#cb45-22" aria-hidden="true"></a>tool_node <span class="op">=</span> ToolNode(tools<span class="op">=</span>[tool])</span>
+<span id="cb45-23"><a href="applications.html#cb45-23" aria-hidden="true"></a>graph_builder.add_node(<span class="st">&quot;tools&quot;</span>, tool_node)</span>
+<span id="cb45-24"><a href="applications.html#cb45-24" aria-hidden="true"></a></span>
+<span id="cb45-25"><a href="applications.html#cb45-25" aria-hidden="true"></a>graph_builder.add_conditional_edges(</span>
+<span id="cb45-26"><a href="applications.html#cb45-26" aria-hidden="true"></a>    <span class="st">&quot;chatbot&quot;</span>,</span>
+<span id="cb45-27"><a href="applications.html#cb45-27" aria-hidden="true"></a>    tools_condition,</span>
+<span id="cb45-28"><a href="applications.html#cb45-28" aria-hidden="true"></a>)</span>
+<span id="cb45-29"><a href="applications.html#cb45-29" aria-hidden="true"></a>graph_builder.add_edge(<span class="st">&quot;tools&quot;</span>, <span class="st">&quot;chatbot&quot;</span>)</span>
+<span id="cb45-30"><a href="applications.html#cb45-30" aria-hidden="true"></a>graph_builder.add_edge(START, <span class="st">&quot;chatbot&quot;</span>)</span>
+<span id="cb45-31"><a href="applications.html#cb45-31" aria-hidden="true"></a>graph <span class="op">=</span> graph_builder.<span class="bu">compile</span>()</span>
+<span id="cb45-32"><a href="applications.html#cb45-32" aria-hidden="true"></a></span>
+<span id="cb45-33"><a href="applications.html#cb45-33" aria-hidden="true"></a><span class="co"># Use the agent</span></span>
+<span id="cb45-34"><a href="applications.html#cb45-34" aria-hidden="true"></a><span class="kw">def</span> stream_graph_updates(user_input: <span class="bu">str</span>):</span>
+<span id="cb45-35"><a href="applications.html#cb45-35" aria-hidden="true"></a>    <span class="cf">for</span> event <span class="kw">in</span> graph.stream({<span class="st">&quot;messages&quot;</span>: [{<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: user_input}]}):</span>
+<span id="cb45-36"><a href="applications.html#cb45-36" aria-hidden="true"></a>        <span class="cf">for</span> value <span class="kw">in</span> event.values():</span>
+<span id="cb45-37"><a href="applications.html#cb45-37" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Assistant:&quot;</span>, value[<span class="st">&quot;messages&quot;</span>][<span class="op">-</span><span class="dv">1</span>].content)</span>
+<span id="cb45-38"><a href="applications.html#cb45-38" aria-hidden="true"></a></span>
+<span id="cb45-39"><a href="applications.html#cb45-39" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb45-40"><a href="applications.html#cb45-40" aria-hidden="true"></a>stream_graph_updates(<span class="st">&quot;What&#39;s the latest news about NHH?&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="retrieval-augmented-generation-rag-systems" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Retrieval-Augmented Generation (RAG) Systems<a href="applications.html#retrieval-augmented-generation-rag-systems" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next we want to create a RAG system. We often want to give our LLMs more knowledge and data to work with. This can be done by 1) Training the model with more data, 2) Including data directly in the prompt, or 3) Using a RAG system. As option 1 is often expensive and option 2 is often too limiting, option 3 has become popular. Note however that we need an embedding model to make this work, which we don’t have an API key for this class yet. You can create your own API key at <a href="https://platform.openai.com/" class="uri">https://platform.openai.com/</a> if you want to try it out, but note that it cost money depending on how much you use it (although not much).</p>
+<div id="basic-rag-implementation" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Basic RAG Implementation<a href="applications.html#basic-rag-implementation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="applications.html#cb46-1" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> OpenAIEmbeddings, ChatOpenAI</span>
+<span id="cb46-2"><a href="applications.html#cb46-2" aria-hidden="true"></a><span class="im">from</span> langchain_core.vectorstores <span class="im">import</span> InMemoryVectorStore</span>
+<span id="cb46-3"><a href="applications.html#cb46-3" aria-hidden="true"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> RecursiveCharacterTextSplitter</span>
+<span id="cb46-4"><a href="applications.html#cb46-4" aria-hidden="true"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> WebBaseLoader</span>
+<span id="cb46-5"><a href="applications.html#cb46-5" aria-hidden="true"></a><span class="im">from</span> langgraph.graph <span class="im">import</span> START, StateGraph, END</span>
+<span id="cb46-6"><a href="applications.html#cb46-6" aria-hidden="true"></a><span class="im">from</span> typing_extensions <span class="im">import</span> List, TypedDict</span>
+<span id="cb46-7"><a href="applications.html#cb46-7" aria-hidden="true"></a><span class="im">from</span> langchain_core.documents <span class="im">import</span> Document</span>
+<span id="cb46-8"><a href="applications.html#cb46-8" aria-hidden="true"></a><span class="im">import</span> bs4</span>
+<span id="cb46-9"><a href="applications.html#cb46-9" aria-hidden="true"></a><span class="im">from</span> langchain <span class="im">import</span> hub</span>
+<span id="cb46-10"><a href="applications.html#cb46-10" aria-hidden="true"></a></span>
+<span id="cb46-11"><a href="applications.html#cb46-11" aria-hidden="true"></a><span class="co"># Setup embeddings and vector store</span></span>
+<span id="cb46-12"><a href="applications.html#cb46-12" aria-hidden="true"></a>client <span class="op">=</span> ChatOpenAI(api_key<span class="op">=</span>userdata.get(<span class="st">&#39;new_openai&#39;</span>), model<span class="op">=</span><span class="st">&quot;gpt-4o-mini&quot;</span>)</span>
+<span id="cb46-13"><a href="applications.html#cb46-13" aria-hidden="true"></a>embeddings <span class="op">=</span> OpenAIEmbeddings(api_key<span class="op">=</span>userdata.get(<span class="st">&#39;new_openai&#39;</span>))</span>
+<span id="cb46-14"><a href="applications.html#cb46-14" aria-hidden="true"></a>vector_store <span class="op">=</span> InMemoryVectorStore(embeddings)</span>
+<span id="cb46-15"><a href="applications.html#cb46-15" aria-hidden="true"></a></span>
+<span id="cb46-16"><a href="applications.html#cb46-16" aria-hidden="true"></a><span class="co"># Load and chunk documents</span></span>
+<span id="cb46-17"><a href="applications.html#cb46-17" aria-hidden="true"></a>loader <span class="op">=</span> WebBaseLoader(</span>
+<span id="cb46-18"><a href="applications.html#cb46-18" aria-hidden="true"></a>    web_paths<span class="op">=</span>(<span class="st">&quot;https://nhhs.no/nhhs-fra-a-til-a/&quot;</span>,<span class="st">&quot;https://nhhs.no/interessegrupper/&quot;</span>, <span class="st">&quot;https://www.dn.no/&quot;</span>),</span>
+<span id="cb46-19"><a href="applications.html#cb46-19" aria-hidden="true"></a>    bs_kwargs<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb46-20"><a href="applications.html#cb46-20" aria-hidden="true"></a>        parse_only<span class="op">=</span>bs4.SoupStrainer(</span>
+<span id="cb46-21"><a href="applications.html#cb46-21" aria-hidden="true"></a>            class_<span class="op">=</span>(<span class="st">&quot;post-content&quot;</span>, <span class="st">&quot;post-title&quot;</span>, <span class="st">&quot;post-header&quot;</span>)</span>
+<span id="cb46-22"><a href="applications.html#cb46-22" aria-hidden="true"></a>        )</span>
+<span id="cb46-23"><a href="applications.html#cb46-23" aria-hidden="true"></a>    ),</span>
+<span id="cb46-24"><a href="applications.html#cb46-24" aria-hidden="true"></a>)</span>
+<span id="cb46-25"><a href="applications.html#cb46-25" aria-hidden="true"></a>docs <span class="op">=</span> loader.load()</span>
+<span id="cb46-26"><a href="applications.html#cb46-26" aria-hidden="true"></a></span>
+<span id="cb46-27"><a href="applications.html#cb46-27" aria-hidden="true"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">1000</span>, chunk_overlap<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb46-28"><a href="applications.html#cb46-28" aria-hidden="true"></a>all_splits <span class="op">=</span> text_splitter.split_documents(docs)</span>
+<span id="cb46-29"><a href="applications.html#cb46-29" aria-hidden="true"></a></span>
+<span id="cb46-30"><a href="applications.html#cb46-30" aria-hidden="true"></a><span class="co"># Index chunks</span></span>
+<span id="cb46-31"><a href="applications.html#cb46-31" aria-hidden="true"></a>_ <span class="op">=</span> vector_store.add_documents(documents<span class="op">=</span>all_splits)</span>
+<span id="cb46-32"><a href="applications.html#cb46-32" aria-hidden="true"></a></span>
+<span id="cb46-33"><a href="applications.html#cb46-33" aria-hidden="true"></a><span class="co"># Define prompt for question-answering</span></span>
+<span id="cb46-34"><a href="applications.html#cb46-34" aria-hidden="true"></a><span class="co"># Pull a pre-built RAG prompt template from LangChain Hub</span></span>
+<span id="cb46-35"><a href="applications.html#cb46-35" aria-hidden="true"></a><span class="co"># This prompt is specifically designed for retrieval-augmented generation (RAG) tasks</span></span>
+<span id="cb46-36"><a href="applications.html#cb46-36" aria-hidden="true"></a><span class="co"># It includes placeholders for question and context that will be filled in during execution</span></span>
+<span id="cb46-37"><a href="applications.html#cb46-37" aria-hidden="true"></a>prompt <span class="op">=</span> hub.pull(<span class="st">&quot;rlm/rag-prompt&quot;</span>)</span>
+<span id="cb46-38"><a href="applications.html#cb46-38" aria-hidden="true"></a></span>
+<span id="cb46-39"><a href="applications.html#cb46-39" aria-hidden="true"></a><span class="co"># Define RAG state</span></span>
+<span id="cb46-40"><a href="applications.html#cb46-40" aria-hidden="true"></a><span class="kw">class</span> State(TypedDict):</span>
+<span id="cb46-41"><a href="applications.html#cb46-41" aria-hidden="true"></a>    question: <span class="bu">str</span></span>
+<span id="cb46-42"><a href="applications.html#cb46-42" aria-hidden="true"></a>    context: List[Document]</span>
+<span id="cb46-43"><a href="applications.html#cb46-43" aria-hidden="true"></a>    answer: <span class="bu">str</span></span>
+<span id="cb46-44"><a href="applications.html#cb46-44" aria-hidden="true"></a></span>
+<span id="cb46-45"><a href="applications.html#cb46-45" aria-hidden="true"></a><span class="co"># Define RAG functions</span></span>
+<span id="cb46-46"><a href="applications.html#cb46-46" aria-hidden="true"></a><span class="kw">def</span> retrieve(state: State):</span>
+<span id="cb46-47"><a href="applications.html#cb46-47" aria-hidden="true"></a>    retrieved_docs <span class="op">=</span> vector_store.similarity_search(state[<span class="st">&quot;question&quot;</span>])</span>
+<span id="cb46-48"><a href="applications.html#cb46-48" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;context&quot;</span>: retrieved_docs}</span>
+<span id="cb46-49"><a href="applications.html#cb46-49" aria-hidden="true"></a></span>
+<span id="cb46-50"><a href="applications.html#cb46-50" aria-hidden="true"></a><span class="kw">def</span> generate(state: State):</span>
+<span id="cb46-51"><a href="applications.html#cb46-51" aria-hidden="true"></a>    docs_content <span class="op">=</span> <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span>.join(doc.page_content <span class="cf">for</span> doc <span class="kw">in</span> state[<span class="st">&quot;context&quot;</span>])</span>
+<span id="cb46-52"><a href="applications.html#cb46-52" aria-hidden="true"></a>    messages <span class="op">=</span> prompt.invoke({<span class="st">&quot;question&quot;</span>: state[<span class="st">&quot;question&quot;</span>], <span class="st">&quot;context&quot;</span>: docs_content})</span>
+<span id="cb46-53"><a href="applications.html#cb46-53" aria-hidden="true"></a>    response <span class="op">=</span> client.invoke(messages)</span>
+<span id="cb46-54"><a href="applications.html#cb46-54" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;answer&quot;</span>: response.content}</span>
+<span id="cb46-55"><a href="applications.html#cb46-55" aria-hidden="true"></a></span>
+<span id="cb46-56"><a href="applications.html#cb46-56" aria-hidden="true"></a><span class="co"># Build RAG graph</span></span>
+<span id="cb46-57"><a href="applications.html#cb46-57" aria-hidden="true"></a>builder <span class="op">=</span> StateGraph(State)</span>
+<span id="cb46-58"><a href="applications.html#cb46-58" aria-hidden="true"></a>builder.add_node(<span class="st">&quot;retrieve&quot;</span>, retrieve)</span>
+<span id="cb46-59"><a href="applications.html#cb46-59" aria-hidden="true"></a>builder.add_node(<span class="st">&quot;generate&quot;</span>, generate)</span>
+<span id="cb46-60"><a href="applications.html#cb46-60" aria-hidden="true"></a>builder.add_edge(START, <span class="st">&quot;retrieve&quot;</span>)</span>
+<span id="cb46-61"><a href="applications.html#cb46-61" aria-hidden="true"></a>builder.add_edge(<span class="st">&quot;retrieve&quot;</span>, <span class="st">&quot;generate&quot;</span>)</span>
+<span id="cb46-62"><a href="applications.html#cb46-62" aria-hidden="true"></a>builder.add_edge(<span class="st">&quot;generate&quot;</span>, END)</span>
+<span id="cb46-63"><a href="applications.html#cb46-63" aria-hidden="true"></a>graph <span class="op">=</span> builder.<span class="bu">compile</span>()</span>
+<span id="cb46-64"><a href="applications.html#cb46-64" aria-hidden="true"></a></span>
+<span id="cb46-65"><a href="applications.html#cb46-65" aria-hidden="true"></a><span class="co"># Use RAG system</span></span>
+<span id="cb46-66"><a href="applications.html#cb46-66" aria-hidden="true"></a>response <span class="op">=</span> graph.invoke({<span class="st">&quot;question&quot;</span>: <span class="st">&quot;What&#39;s &#39;ASAP&#39;? Answer in english.&quot;</span>})</span>
+<span id="cb46-67"><a href="applications.html#cb46-67" aria-hidden="true"></a><span class="bu">print</span>(response[<span class="st">&quot;answer&quot;</span>])</span></code></pre></div>
+</div>
+<div id="persistent-vector-database" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Persistent Vector Database<a href="applications.html#persistent-vector-database" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The last example created a vector database in memory, which will dissapear once we end our notebook session. We can instead save the database to a file, so that it persists between sessions.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="applications.html#cb47-1" aria-hidden="true"></a><span class="op">!</span>pip install <span class="op">-</span>U langchain<span class="op">-</span>chroma chromadb</span>
+<span id="cb47-2"><a href="applications.html#cb47-2" aria-hidden="true"></a><span class="im">from</span> langchain_community.vectorstores <span class="im">import</span> Chroma</span>
+<span id="cb47-3"><a href="applications.html#cb47-3" aria-hidden="true"></a></span>
+<span id="cb47-4"><a href="applications.html#cb47-4" aria-hidden="true"></a><span class="co"># Choose a stable collection name + persist dir</span></span>
+<span id="cb47-5"><a href="applications.html#cb47-5" aria-hidden="true"></a>collection_name <span class="op">=</span> <span class="st">&quot;nhhs_docs&quot;</span></span>
+<span id="cb47-6"><a href="applications.html#cb47-6" aria-hidden="true"></a>persist_dir <span class="op">=</span> <span class="st">&quot;./chroma_db&quot;</span></span>
+<span id="cb47-7"><a href="applications.html#cb47-7" aria-hidden="true"></a></span>
+<span id="cb47-8"><a href="applications.html#cb47-8" aria-hidden="true"></a><span class="co"># --- Create / upsert (auto-persisted; no .persist() needed) ---</span></span>
+<span id="cb47-9"><a href="applications.html#cb47-9" aria-hidden="true"></a>vector_store <span class="op">=</span> Chroma.from_documents(</span>
+<span id="cb47-10"><a href="applications.html#cb47-10" aria-hidden="true"></a>    documents<span class="op">=</span>all_splits,</span>
+<span id="cb47-11"><a href="applications.html#cb47-11" aria-hidden="true"></a>    embedding<span class="op">=</span>embeddings,</span>
+<span id="cb47-12"><a href="applications.html#cb47-12" aria-hidden="true"></a>    collection_name<span class="op">=</span>collection_name,</span>
+<span id="cb47-13"><a href="applications.html#cb47-13" aria-hidden="true"></a>    persist_directory<span class="op">=</span>persist_dir,</span>
+<span id="cb47-14"><a href="applications.html#cb47-14" aria-hidden="true"></a>)</span>
+<span id="cb47-15"><a href="applications.html#cb47-15" aria-hidden="true"></a></span>
+<span id="cb47-16"><a href="applications.html#cb47-16" aria-hidden="true"></a><span class="co"># --- Load an existing DB later ---</span></span>
+<span id="cb47-17"><a href="applications.html#cb47-17" aria-hidden="true"></a>vector_store <span class="op">=</span> Chroma(</span>
+<span id="cb47-18"><a href="applications.html#cb47-18" aria-hidden="true"></a>    collection_name<span class="op">=</span>collection_name,</span>
+<span id="cb47-19"><a href="applications.html#cb47-19" aria-hidden="true"></a>    persist_directory<span class="op">=</span>persist_dir,</span>
+<span id="cb47-20"><a href="applications.html#cb47-20" aria-hidden="true"></a>    embedding_function<span class="op">=</span>embeddings,</span>
+<span id="cb47-21"><a href="applications.html#cb47-21" aria-hidden="true"></a>)</span>
+<span id="cb47-22"><a href="applications.html#cb47-22" aria-hidden="true"></a></span>
+<span id="cb47-23"><a href="applications.html#cb47-23" aria-hidden="true"></a><span class="co"># --- Query or use it in the RAG system ---</span></span>
+<span id="cb47-24"><a href="applications.html#cb47-24" aria-hidden="true"></a>results <span class="op">=</span> vector_store.similarity_search(<span class="st">&quot;NHH student groups&quot;</span>, k<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb47-25"><a href="applications.html#cb47-25" aria-hidden="true"></a><span class="cf">for</span> doc <span class="kw">in</span> results:</span>
+<span id="cb47-26"><a href="applications.html#cb47-26" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Content: </span><span class="sc">{</span>doc<span class="sc">.</span>page_content[:<span class="dv">200</span>]<span class="sc">}</span><span class="ss">...&quot;</span>)</span>
+<span id="cb47-27"><a href="applications.html#cb47-27" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Source: </span><span class="sc">{</span>doc<span class="sc">.</span>metadata<span class="sc">.</span>get(<span class="st">&#39;source&#39;</span>, <span class="st">&#39;Unknown&#39;</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb47-28"><a href="applications.html#cb47-28" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="st">&quot;---&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="company-data-extraction-from-brønnøysundregisteret" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Company Data Extraction from Brønnøysundregisteret<a href="applications.html#company-data-extraction-from-brønnøysundregisteret" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This section demonstrates automated extraction of financial and employee data from company annual reports using LangChain’s structured output capabilities. This is a potentially very valuable application in a long range of sectors. This is quite complex compared that what we have previously looked at, but it’s not expected that you understand all of this code. Its mainly a showcase of what is possible with LLMs, and if you would want to do something similar, then you could use this as a starting point.</p>
+<p>I first get data from their open API. Then I create functions to downloade the annual reports, and extract the employee data. Finally, I plot the results.</p>
+<p>Overview of the process:
+1) data = get_regnskap(“990412987”) # API data
+regnskap = regnskap_to_df(data)
+2) download_annual_reports(“990412987”, 2020, 2025) # PDFs + OCR if needed
+3) df_all = collect_employees(“reports/990412987”) # LLM extracts employees
+4) plot_employees(df_all, title=“Stavanger Aftenblad”)</p>
+<p>Let’s first create functions for everything we are going to do.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="applications.html#cb48-1" aria-hidden="true"></a><span class="im">import</span> os</span>
+<span id="cb48-2"><a href="applications.html#cb48-2" aria-hidden="true"></a><span class="im">import</span> io</span>
+<span id="cb48-3"><a href="applications.html#cb48-3" aria-hidden="true"></a><span class="im">import</span> re</span>
+<span id="cb48-4"><a href="applications.html#cb48-4" aria-hidden="true"></a><span class="im">import</span> time</span>
+<span id="cb48-5"><a href="applications.html#cb48-5" aria-hidden="true"></a><span class="im">import</span> shutil</span>
+<span id="cb48-6"><a href="applications.html#cb48-6" aria-hidden="true"></a><span class="im">import</span> subprocess</span>
+<span id="cb48-7"><a href="applications.html#cb48-7" aria-hidden="true"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb48-8"><a href="applications.html#cb48-8" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List, Iterable, Tuple, Union</span>
+<span id="cb48-9"><a href="applications.html#cb48-9" aria-hidden="true"></a></span>
+<span id="cb48-10"><a href="applications.html#cb48-10" aria-hidden="true"></a><span class="im">import</span> requests</span>
+<span id="cb48-11"><a href="applications.html#cb48-11" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb48-12"><a href="applications.html#cb48-12" aria-hidden="true"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb48-13"><a href="applications.html#cb48-13" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb48-14"><a href="applications.html#cb48-14" aria-hidden="true"></a></span>
+<span id="cb48-15"><a href="applications.html#cb48-15" aria-hidden="true"></a><span class="co"># PDF parsing</span></span>
+<span id="cb48-16"><a href="applications.html#cb48-16" aria-hidden="true"></a><span class="cf">try</span>:</span>
+<span id="cb48-17"><a href="applications.html#cb48-17" aria-hidden="true"></a>    <span class="im">from</span> pypdf <span class="im">import</span> PdfReader, PdfWriter</span>
+<span id="cb48-18"><a href="applications.html#cb48-18" aria-hidden="true"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-19"><a href="applications.html#cb48-19" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb48-20"><a href="applications.html#cb48-20" aria-hidden="true"></a>        <span class="im">from</span> PyPDF2 <span class="im">import</span> PdfReader, PdfWriter  <span class="co"># fallback</span></span>
+<span id="cb48-21"><a href="applications.html#cb48-21" aria-hidden="true"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-22"><a href="applications.html#cb48-22" aria-hidden="true"></a>        PdfReader <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb48-23"><a href="applications.html#cb48-23" aria-hidden="true"></a>        PdfWriter <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb48-24"><a href="applications.html#cb48-24" aria-hidden="true"></a></span>
+<span id="cb48-25"><a href="applications.html#cb48-25" aria-hidden="true"></a><span class="co"># LLM + PDF loading</span></span>
+<span id="cb48-26"><a href="applications.html#cb48-26" aria-hidden="true"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb48-27"><a href="applications.html#cb48-27" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb48-28"><a href="applications.html#cb48-28" aria-hidden="true"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> PyPDFLoader</span>
+<span id="cb48-29"><a href="applications.html#cb48-29" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb48-30"><a href="applications.html#cb48-30" aria-hidden="true"></a></span>
+<span id="cb48-31"><a href="applications.html#cb48-31" aria-hidden="true"></a><span class="co"># ---------</span></span>
+<span id="cb48-32"><a href="applications.html#cb48-32" aria-hidden="true"></a><span class="co"># Config</span></span>
+<span id="cb48-33"><a href="applications.html#cb48-33" aria-hidden="true"></a><span class="co"># ---------</span></span>
+<span id="cb48-34"><a href="applications.html#cb48-34" aria-hidden="true"></a>BASE_URL <span class="op">=</span> <span class="st">&quot;https://data.brreg.no/regnskapsregisteret/regnskap/aarsregnskap/kopi/</span><span class="sc">{orgnr}</span><span class="st">/</span><span class="sc">{year}</span><span class="st">&quot;</span></span>
+<span id="cb48-35"><a href="applications.html#cb48-35" aria-hidden="true"></a>USER_AGENT <span class="op">=</span> <span class="st">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 &quot;</span>\</span>
+<span id="cb48-36"><a href="applications.html#cb48-36" aria-hidden="true"></a>             <span class="st">&quot;(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36&quot;</span></span>
+<span id="cb48-37"><a href="applications.html#cb48-37" aria-hidden="true"></a></span>
+<span id="cb48-38"><a href="applications.html#cb48-38" aria-hidden="true"></a><span class="co"># -------------</span></span>
+<span id="cb48-39"><a href="applications.html#cb48-39" aria-hidden="true"></a><span class="co"># Utilities</span></span>
+<span id="cb48-40"><a href="applications.html#cb48-40" aria-hidden="true"></a><span class="co"># -------------</span></span>
+<span id="cb48-41"><a href="applications.html#cb48-41" aria-hidden="true"></a><span class="kw">def</span> sanitize_orgnr(orgnr: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb48-42"><a href="applications.html#cb48-42" aria-hidden="true"></a>    digits <span class="op">=</span> re.sub(<span class="vs">r&quot;\D+&quot;</span>, <span class="st">&quot;&quot;</span>, orgnr)</span>
+<span id="cb48-43"><a href="applications.html#cb48-43" aria-hidden="true"></a>    <span class="cf">if</span> <span class="bu">len</span>(digits) <span class="op">&lt;</span> <span class="dv">7</span>:</span>
+<span id="cb48-44"><a href="applications.html#cb48-44" aria-hidden="true"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f&quot;orgnr looks wrong: </span><span class="sc">{</span>orgnr<span class="sc">!r}</span><span class="ss">&quot;</span>)</span>
+<span id="cb48-45"><a href="applications.html#cb48-45" aria-hidden="true"></a>    <span class="cf">return</span> digits</span>
+<span id="cb48-46"><a href="applications.html#cb48-46" aria-hidden="true"></a></span>
+<span id="cb48-47"><a href="applications.html#cb48-47" aria-hidden="true"></a><span class="kw">def</span> ensure_dir(path: Union[<span class="bu">str</span>, Path]) <span class="op">-&gt;</span> Path:</span>
+<span id="cb48-48"><a href="applications.html#cb48-48" aria-hidden="true"></a>    p <span class="op">=</span> Path(path)</span>
+<span id="cb48-49"><a href="applications.html#cb48-49" aria-hidden="true"></a>    p.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb48-50"><a href="applications.html#cb48-50" aria-hidden="true"></a>    <span class="cf">return</span> p</span>
+<span id="cb48-51"><a href="applications.html#cb48-51" aria-hidden="true"></a></span>
+<span id="cb48-52"><a href="applications.html#cb48-52" aria-hidden="true"></a><span class="kw">def</span> have(cmd: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb48-53"><a href="applications.html#cb48-53" aria-hidden="true"></a>    <span class="cf">return</span> shutil.which(cmd) <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
+<span id="cb48-54"><a href="applications.html#cb48-54" aria-hidden="true"></a></span>
+<span id="cb48-55"><a href="applications.html#cb48-55" aria-hidden="true"></a><span class="kw">def</span> http_get_pdf(url: <span class="bu">str</span>, timeout: <span class="bu">int</span> <span class="op">=</span> <span class="dv">30</span>) <span class="op">-&gt;</span> <span class="bu">bytes</span>:</span>
+<span id="cb48-56"><a href="applications.html#cb48-56" aria-hidden="true"></a>    headers <span class="op">=</span> {</span>
+<span id="cb48-57"><a href="applications.html#cb48-57" aria-hidden="true"></a>        <span class="st">&quot;User-Agent&quot;</span>: USER_AGENT,</span>
+<span id="cb48-58"><a href="applications.html#cb48-58" aria-hidden="true"></a>        <span class="st">&quot;Accept&quot;</span>: <span class="st">&quot;application/pdf,application/octet-stream;q=0.9,*/*;q=0.8&quot;</span>,</span>
+<span id="cb48-59"><a href="applications.html#cb48-59" aria-hidden="true"></a>        <span class="st">&quot;Accept-Language&quot;</span>: <span class="st">&quot;nb-NO,nb;q=0.9,no;q=0.8,en-US;q=0.7,en;q=0.6&quot;</span>,</span>
+<span id="cb48-60"><a href="applications.html#cb48-60" aria-hidden="true"></a>    }</span>
+<span id="cb48-61"><a href="applications.html#cb48-61" aria-hidden="true"></a>    r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span>timeout, allow_redirects<span class="op">=</span><span class="va">True</span>, stream<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb48-62"><a href="applications.html#cb48-62" aria-hidden="true"></a>    ctype <span class="op">=</span> (r.headers.get(<span class="st">&quot;Content-Type&quot;</span>) <span class="kw">or</span> <span class="st">&quot;&quot;</span>).lower()</span>
+<span id="cb48-63"><a href="applications.html#cb48-63" aria-hidden="true"></a>    <span class="cf">if</span> r.status_code <span class="op">==</span> <span class="dv">200</span> <span class="kw">and</span> (<span class="st">&quot;pdf&quot;</span> <span class="kw">in</span> ctype <span class="kw">or</span> <span class="st">&quot;octet-stream&quot;</span> <span class="kw">in</span> ctype <span class="kw">or</span> ctype <span class="op">==</span> <span class="st">&quot;&quot;</span>):</span>
+<span id="cb48-64"><a href="applications.html#cb48-64" aria-hidden="true"></a>        <span class="cf">return</span> r.content</span>
+<span id="cb48-65"><a href="applications.html#cb48-65" aria-hidden="true"></a>    r.raise_for_status()</span>
+<span id="cb48-66"><a href="applications.html#cb48-66" aria-hidden="true"></a>    <span class="cf">return</span> r.content  <span class="co"># defensive</span></span>
+<span id="cb48-67"><a href="applications.html#cb48-67" aria-hidden="true"></a></span>
+<span id="cb48-68"><a href="applications.html#cb48-68" aria-hidden="true"></a><span class="kw">def</span> has_extractable_text(pdf_path: Union[<span class="bu">str</span>, Path], max_pages: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb48-69"><a href="applications.html#cb48-69" aria-hidden="true"></a>    <span class="cf">if</span> PdfReader <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb48-70"><a href="applications.html#cb48-70" aria-hidden="true"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb48-71"><a href="applications.html#cb48-71" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb48-72"><a href="applications.html#cb48-72" aria-hidden="true"></a>        reader <span class="op">=</span> PdfReader(<span class="bu">str</span>(pdf_path))</span>
+<span id="cb48-73"><a href="applications.html#cb48-73" aria-hidden="true"></a>        n <span class="op">=</span> <span class="bu">len</span>(<span class="bu">getattr</span>(reader, <span class="st">&quot;pages&quot;</span>, []))</span>
+<span id="cb48-74"><a href="applications.html#cb48-74" aria-hidden="true"></a>        to_check <span class="op">=</span> <span class="bu">min</span>(n, max_pages) <span class="cf">if</span> n <span class="cf">else</span> max_pages</span>
+<span id="cb48-75"><a href="applications.html#cb48-75" aria-hidden="true"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(to_check):</span>
+<span id="cb48-76"><a href="applications.html#cb48-76" aria-hidden="true"></a>            <span class="cf">try</span>:</span>
+<span id="cb48-77"><a href="applications.html#cb48-77" aria-hidden="true"></a>                txt <span class="op">=</span> reader.pages[i].extract_text() <span class="kw">or</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb48-78"><a href="applications.html#cb48-78" aria-hidden="true"></a>            <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-79"><a href="applications.html#cb48-79" aria-hidden="true"></a>                txt <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb48-80"><a href="applications.html#cb48-80" aria-hidden="true"></a>            <span class="cf">if</span> txt.strip():</span>
+<span id="cb48-81"><a href="applications.html#cb48-81" aria-hidden="true"></a>                <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb48-82"><a href="applications.html#cb48-82" aria-hidden="true"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb48-83"><a href="applications.html#cb48-83" aria-hidden="true"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-84"><a href="applications.html#cb48-84" aria-hidden="true"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb48-85"><a href="applications.html#cb48-85" aria-hidden="true"></a></span>
+<span id="cb48-86"><a href="applications.html#cb48-86" aria-hidden="true"></a><span class="kw">def</span> ocr_inplace(pdf_path: Union[<span class="bu">str</span>, Path], lang: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;nor+eng&quot;</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb48-87"><a href="applications.html#cb48-87" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb48-88"><a href="applications.html#cb48-88" aria-hidden="true"></a><span class="co">    If the PDF has no text, run OCR. Prefer ocrmypdf; otherwise a simple pytesseract fallback.</span></span>
+<span id="cb48-89"><a href="applications.html#cb48-89" aria-hidden="true"></a><span class="co">    Mutates the file in place.</span></span>
+<span id="cb48-90"><a href="applications.html#cb48-90" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb48-91"><a href="applications.html#cb48-91" aria-hidden="true"></a>    pdf_path <span class="op">=</span> <span class="bu">str</span>(pdf_path)</span>
+<span id="cb48-92"><a href="applications.html#cb48-92" aria-hidden="true"></a>    <span class="cf">if</span> has_extractable_text(pdf_path):</span>
+<span id="cb48-93"><a href="applications.html#cb48-93" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb48-94"><a href="applications.html#cb48-94" aria-hidden="true"></a></span>
+<span id="cb48-95"><a href="applications.html#cb48-95" aria-hidden="true"></a>    <span class="cf">if</span> have(<span class="st">&quot;ocrmypdf&quot;</span>):</span>
+<span id="cb48-96"><a href="applications.html#cb48-96" aria-hidden="true"></a>        tmp_out <span class="op">=</span> pdf_path <span class="op">+</span> <span class="st">&quot;.ocr.tmp.pdf&quot;</span></span>
+<span id="cb48-97"><a href="applications.html#cb48-97" aria-hidden="true"></a>        cmd <span class="op">=</span> [<span class="st">&quot;ocrmypdf&quot;</span>, <span class="st">&quot;-l&quot;</span>, lang, <span class="st">&quot;--skip-text&quot;</span>, <span class="st">&quot;--output-type&quot;</span>, <span class="st">&quot;pdf&quot;</span>, pdf_path, tmp_out]</span>
+<span id="cb48-98"><a href="applications.html#cb48-98" aria-hidden="true"></a>        <span class="cf">try</span>:</span>
+<span id="cb48-99"><a href="applications.html#cb48-99" aria-hidden="true"></a>            subprocess.run(cmd, check<span class="op">=</span><span class="va">True</span>, stdout<span class="op">=</span>subprocess.PIPE, stderr<span class="op">=</span>subprocess.PIPE)</span>
+<span id="cb48-100"><a href="applications.html#cb48-100" aria-hidden="true"></a>            os.replace(tmp_out, pdf_path)</span>
+<span id="cb48-101"><a href="applications.html#cb48-101" aria-hidden="true"></a>            <span class="cf">return</span></span>
+<span id="cb48-102"><a href="applications.html#cb48-102" aria-hidden="true"></a>        <span class="cf">finally</span>:</span>
+<span id="cb48-103"><a href="applications.html#cb48-103" aria-hidden="true"></a>            <span class="cf">if</span> os.path.exists(tmp_out):</span>
+<span id="cb48-104"><a href="applications.html#cb48-104" aria-hidden="true"></a>                <span class="cf">try</span>: os.remove(tmp_out)</span>
+<span id="cb48-105"><a href="applications.html#cb48-105" aria-hidden="true"></a>                <span class="cf">except</span>: <span class="cf">pass</span></span>
+<span id="cb48-106"><a href="applications.html#cb48-106" aria-hidden="true"></a></span>
+<span id="cb48-107"><a href="applications.html#cb48-107" aria-hidden="true"></a>    <span class="co"># Fallback (best-effort)</span></span>
+<span id="cb48-108"><a href="applications.html#cb48-108" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb48-109"><a href="applications.html#cb48-109" aria-hidden="true"></a>        <span class="im">from</span> pdf2image <span class="im">import</span> convert_from_path</span>
+<span id="cb48-110"><a href="applications.html#cb48-110" aria-hidden="true"></a>        <span class="im">from</span> PIL <span class="im">import</span> Image  <span class="co"># noqa: F401</span></span>
+<span id="cb48-111"><a href="applications.html#cb48-111" aria-hidden="true"></a>        <span class="im">import</span> pytesseract</span>
+<span id="cb48-112"><a href="applications.html#cb48-112" aria-hidden="true"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-113"><a href="applications.html#cb48-113" aria-hidden="true"></a>        <span class="co"># No fallback libs → just return un-OCR&#39;d</span></span>
+<span id="cb48-114"><a href="applications.html#cb48-114" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb48-115"><a href="applications.html#cb48-115" aria-hidden="true"></a></span>
+<span id="cb48-116"><a href="applications.html#cb48-116" aria-hidden="true"></a>    <span class="cf">if</span> PdfReader <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> PdfWriter <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb48-117"><a href="applications.html#cb48-117" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb48-118"><a href="applications.html#cb48-118" aria-hidden="true"></a></span>
+<span id="cb48-119"><a href="applications.html#cb48-119" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb48-120"><a href="applications.html#cb48-120" aria-hidden="true"></a>        images <span class="op">=</span> convert_from_path(pdf_path, dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb48-121"><a href="applications.html#cb48-121" aria-hidden="true"></a>        writer <span class="op">=</span> PdfWriter()</span>
+<span id="cb48-122"><a href="applications.html#cb48-122" aria-hidden="true"></a>        <span class="cf">for</span> img <span class="kw">in</span> images:</span>
+<span id="cb48-123"><a href="applications.html#cb48-123" aria-hidden="true"></a>            page_bytes <span class="op">=</span> pytesseract.image_to_pdf_or_hocr(img, extension<span class="op">=</span><span class="st">&quot;pdf&quot;</span>, lang<span class="op">=</span>lang)</span>
+<span id="cb48-124"><a href="applications.html#cb48-124" aria-hidden="true"></a>            temp_reader <span class="op">=</span> PdfReader(io.BytesIO(page_bytes))</span>
+<span id="cb48-125"><a href="applications.html#cb48-125" aria-hidden="true"></a>            <span class="cf">for</span> p <span class="kw">in</span> temp_reader.pages:</span>
+<span id="cb48-126"><a href="applications.html#cb48-126" aria-hidden="true"></a>                writer.add_page(p)</span>
+<span id="cb48-127"><a href="applications.html#cb48-127" aria-hidden="true"></a>        <span class="cf">with</span> <span class="bu">open</span>(pdf_path, <span class="st">&quot;wb&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb48-128"><a href="applications.html#cb48-128" aria-hidden="true"></a>            writer.write(f)</span>
+<span id="cb48-129"><a href="applications.html#cb48-129" aria-hidden="true"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-130"><a href="applications.html#cb48-130" aria-hidden="true"></a>        <span class="co"># swallow; keep original file</span></span>
+<span id="cb48-131"><a href="applications.html#cb48-131" aria-hidden="true"></a>        <span class="cf">pass</span></span>
+<span id="cb48-132"><a href="applications.html#cb48-132" aria-hidden="true"></a></span>
+<span id="cb48-133"><a href="applications.html#cb48-133" aria-hidden="true"></a><span class="kw">def</span> download_annual_reports(</span>
+<span id="cb48-134"><a href="applications.html#cb48-134" aria-hidden="true"></a>    orgnr: <span class="bu">str</span>,</span>
+<span id="cb48-135"><a href="applications.html#cb48-135" aria-hidden="true"></a>    year_start: <span class="bu">int</span>,</span>
+<span id="cb48-136"><a href="applications.html#cb48-136" aria-hidden="true"></a>    year_end: <span class="bu">int</span>,</span>
+<span id="cb48-137"><a href="applications.html#cb48-137" aria-hidden="true"></a>    out_dir: Optional[Union[<span class="bu">str</span>, Path]] <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb48-138"><a href="applications.html#cb48-138" aria-hidden="true"></a>    delay_s: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span id="cb48-139"><a href="applications.html#cb48-139" aria-hidden="true"></a>    do_ocr: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb48-140"><a href="applications.html#cb48-140" aria-hidden="true"></a>    ocr_lang: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;nor+eng&quot;</span>,</span>
+<span id="cb48-141"><a href="applications.html#cb48-141" aria-hidden="true"></a>) <span class="op">-&gt;</span> Path:</span>
+<span id="cb48-142"><a href="applications.html#cb48-142" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb48-143"><a href="applications.html#cb48-143" aria-hidden="true"></a><span class="co">    Download Brreg årsrapporter PDFs for orgnr in [year_start, year_end] inclusive.</span></span>
+<span id="cb48-144"><a href="applications.html#cb48-144" aria-hidden="true"></a><span class="co">    If `do_ocr=True`, run OCR when no extractable text is found.</span></span>
+<span id="cb48-145"><a href="applications.html#cb48-145" aria-hidden="true"></a><span class="co">    Returns the folder path containing the PDFs.</span></span>
+<span id="cb48-146"><a href="applications.html#cb48-146" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb48-147"><a href="applications.html#cb48-147" aria-hidden="true"></a>    org <span class="op">=</span> sanitize_orgnr(orgnr)</span>
+<span id="cb48-148"><a href="applications.html#cb48-148" aria-hidden="true"></a>    a, b <span class="op">=</span> <span class="bu">sorted</span>([<span class="bu">int</span>(year_start), <span class="bu">int</span>(year_end)])</span>
+<span id="cb48-149"><a href="applications.html#cb48-149" aria-hidden="true"></a>    folder <span class="op">=</span> ensure_dir(out_dir <span class="kw">or</span> Path(<span class="st">&quot;reports&quot;</span>) <span class="op">/</span> org)</span>
+<span id="cb48-150"><a href="applications.html#cb48-150" aria-hidden="true"></a></span>
+<span id="cb48-151"><a href="applications.html#cb48-151" aria-hidden="true"></a>    <span class="cf">for</span> year <span class="kw">in</span> <span class="bu">range</span>(a, b <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb48-152"><a href="applications.html#cb48-152" aria-hidden="true"></a>        url <span class="op">=</span> BASE_URL.<span class="bu">format</span>(orgnr<span class="op">=</span>org, year<span class="op">=</span>year)</span>
+<span id="cb48-153"><a href="applications.html#cb48-153" aria-hidden="true"></a>        out_path <span class="op">=</span> folder <span class="op">/</span> <span class="ss">f&quot;</span><span class="sc">{</span>org<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">.pdf&quot;</span></span>
+<span id="cb48-154"><a href="applications.html#cb48-154" aria-hidden="true"></a>        <span class="cf">if</span> out_path.exists() <span class="kw">and</span> out_path.stat().st_size <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb48-155"><a href="applications.html#cb48-155" aria-hidden="true"></a>            <span class="cf">if</span> do_ocr:</span>
+<span id="cb48-156"><a href="applications.html#cb48-156" aria-hidden="true"></a>                ocr_inplace(out_path, lang<span class="op">=</span>ocr_lang)</span>
+<span id="cb48-157"><a href="applications.html#cb48-157" aria-hidden="true"></a>            <span class="cf">continue</span></span>
+<span id="cb48-158"><a href="applications.html#cb48-158" aria-hidden="true"></a></span>
+<span id="cb48-159"><a href="applications.html#cb48-159" aria-hidden="true"></a>        <span class="cf">try</span>:</span>
+<span id="cb48-160"><a href="applications.html#cb48-160" aria-hidden="true"></a>            pdf_bytes <span class="op">=</span> http_get_pdf(url)</span>
+<span id="cb48-161"><a href="applications.html#cb48-161" aria-hidden="true"></a>            <span class="cf">with</span> <span class="bu">open</span>(out_path, <span class="st">&quot;wb&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb48-162"><a href="applications.html#cb48-162" aria-hidden="true"></a>                f.write(pdf_bytes)</span>
+<span id="cb48-163"><a href="applications.html#cb48-163" aria-hidden="true"></a>            <span class="cf">if</span> do_ocr:</span>
+<span id="cb48-164"><a href="applications.html#cb48-164" aria-hidden="true"></a>                ocr_inplace(out_path, lang<span class="op">=</span>ocr_lang)</span>
+<span id="cb48-165"><a href="applications.html#cb48-165" aria-hidden="true"></a>            time.sleep(<span class="bu">max</span>(<span class="fl">0.0</span>, delay_s))</span>
+<span id="cb48-166"><a href="applications.html#cb48-166" aria-hidden="true"></a>        <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-167"><a href="applications.html#cb48-167" aria-hidden="true"></a>            <span class="co"># keep going; skip failures silently</span></span>
+<span id="cb48-168"><a href="applications.html#cb48-168" aria-hidden="true"></a>            <span class="cf">continue</span></span>
+<span id="cb48-169"><a href="applications.html#cb48-169" aria-hidden="true"></a></span>
+<span id="cb48-170"><a href="applications.html#cb48-170" aria-hidden="true"></a>    <span class="cf">return</span> folder</span>
+<span id="cb48-171"><a href="applications.html#cb48-171" aria-hidden="true"></a></span>
+<span id="cb48-172"><a href="applications.html#cb48-172" aria-hidden="true"></a><span class="co"># --------------------------------</span></span>
+<span id="cb48-173"><a href="applications.html#cb48-173" aria-hidden="true"></a><span class="co"># LLM: extract employees from PDF</span></span>
+<span id="cb48-174"><a href="applications.html#cb48-174" aria-hidden="true"></a><span class="co"># --------------------------------</span></span>
+<span id="cb48-175"><a href="applications.html#cb48-175" aria-hidden="true"></a><span class="kw">class</span> EmployeeInfo(BaseModel):</span>
+<span id="cb48-176"><a href="applications.html#cb48-176" aria-hidden="true"></a>    employees: Optional[<span class="bu">int</span>] <span class="op">=</span> Field(</span>
+<span id="cb48-177"><a href="applications.html#cb48-177" aria-hidden="true"></a>        default<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb48-178"><a href="applications.html#cb48-178" aria-hidden="true"></a>        description<span class="op">=</span><span class="st">&quot;Total headcount (integer). If absent, use FTE if present.&quot;</span></span>
+<span id="cb48-179"><a href="applications.html#cb48-179" aria-hidden="true"></a>    )</span>
+<span id="cb48-180"><a href="applications.html#cb48-180" aria-hidden="true"></a>    page_numbers: List[<span class="bu">int</span>] <span class="op">=</span> Field(default_factory<span class="op">=</span><span class="bu">list</span>, description<span class="op">=</span><span class="st">&quot;1-based pages with evidence.&quot;</span>)</span>
+<span id="cb48-181"><a href="applications.html#cb48-181" aria-hidden="true"></a>    confidence: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="fl">0.0</span>, le<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb48-182"><a href="applications.html#cb48-182" aria-hidden="true"></a>    rationale: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb48-183"><a href="applications.html#cb48-183" aria-hidden="true"></a>    raw_evidence: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb48-184"><a href="applications.html#cb48-184" aria-hidden="true"></a></span>
+<span id="cb48-185"><a href="applications.html#cb48-185" aria-hidden="true"></a>SYSTEM <span class="op">=</span> <span class="st">&quot;&quot;&quot;You extract facts from text with care.</span></span>
+<span id="cb48-186"><a href="applications.html#cb48-186" aria-hidden="true"></a><span class="st">Task: determine the company&#39;s total number of employees (headcount).</span></span>
+<span id="cb48-187"><a href="applications.html#cb48-187" aria-hidden="true"></a><span class="st">If multiple values exist, prefer the most recent total headcount.</span></span>
+<span id="cb48-188"><a href="applications.html#cb48-188" aria-hidden="true"></a><span class="st">Accept language variants: ansatte, antall ansatte, årsverk (FTE), staff, headcount.</span></span>
+<span id="cb48-189"><a href="applications.html#cb48-189" aria-hidden="true"></a><span class="st">If only FTE is present, use it and note this in rationale.</span></span>
+<span id="cb48-190"><a href="applications.html#cb48-190" aria-hidden="true"></a><span class="st">Return the specified schema. If unknown, employees=null, but provide confidence and rationale.&quot;&quot;&quot;</span></span>
+<span id="cb48-191"><a href="applications.html#cb48-191" aria-hidden="true"></a></span>
+<span id="cb48-192"><a href="applications.html#cb48-192" aria-hidden="true"></a>USER_TMPL <span class="op">=</span> <span class="st">&quot;&quot;&quot;You are given OCR/parsed text from a PDF annual report.</span></span>
+<span id="cb48-193"><a href="applications.html#cb48-193" aria-hidden="true"></a><span class="st">Extract the number of employees (prefer headcount; use FTE only if headcount is missing).</span></span>
+<span id="cb48-194"><a href="applications.html#cb48-194" aria-hidden="true"></a></span>
+<span id="cb48-195"><a href="applications.html#cb48-195" aria-hidden="true"></a><span class="st">--- BEGIN TEXT (page-tagged) ---</span></span>
+<span id="cb48-196"><a href="applications.html#cb48-196" aria-hidden="true"></a><span class="sc">{page_tagged_text}</span></span>
+<span id="cb48-197"><a href="applications.html#cb48-197" aria-hidden="true"></a><span class="st">--- END TEXT ---</span></span>
+<span id="cb48-198"><a href="applications.html#cb48-198" aria-hidden="true"></a></span>
+<span id="cb48-199"><a href="applications.html#cb48-199" aria-hidden="true"></a><span class="st">Rules:</span></span>
+<span id="cb48-200"><a href="applications.html#cb48-200" aria-hidden="true"></a><span class="st">- If multiple values exist, choose the latest overall figure.</span></span>
+<span id="cb48-201"><a href="applications.html#cb48-201" aria-hidden="true"></a><span class="st">- Include the 1-based page numbers where the evidence appears.</span></span>
+<span id="cb48-202"><a href="applications.html#cb48-202" aria-hidden="true"></a><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb48-203"><a href="applications.html#cb48-203" aria-hidden="true"></a></span>
+<span id="cb48-204"><a href="applications.html#cb48-204" aria-hidden="true"></a><span class="kw">def</span> _select_relevant_pages(</span>
+<span id="cb48-205"><a href="applications.html#cb48-205" aria-hidden="true"></a>    pages: Iterable,</span>
+<span id="cb48-206"><a href="applications.html#cb48-206" aria-hidden="true"></a>    keywords: Iterable[<span class="bu">str</span>] <span class="op">=</span> (</span>
+<span id="cb48-207"><a href="applications.html#cb48-207" aria-hidden="true"></a>        <span class="st">&quot;employee&quot;</span>, <span class="st">&quot;employees&quot;</span>, <span class="st">&quot;staff&quot;</span>,</span>
+<span id="cb48-208"><a href="applications.html#cb48-208" aria-hidden="true"></a>        <span class="st">&quot;ansatt&quot;</span>, <span class="st">&quot;ansatte&quot;</span>, <span class="st">&quot;antall ansatte&quot;</span>, <span class="st">&quot;bemanning&quot;</span>,</span>
+<span id="cb48-209"><a href="applications.html#cb48-209" aria-hidden="true"></a>        <span class="st">&quot;årsverk&quot;</span>, <span class="st">&quot;fte&quot;</span>, <span class="st">&quot;headcount&quot;</span></span>
+<span id="cb48-210"><a href="applications.html#cb48-210" aria-hidden="true"></a>    ),</span>
+<span id="cb48-211"><a href="applications.html#cb48-211" aria-hidden="true"></a>    fallback_first_n: <span class="bu">int</span> <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb48-212"><a href="applications.html#cb48-212" aria-hidden="true"></a>) <span class="op">-&gt;</span> List[Tuple[<span class="bu">int</span>, <span class="bu">str</span>]]:</span>
+<span id="cb48-213"><a href="applications.html#cb48-213" aria-hidden="true"></a>    keys <span class="op">=</span> {k.lower() <span class="cf">for</span> k <span class="kw">in</span> keywords}</span>
+<span id="cb48-214"><a href="applications.html#cb48-214" aria-hidden="true"></a>    sel: List[Tuple[<span class="bu">int</span>, <span class="bu">str</span>]] <span class="op">=</span> []</span>
+<span id="cb48-215"><a href="applications.html#cb48-215" aria-hidden="true"></a>    <span class="cf">for</span> i, page <span class="kw">in</span> <span class="bu">enumerate</span>(pages, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb48-216"><a href="applications.html#cb48-216" aria-hidden="true"></a>        txt <span class="op">=</span> (page.page_content <span class="kw">or</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb48-217"><a href="applications.html#cb48-217" aria-hidden="true"></a>        low <span class="op">=</span> txt.lower()</span>
+<span id="cb48-218"><a href="applications.html#cb48-218" aria-hidden="true"></a>        <span class="cf">if</span> <span class="bu">any</span>(k <span class="kw">in</span> low <span class="cf">for</span> k <span class="kw">in</span> keys):</span>
+<span id="cb48-219"><a href="applications.html#cb48-219" aria-hidden="true"></a>            sel.append((i, txt))</span>
+<span id="cb48-220"><a href="applications.html#cb48-220" aria-hidden="true"></a>    <span class="cf">if</span> <span class="kw">not</span> sel:</span>
+<span id="cb48-221"><a href="applications.html#cb48-221" aria-hidden="true"></a>        <span class="co"># fallback to first N</span></span>
+<span id="cb48-222"><a href="applications.html#cb48-222" aria-hidden="true"></a>        sel <span class="op">=</span> [(i, (p.page_content <span class="kw">or</span> <span class="st">&quot;&quot;</span>)) <span class="cf">for</span> i, p <span class="kw">in</span> <span class="bu">enumerate</span>(pages[:fallback_first_n], start<span class="op">=</span><span class="dv">1</span>)]</span>
+<span id="cb48-223"><a href="applications.html#cb48-223" aria-hidden="true"></a>    <span class="cf">return</span> sel</span>
+<span id="cb48-224"><a href="applications.html#cb48-224" aria-hidden="true"></a></span>
+<span id="cb48-225"><a href="applications.html#cb48-225" aria-hidden="true"></a><span class="kw">def</span> _make_page_tagged(selected_pages: List[Tuple[<span class="bu">int</span>, <span class="bu">str</span>]], per_page_limit: <span class="bu">int</span> <span class="op">=</span> <span class="dv">8000</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb48-226"><a href="applications.html#cb48-226" aria-hidden="true"></a>    chunks <span class="op">=</span> []</span>
+<span id="cb48-227"><a href="applications.html#cb48-227" aria-hidden="true"></a>    <span class="cf">for</span> i, txt <span class="kw">in</span> selected_pages:</span>
+<span id="cb48-228"><a href="applications.html#cb48-228" aria-hidden="true"></a>        s <span class="op">=</span> (txt <span class="kw">or</span> <span class="st">&quot;&quot;</span>).strip()</span>
+<span id="cb48-229"><a href="applications.html#cb48-229" aria-hidden="true"></a>        <span class="cf">if</span> <span class="bu">len</span>(s) <span class="op">&gt;</span> per_page_limit:</span>
+<span id="cb48-230"><a href="applications.html#cb48-230" aria-hidden="true"></a>            s <span class="op">=</span> s[:per_page_limit]</span>
+<span id="cb48-231"><a href="applications.html#cb48-231" aria-hidden="true"></a>        chunks.append(<span class="ss">f&quot;[Page </span><span class="sc">{i}</span><span class="ss">]</span><span class="ch">\n</span><span class="sc">{s}</span><span class="ss">&quot;</span>)</span>
+<span id="cb48-232"><a href="applications.html#cb48-232" aria-hidden="true"></a>    <span class="cf">return</span> <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span>.join(chunks)</span>
+<span id="cb48-233"><a href="applications.html#cb48-233" aria-hidden="true"></a></span>
+<span id="cb48-234"><a href="applications.html#cb48-234" aria-hidden="true"></a><span class="kw">def</span> extract_employees_from_pdf(pdf_path: Union[<span class="bu">str</span>, Path], model: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;gpt-5-mini&quot;</span>, temperature: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>) <span class="op">-&gt;</span> EmployeeInfo:</span>
+<span id="cb48-235"><a href="applications.html#cb48-235" aria-hidden="true"></a>    loader <span class="op">=</span> PyPDFLoader(<span class="bu">str</span>(pdf_path))</span>
+<span id="cb48-236"><a href="applications.html#cb48-236" aria-hidden="true"></a>    docs <span class="op">=</span> loader.load()</span>
+<span id="cb48-237"><a href="applications.html#cb48-237" aria-hidden="true"></a>    selected <span class="op">=</span> _select_relevant_pages(docs)</span>
+<span id="cb48-238"><a href="applications.html#cb48-238" aria-hidden="true"></a>    page_tagged_text <span class="op">=</span> _make_page_tagged(selected)</span>
+<span id="cb48-239"><a href="applications.html#cb48-239" aria-hidden="true"></a></span>
+<span id="cb48-240"><a href="applications.html#cb48-240" aria-hidden="true"></a>    client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb48-241"><a href="applications.html#cb48-241" aria-hidden="true"></a>        api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb48-242"><a href="applications.html#cb48-242" aria-hidden="true"></a>        azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb48-243"><a href="applications.html#cb48-243" aria-hidden="true"></a>        api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb48-244"><a href="applications.html#cb48-244" aria-hidden="true"></a>        azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb48-245"><a href="applications.html#cb48-245" aria-hidden="true"></a>        temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb48-246"><a href="applications.html#cb48-246" aria-hidden="true"></a>    )</span>
+<span id="cb48-247"><a href="applications.html#cb48-247" aria-hidden="true"></a></span>
+<span id="cb48-248"><a href="applications.html#cb48-248" aria-hidden="true"></a>    structured_llm <span class="op">=</span> client.with_structured_output(EmployeeInfo)</span>
+<span id="cb48-249"><a href="applications.html#cb48-249" aria-hidden="true"></a>    prompt <span class="op">=</span> ChatPromptTemplate.from_messages([(<span class="st">&quot;system&quot;</span>, SYSTEM), (<span class="st">&quot;user&quot;</span>, USER_TMPL)])</span>
+<span id="cb48-250"><a href="applications.html#cb48-250" aria-hidden="true"></a>    result: EmployeeInfo <span class="op">=</span> (prompt <span class="op">|</span> structured_llm).invoke({<span class="st">&quot;page_tagged_text&quot;</span>: page_tagged_text})</span>
+<span id="cb48-251"><a href="applications.html#cb48-251" aria-hidden="true"></a>    <span class="cf">return</span> result</span>
+<span id="cb48-252"><a href="applications.html#cb48-252" aria-hidden="true"></a></span>
+<span id="cb48-253"><a href="applications.html#cb48-253" aria-hidden="true"></a>YEAR_RE <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r&quot;(?&lt;!\d)(20\d</span><span class="sc">{2}</span><span class="vs">)(?!\d)&quot;</span>)  <span class="co"># 2000–2099</span></span>
+<span id="cb48-254"><a href="applications.html#cb48-254" aria-hidden="true"></a></span>
+<span id="cb48-255"><a href="applications.html#cb48-255" aria-hidden="true"></a><span class="kw">def</span> _infer_year_from_name(path: Union[<span class="bu">str</span>, Path]) <span class="op">-&gt;</span> Optional[<span class="bu">int</span>]:</span>
+<span id="cb48-256"><a href="applications.html#cb48-256" aria-hidden="true"></a>    m <span class="op">=</span> YEAR_RE.search(Path(path).stem)</span>
+<span id="cb48-257"><a href="applications.html#cb48-257" aria-hidden="true"></a>    <span class="cf">return</span> <span class="bu">int</span>(m.group(<span class="dv">1</span>)) <span class="cf">if</span> m <span class="cf">else</span> <span class="va">None</span></span>
+<span id="cb48-258"><a href="applications.html#cb48-258" aria-hidden="true"></a></span>
+<span id="cb48-259"><a href="applications.html#cb48-259" aria-hidden="true"></a><span class="kw">def</span> collect_employees(</span>
+<span id="cb48-260"><a href="applications.html#cb48-260" aria-hidden="true"></a>    company_folder: Union[<span class="bu">str</span>, Path],</span>
+<span id="cb48-261"><a href="applications.html#cb48-261" aria-hidden="true"></a>    years: Optional[Union[<span class="bu">int</span>, List[<span class="bu">int</span>]]] <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb48-262"><a href="applications.html#cb48-262" aria-hidden="true"></a>    model: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;gpt-5-mini&quot;</span>,</span>
+<span id="cb48-263"><a href="applications.html#cb48-263" aria-hidden="true"></a>    temperature: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span id="cb48-264"><a href="applications.html#cb48-264" aria-hidden="true"></a>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb48-265"><a href="applications.html#cb48-265" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb48-266"><a href="applications.html#cb48-266" aria-hidden="true"></a><span class="co">    Run employee extraction over all PDFs in folder.</span></span>
+<span id="cb48-267"><a href="applications.html#cb48-267" aria-hidden="true"></a><span class="co">    Returns a tidy DataFrame with one row per PDF.</span></span>
+<span id="cb48-268"><a href="applications.html#cb48-268" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb48-269"><a href="applications.html#cb48-269" aria-hidden="true"></a>    company_folder <span class="op">=</span> Path(company_folder)</span>
+<span id="cb48-270"><a href="applications.html#cb48-270" aria-hidden="true"></a>    pdfs <span class="op">=</span> <span class="bu">sorted</span>(company_folder.glob(<span class="st">&quot;*.pdf&quot;</span>))</span>
+<span id="cb48-271"><a href="applications.html#cb48-271" aria-hidden="true"></a>    <span class="cf">if</span> <span class="kw">not</span> pdfs:</span>
+<span id="cb48-272"><a href="applications.html#cb48-272" aria-hidden="true"></a>        <span class="cf">return</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">&quot;company_id&quot;</span>,<span class="st">&quot;year&quot;</span>,<span class="st">&quot;employees&quot;</span>,<span class="st">&quot;page_numbers&quot;</span>,<span class="st">&quot;confidence&quot;</span>,<span class="st">&quot;rationale&quot;</span>,<span class="st">&quot;raw_evidence&quot;</span>,<span class="st">&quot;source_path&quot;</span>])</span>
+<span id="cb48-273"><a href="applications.html#cb48-273" aria-hidden="true"></a></span>
+<span id="cb48-274"><a href="applications.html#cb48-274" aria-hidden="true"></a>    target_years <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb48-275"><a href="applications.html#cb48-275" aria-hidden="true"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(years, <span class="bu">int</span>):</span>
+<span id="cb48-276"><a href="applications.html#cb48-276" aria-hidden="true"></a>        target_years <span class="op">=</span> {years}</span>
+<span id="cb48-277"><a href="applications.html#cb48-277" aria-hidden="true"></a>    <span class="cf">elif</span> <span class="bu">isinstance</span>(years, <span class="bu">list</span>):</span>
+<span id="cb48-278"><a href="applications.html#cb48-278" aria-hidden="true"></a>        target_years <span class="op">=</span> <span class="bu">set</span>(<span class="bu">map</span>(<span class="bu">int</span>, years))</span>
+<span id="cb48-279"><a href="applications.html#cb48-279" aria-hidden="true"></a></span>
+<span id="cb48-280"><a href="applications.html#cb48-280" aria-hidden="true"></a>    rows <span class="op">=</span> []</span>
+<span id="cb48-281"><a href="applications.html#cb48-281" aria-hidden="true"></a>    company_id <span class="op">=</span> company_folder.name</span>
+<span id="cb48-282"><a href="applications.html#cb48-282" aria-hidden="true"></a>    <span class="cf">for</span> pdf <span class="kw">in</span> pdfs:</span>
+<span id="cb48-283"><a href="applications.html#cb48-283" aria-hidden="true"></a>        yr <span class="op">=</span> _infer_year_from_name(pdf)</span>
+<span id="cb48-284"><a href="applications.html#cb48-284" aria-hidden="true"></a>        <span class="cf">if</span> target_years <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> (yr <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> yr <span class="kw">not</span> <span class="kw">in</span> target_years):</span>
+<span id="cb48-285"><a href="applications.html#cb48-285" aria-hidden="true"></a>            <span class="cf">continue</span></span>
+<span id="cb48-286"><a href="applications.html#cb48-286" aria-hidden="true"></a>        <span class="cf">try</span>:</span>
+<span id="cb48-287"><a href="applications.html#cb48-287" aria-hidden="true"></a>            info <span class="op">=</span> extract_employees_from_pdf(pdf, model<span class="op">=</span>model, temperature<span class="op">=</span>temperature)</span>
+<span id="cb48-288"><a href="applications.html#cb48-288" aria-hidden="true"></a>            rows.append({</span>
+<span id="cb48-289"><a href="applications.html#cb48-289" aria-hidden="true"></a>                <span class="st">&quot;company_id&quot;</span>: company_id,</span>
+<span id="cb48-290"><a href="applications.html#cb48-290" aria-hidden="true"></a>                <span class="st">&quot;year&quot;</span>: yr,</span>
+<span id="cb48-291"><a href="applications.html#cb48-291" aria-hidden="true"></a>                <span class="st">&quot;employees&quot;</span>: info.employees,</span>
+<span id="cb48-292"><a href="applications.html#cb48-292" aria-hidden="true"></a>                <span class="st">&quot;page_numbers&quot;</span>: info.page_numbers,</span>
+<span id="cb48-293"><a href="applications.html#cb48-293" aria-hidden="true"></a>                <span class="st">&quot;confidence&quot;</span>: info.confidence,</span>
+<span id="cb48-294"><a href="applications.html#cb48-294" aria-hidden="true"></a>                <span class="st">&quot;rationale&quot;</span>: info.rationale,</span>
+<span id="cb48-295"><a href="applications.html#cb48-295" aria-hidden="true"></a>                <span class="st">&quot;raw_evidence&quot;</span>: info.raw_evidence,</span>
+<span id="cb48-296"><a href="applications.html#cb48-296" aria-hidden="true"></a>                <span class="st">&quot;source_path&quot;</span>: <span class="bu">str</span>(pdf),</span>
+<span id="cb48-297"><a href="applications.html#cb48-297" aria-hidden="true"></a>            })</span>
+<span id="cb48-298"><a href="applications.html#cb48-298" aria-hidden="true"></a>        <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb48-299"><a href="applications.html#cb48-299" aria-hidden="true"></a>            rows.append({</span>
+<span id="cb48-300"><a href="applications.html#cb48-300" aria-hidden="true"></a>                <span class="st">&quot;company_id&quot;</span>: company_id,</span>
+<span id="cb48-301"><a href="applications.html#cb48-301" aria-hidden="true"></a>                <span class="st">&quot;year&quot;</span>: yr,</span>
+<span id="cb48-302"><a href="applications.html#cb48-302" aria-hidden="true"></a>                <span class="st">&quot;employees&quot;</span>: <span class="va">None</span>,</span>
+<span id="cb48-303"><a href="applications.html#cb48-303" aria-hidden="true"></a>                <span class="st">&quot;page_numbers&quot;</span>: [],</span>
+<span id="cb48-304"><a href="applications.html#cb48-304" aria-hidden="true"></a>                <span class="st">&quot;confidence&quot;</span>: <span class="fl">0.0</span>,</span>
+<span id="cb48-305"><a href="applications.html#cb48-305" aria-hidden="true"></a>                <span class="st">&quot;rationale&quot;</span>: <span class="st">&quot;extraction failed&quot;</span>,</span>
+<span id="cb48-306"><a href="applications.html#cb48-306" aria-hidden="true"></a>                <span class="st">&quot;raw_evidence&quot;</span>: <span class="va">None</span>,</span>
+<span id="cb48-307"><a href="applications.html#cb48-307" aria-hidden="true"></a>                <span class="st">&quot;source_path&quot;</span>: <span class="bu">str</span>(pdf),</span>
+<span id="cb48-308"><a href="applications.html#cb48-308" aria-hidden="true"></a>            })</span>
+<span id="cb48-309"><a href="applications.html#cb48-309" aria-hidden="true"></a>    <span class="cf">return</span> pd.DataFrame.from_records(rows)</span>
+<span id="cb48-310"><a href="applications.html#cb48-310" aria-hidden="true"></a></span>
+<span id="cb48-311"><a href="applications.html#cb48-311" aria-hidden="true"></a><span class="co"># -------------------------</span></span>
+<span id="cb48-312"><a href="applications.html#cb48-312" aria-hidden="true"></a><span class="co"># Brreg Regnskap (API)</span></span>
+<span id="cb48-313"><a href="applications.html#cb48-313" aria-hidden="true"></a><span class="co"># -------------------------</span></span>
+<span id="cb48-314"><a href="applications.html#cb48-314" aria-hidden="true"></a><span class="kw">def</span> get_regnskap(orgnr: <span class="bu">str</span>, year: Optional[<span class="bu">int</span>] <span class="op">=</span> <span class="va">None</span>, regnskapstype: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;SELSKAP&quot;</span>) <span class="op">-&gt;</span> <span class="bu">list</span>:</span>
+<span id="cb48-315"><a href="applications.html#cb48-315" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb48-316"><a href="applications.html#cb48-316" aria-hidden="true"></a><span class="co">    Fetch regnskap JSON list from Brønnøysundregisteret.</span></span>
+<span id="cb48-317"><a href="applications.html#cb48-317" aria-hidden="true"></a><span class="co">    If year is None, API typically returns latest (and sometimes history).</span></span>
+<span id="cb48-318"><a href="applications.html#cb48-318" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb48-319"><a href="applications.html#cb48-319" aria-hidden="true"></a>    org <span class="op">=</span> sanitize_orgnr(orgnr)</span>
+<span id="cb48-320"><a href="applications.html#cb48-320" aria-hidden="true"></a>    base_url <span class="op">=</span> <span class="ss">f&quot;https://data.brreg.no/regnskapsregisteret/regnskap/</span><span class="sc">{</span>org<span class="sc">}</span><span class="ss">&quot;</span></span>
+<span id="cb48-321"><a href="applications.html#cb48-321" aria-hidden="true"></a>    params <span class="op">=</span> {<span class="st">&quot;regnskapstype&quot;</span>: regnskapstype}</span>
+<span id="cb48-322"><a href="applications.html#cb48-322" aria-hidden="true"></a>    <span class="cf">if</span> year <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb48-323"><a href="applications.html#cb48-323" aria-hidden="true"></a>        params[<span class="st">&quot;år&quot;</span>] <span class="op">=</span> <span class="bu">int</span>(year)  <span class="co"># note &#39;å&#39;</span></span>
+<span id="cb48-324"><a href="applications.html#cb48-324" aria-hidden="true"></a>    r <span class="op">=</span> requests.get(base_url, headers<span class="op">=</span>{<span class="st">&quot;accept&quot;</span>: <span class="st">&quot;application/json&quot;</span>}, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb48-325"><a href="applications.html#cb48-325" aria-hidden="true"></a>    r.raise_for_status()</span>
+<span id="cb48-326"><a href="applications.html#cb48-326" aria-hidden="true"></a>    <span class="cf">return</span> r.json()</span>
+<span id="cb48-327"><a href="applications.html#cb48-327" aria-hidden="true"></a></span>
+<span id="cb48-328"><a href="applications.html#cb48-328" aria-hidden="true"></a><span class="kw">def</span> regnskap_to_df(data: <span class="bu">list</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb48-329"><a href="applications.html#cb48-329" aria-hidden="true"></a>    recs <span class="op">=</span> []</span>
+<span id="cb48-330"><a href="applications.html#cb48-330" aria-hidden="true"></a>    <span class="cf">for</span> item <span class="kw">in</span> data:</span>
+<span id="cb48-331"><a href="applications.html#cb48-331" aria-hidden="true"></a>        orgnr <span class="op">=</span> item[<span class="st">&quot;virksomhet&quot;</span>][<span class="st">&quot;organisasjonsnummer&quot;</span>]</span>
+<span id="cb48-332"><a href="applications.html#cb48-332" aria-hidden="true"></a>        year <span class="op">=</span> pd.to_datetime(item[<span class="st">&quot;regnskapsperiode&quot;</span>][<span class="st">&quot;tilDato&quot;</span>]).year</span>
+<span id="cb48-333"><a href="applications.html#cb48-333" aria-hidden="true"></a>        R <span class="op">=</span> item.get(<span class="st">&quot;resultatregnskapResultat&quot;</span>, {}) <span class="kw">or</span> {}</span>
+<span id="cb48-334"><a href="applications.html#cb48-334" aria-hidden="true"></a>        DR <span class="op">=</span> R.get(<span class="st">&quot;driftsresultat&quot;</span>, {}) <span class="kw">or</span> {}</span>
+<span id="cb48-335"><a href="applications.html#cb48-335" aria-hidden="true"></a>        FR <span class="op">=</span> R.get(<span class="st">&quot;finansresultat&quot;</span>, {}) <span class="kw">or</span> {}</span>
+<span id="cb48-336"><a href="applications.html#cb48-336" aria-hidden="true"></a>        recs.append({</span>
+<span id="cb48-337"><a href="applications.html#cb48-337" aria-hidden="true"></a>            <span class="st">&quot;orgnr&quot;</span>: orgnr,</span>
+<span id="cb48-338"><a href="applications.html#cb48-338" aria-hidden="true"></a>            <span class="st">&quot;year&quot;</span>: year,</span>
+<span id="cb48-339"><a href="applications.html#cb48-339" aria-hidden="true"></a>            <span class="st">&quot;regnskapstype&quot;</span>: item.get(<span class="st">&quot;regnskapstype&quot;</span>),</span>
+<span id="cb48-340"><a href="applications.html#cb48-340" aria-hidden="true"></a>            <span class="st">&quot;valuta&quot;</span>: item.get(<span class="st">&quot;valuta&quot;</span>),</span>
+<span id="cb48-341"><a href="applications.html#cb48-341" aria-hidden="true"></a>            <span class="st">&quot;sumEiendeler&quot;</span>: (item.get(<span class="st">&quot;eiendeler&quot;</span>) <span class="kw">or</span> {}).get(<span class="st">&quot;sumEiendeler&quot;</span>),</span>
+<span id="cb48-342"><a href="applications.html#cb48-342" aria-hidden="true"></a>            <span class="st">&quot;sumEgenkapitalGjeld&quot;</span>: (item.get(<span class="st">&quot;egenkapitalGjeld&quot;</span>) <span class="kw">or</span> {}).get(<span class="st">&quot;sumEgenkapitalGjeld&quot;</span>),</span>
+<span id="cb48-343"><a href="applications.html#cb48-343" aria-hidden="true"></a>            <span class="st">&quot;sumDriftsinntekter&quot;</span>: (DR.get(<span class="st">&quot;driftsinntekter&quot;</span>) <span class="kw">or</span> {}).get(<span class="st">&quot;sumDriftsinntekter&quot;</span>),</span>
+<span id="cb48-344"><a href="applications.html#cb48-344" aria-hidden="true"></a>            <span class="st">&quot;sumDriftskostnad&quot;</span>: (DR.get(<span class="st">&quot;driftskostnad&quot;</span>) <span class="kw">or</span> {}).get(<span class="st">&quot;sumDriftskostnad&quot;</span>),</span>
+<span id="cb48-345"><a href="applications.html#cb48-345" aria-hidden="true"></a>            <span class="st">&quot;driftsresultat&quot;</span>: DR.get(<span class="st">&quot;driftsresultat&quot;</span>),</span>
+<span id="cb48-346"><a href="applications.html#cb48-346" aria-hidden="true"></a>            <span class="st">&quot;nettoFinans&quot;</span>: FR.get(<span class="st">&quot;nettoFinans&quot;</span>),</span>
+<span id="cb48-347"><a href="applications.html#cb48-347" aria-hidden="true"></a>            <span class="st">&quot;ordinaertResultatFoerSkattekostnad&quot;</span>: R.get(<span class="st">&quot;ordinaertResultatFoerSkattekostnad&quot;</span>),</span>
+<span id="cb48-348"><a href="applications.html#cb48-348" aria-hidden="true"></a>            <span class="st">&quot;aarsresultat&quot;</span>: R.get(<span class="st">&quot;aarsresultat&quot;</span>),</span>
+<span id="cb48-349"><a href="applications.html#cb48-349" aria-hidden="true"></a>        })</span>
+<span id="cb48-350"><a href="applications.html#cb48-350" aria-hidden="true"></a>    <span class="cf">return</span> pd.DataFrame.from_records(recs) <span class="cf">if</span> recs <span class="cf">else</span> pd.DataFrame()</span>
+<span id="cb48-351"><a href="applications.html#cb48-351" aria-hidden="true"></a></span>
+<span id="cb48-352"><a href="applications.html#cb48-352" aria-hidden="true"></a><span class="co"># -------------------------</span></span>
+<span id="cb48-353"><a href="applications.html#cb48-353" aria-hidden="true"></a><span class="co"># Plot helper</span></span>
+<span id="cb48-354"><a href="applications.html#cb48-354" aria-hidden="true"></a><span class="co"># -------------------------</span></span>
+<span id="cb48-355"><a href="applications.html#cb48-355" aria-hidden="true"></a><span class="kw">def</span> plot_employees(df: pd.DataFrame, title: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;Employees over time&quot;</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb48-356"><a href="applications.html#cb48-356" aria-hidden="true"></a>    <span class="cf">if</span> df.empty:</span>
+<span id="cb48-357"><a href="applications.html#cb48-357" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="st">&quot;No employee data to plot.&quot;</span>)</span>
+<span id="cb48-358"><a href="applications.html#cb48-358" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb48-359"><a href="applications.html#cb48-359" aria-hidden="true"></a>    d <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">&quot;year&quot;</span>, <span class="st">&quot;employees&quot;</span>]).sort_values(<span class="st">&quot;year&quot;</span>)</span>
+<span id="cb48-360"><a href="applications.html#cb48-360" aria-hidden="true"></a>    <span class="cf">if</span> d.empty:</span>
+<span id="cb48-361"><a href="applications.html#cb48-361" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="st">&quot;No valid (year, employees) rows to plot.&quot;</span>)</span>
+<span id="cb48-362"><a href="applications.html#cb48-362" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb48-363"><a href="applications.html#cb48-363" aria-hidden="true"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb48-364"><a href="applications.html#cb48-364" aria-hidden="true"></a>    plt.plot(d[<span class="st">&quot;year&quot;</span>], d[<span class="st">&quot;employees&quot;</span>], marker<span class="op">=</span><span class="st">&quot;o&quot;</span>, linestyle<span class="op">=</span><span class="st">&quot;-&quot;</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb48-365"><a href="applications.html#cb48-365" aria-hidden="true"></a>    plt.xlabel(<span class="st">&quot;Year&quot;</span>)</span>
+<span id="cb48-366"><a href="applications.html#cb48-366" aria-hidden="true"></a>    plt.ylabel(<span class="st">&quot;Number of Employees&quot;</span>)</span>
+<span id="cb48-367"><a href="applications.html#cb48-367" aria-hidden="true"></a>    plt.title(title)</span>
+<span id="cb48-368"><a href="applications.html#cb48-368" aria-hidden="true"></a>    plt.xticks(d[<span class="st">&quot;year&quot;</span>])</span>
+<span id="cb48-369"><a href="applications.html#cb48-369" aria-hidden="true"></a>    plt.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">&quot;--&quot;</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb48-370"><a href="applications.html#cb48-370" aria-hidden="true"></a>    plt.show()</span></code></pre></div>
+<p>Now, it’s as simple as running the following code. First, to get the data from the open API.</p>
+<pre class="**python**"><code>org = &quot;990412987&quot;
+data = get_regnskap(org)          # latest or list
+regnskap = regnskap_to_df(data)
+print(regnskap)</code></pre>
+<p>Then, to download the annual reports and extract the employee data. Note that this part is slow, so it might take a while to run. Reduce the numbers of years to 2021-2022 if you want to run it faster.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="applications.html#cb50-1" aria-hidden="true"></a>folder <span class="op">=</span> download_annual_reports(org, <span class="dv">2020</span>, <span class="dv">2025</span>)   <span class="co"># PDFs saved to reports/&lt;org&gt;/</span></span>
+<span id="cb50-2"><a href="applications.html#cb50-2" aria-hidden="true"></a>df_all <span class="op">=</span> collect_employees(folder)</span>
+<span id="cb50-3"><a href="applications.html#cb50-3" aria-hidden="true"></a><span class="bu">print</span>(df_all)</span></code></pre></div>
+<p>Finally, to plot the results.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="applications.html#cb51-1" aria-hidden="true"></a>plot_employees(df_all, title<span class="op">=</span><span class="st">&quot;Stavanger Aftenblad&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="working-with-llms-through-apis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-application.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ai-llm-course.pdf", "ai-llm-course.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

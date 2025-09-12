@@ -1,6 +1,6 @@
 # Introduction to Python {#intro}
 
-This chapter introduces the essential Python programming concepts you'll need to work with AI and Large Language Models through the use of APIs. While the focus of this course is on understanding and applying AI technologies, having solid Python fundamentals will make everything else much easier. Of course, even as you learn these basics, there will still be plenty you don't know yet—and that's totally normal! When you get stuck or have questions, just do what every coder does: ask Google or ChatGPT. That's a big part of how real programming works.
+This chapter introduces the essential Python programming concepts you'll need to work with AI and Large Language Models through the use of APIs. While the focus of this part of the course is on understanding and using LLMs, having solid Python fundamentals will make everything else much easier. Of course, even as you learn these basics, there will still be plenty you don't know yet—and that's totally normal! When you get stuck or have questions, just do what every coder does: ask Google or ChatGPT. That's a big part of how real programming works. If you are reallu stuck, do not hesitate to ask me for help.
 
 ## Why Python for AI?
 
@@ -187,7 +187,7 @@ def process_text_data(text):
 sample_text = "Hello, this is a sample text for processing!"
 result = process_text_data(sample_text)
 print(result)
-# Output: {'word_count': 9, 'character_count': 48, 'is_empty': False, 
+# Output: {'word_count': 9, 'character_count': 44, 'is_empty': False, 
 #          'processed_text': 'hello, this is a sample text for processing!'}
 ```
 
@@ -202,12 +202,12 @@ Python packages are collections of modules (code files) that provide additional 
 !pip install pandas
 
 # Install multiple packages at once
-!pip install pandas numpy matplotlib seaborn scikit-learn
+!pip install pandas openai langchain-openai langchain_community
 ```
 
 #### Importing Packages
 
-Once installed, you import packages using the `import` statement:
+Once installed, you import packages using the `import` statement (note that these imports as just example packages):
 
 ```python
 # ===== BASIC IMPORTS =====
@@ -298,94 +298,37 @@ print()
 
 ### What is an API?
 
-An **API (Application Programming Interface)** is a set of rules and protocols that allows different software applications to communicate with each other. Think of it as a "menu" that one program provides to another program, listing all the available functions and how to use them.
+An **API (Application Programming Interface)** is a set of rules and protocols that allows different software applications to communicate with each other. Just like a website has a URL (web address) that you visit to access a specific page or resource, an API also has a URL (called an "endpoint") that you use to access specific data or functionality. When you make a request to an API, you're essentially "visiting" a special web address, but instead of seeing a webpage, you get data (often in JSON format) that your program can use. So, interacting with an API is a lot like visiting a URL, but for computers to talk to each other instead of for humans to read.
 
-Just like a website has a URL (web address) that you visit to access a specific page or resource, an API also has a URL (called an "endpoint") that you use to access specific data or functionality. When you make a request to an API, you're essentially "visiting" a special web address, but instead of seeing a webpage, you get data (often in JSON format) that your program can use. So, interacting with an API is a lot like visiting a URL, but for computers to talk to each other instead of for humans to read.
+### Example of using API to get GoT quotes
 
-### Types of API Requests
-
-APIs use different types of HTTP requests (we focus on GET and POST requests):
+APIs use different types of HTTP requests. Below is an example of how to use a GET request to get quotes from the Game of Thrones API.
 
 ```python
 import requests
 import json
 
 # ===== GET REQUEST =====
-# Used to retrieve data (like asking for information)
-def get_weather_data(city):
+# Used to retrieve data. 
+def get_got_quotes(number_of_quotes=1):
     """
-    Get weather data for a specific city.
+    Get Game of Thrones quotes.
     
     Parameters:
-    city (str): Name of the city
-    
-    Returns:
-    dict: Weather information or None if error
+    number_of_quotes (int): Number of quotes to get
     """
     # Example API endpoint (this is a fake URL for demonstration)
-    url = f"https://api.weather.com/v1/current?city={city}"
-    
-    try:
-        # Make GET request
-        response = requests.get(url)
-        
-        # Check if request was successful (status code 200)
-        if response.status_code == 200:
-            data = response.json()  # Convert JSON response to Python dictionary
-            return data
-        else:
-            print(f"Error: {response.status_code} - {response.text}")
-            return None
-            
-    except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
-        return None
+    url = f"https://api.gameofthronesquotes.xyz/v1/random/{number_of_quotes}"
+    response = requests.get(url)
 
-# ===== POST REQUEST =====
-# Used to send data (like submitting a form or sending a message)
-def send_ai_request(prompt, api_key):
-    """
-    Send a prompt to an AI service and get a response.
-    
-    Parameters:
-    prompt (str): The text prompt to send to AI
-    api_key (str): Your API key for authentication
-    
-    Returns:
-    str: AI response or error message
-    """
-    # API endpoint for AI service
-    url = "https://api.openai.com/v1/chat/completions"
-    
-    # Headers with authentication
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    
-    # Data to send (the prompt)
-    data = {
-        "model": "gpt-3.5-turbo",
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
-        "max_tokens": 150
-    }
-    
-    try:
-        # Make POST request
-        response = requests.post(url, headers=headers, json=data)
-        
-        if response.status_code == 200:
-            result = response.json()
-            # Extract the AI's response from the JSON
-            ai_response = result['choices'][0]['message']['content']
-            return ai_response
-        else:
-            return f"Error: {response.status_code} - {response.text}"
-            
-    except requests.exceptions.RequestException as e:
-        return f"Request failed: {e}"
+    data = response.json()  # Convert JSON response to Python dictionary
+    return data
+
+get_got_quotes(1)
+# {'sentence': 'A ruler who hides behind paid executioners soon forgets what death is.',
+#  'character': {'name': 'Eddard "Ned" Stark',
+#   'slug': 'ned',
+#   'house': {'name': 'House Stark of Winterfell', 'slug': 'stark'}}}
 ```
 
 ### Working with JSON Objects
@@ -542,14 +485,15 @@ process_api_response()
 
 ### API Authentication
 
-Many APIs require authentication to prevent abuse and track usage. Here are two examples of how to do this with the `requests` package.
+Many APIs require authentication to prevent abuse and track usage. Here are two examples of how to do this with the `requests` package. **However, note that when we use LLMs we will use special packages that will handle the API calls for us. All we need to do it provide the correct function with the API key.** This is just to show what is happening behind the scenes.
 
 **Important:** The import statement loads the `userdata` module from Google Colab, which provides secure access to stored secrets and API keys in the Colab environment. It's used to retrieve sensitive information like API keys without hardcoding them directly in the code. See the image below for how to add the API key to the Colab environment.
 
 ![Image](images/j5n4f.png)
 
 ```python
-# Example of API calls with different authentication methods.
+# Example of API calls with different authentication methods. 
+# NOTE THAT THIS CODE WILL NOT RUN, AS ITS JUST FOR ILLUSTRATION PURPOSES.
 
 # ===== API KEY FROM COLAB SECRETS =====
 def api_key_auth_colab():
@@ -581,6 +525,16 @@ def api_key_in_url_colab():
 # If you're not sure how to do this, search Google or ask ChatGPT for "how to use environment variables in Python" or "how to use a .env file in Python". =====
 ```
 
+### Google Drive Integration
+
+When working with Google Colab, you often need to access files stored in your Google Drive. This is particularly useful for loading datasets, saving outputs, or accessing pre-trained models. Here's how to mount your Google Drive:
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+This will mount your Google Drive at `/content/drive`. You can now access your files using the path `/content/drive/MyDrive/`.
 
 ## Want to learn more?
 
@@ -594,4 +548,4 @@ knitr::include_url("https://www.youtube.com/embed/fWjsdhR3z3c")
 
 Now that you have the Python basics, you're ready to dive into the fascinating world of Large Language Models. In the next chapter, we'll explore how these models work and get hands-on experience with GPT-2.
 
-Remember: Don't worry if you're not a Python expert yet. The most important thing is to start experimenting and learning through practice. Each chapter will build your skills progressively.
+Remember: Don't worry if you're not a Python expert yet (or ever). The most important thing is to start experimenting and learning through practice. Each class will build your skills progressively.
