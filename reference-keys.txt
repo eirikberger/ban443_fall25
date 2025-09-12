@@ -22,10 +22,11 @@ importing-packages
 working-with-data
 working-with-apis
 what-is-an-api
-types-of-api-requests
+example-of-using-api-to-get-got-quotes
 working-with-json-objects
 converting-python-dictionary-to-json
 api-authentication
+google-drive-integration
 want-to-learn-more
 next-steps
 llm-fundamentals
@@ -73,7 +74,10 @@ applications
 data-extraction-from-the-norwegian-national-library
 setting-up-langchain-with-azure-openai
 structured-data-extraction-2
+fetching-data-from-the-norwegian-national-library
 batch-processing-with-caching
+converting-json-results-to-dataframe
+analyzing-occupation-data
 web-search-and-tools-integration
 basic-web-search-with-tavily
 agent-with-web-search-capabilities
@@ -81,11 +85,6 @@ retrieval-augmented-generation-rag-systems
 basic-rag-implementation
 persistent-vector-database
 company-data-extraction-from-brønnøysundregisteret
-downloading-annual-reports
-structured-data-extraction-from-pdfs
-batch-processing-and-analysis
-financial-data-integration
-conclusion
 exercises
 lab-1
 lab-2
