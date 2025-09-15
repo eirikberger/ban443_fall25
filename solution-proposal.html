@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Solution proposal | A Technical Companion for BAN443</title>
+  <meta name="description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Solution proposal | A Technical Companion for BAN443" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Solution proposal | A Technical Companion for BAN443" />
+  
+  <meta name="twitter:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
+  
+
+<meta name="author" content="Eirik Berger Abel" />
+
+
+<meta name="date" content="2025-09-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="exercises.html"/>
+<link rel="next" href="final-words.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6KCKS5548F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6KCKS5548F');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BAN443: Transforming Business with AI</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome to BAN443</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-schedule"><i class="fa fa-check"></i><b>1.1</b> Course Schedule</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#compulsory-activity"><i class="fa fa-check"></i><b>1.2</b> Compulsory Activity</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.3</b> Assessment</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#course-overview"><i class="fa fa-check"></i><b>1.4</b> Course Overview</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#getting-started"><i class="fa fa-check"></i><b>1.5</b> Getting Started</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#contact-and-support"><i class="fa fa-check"></i><b>1.6</b> Contact and Support</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to Python</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#why-python-for-ai"><i class="fa fa-check"></i><b>2.1</b> Why Python for AI?</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#setting-up-your-environment"><i class="fa fa-check"></i><b>2.2</b> Setting Up Your Environment</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#option-1-google-colab-recommended-for-beginners"><i class="fa fa-check"></i><b>2.2.1</b> Option 1: Google Colab (Recommended for Beginners)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#option-2-local-installation"><i class="fa fa-check"></i><b>2.2.2</b> Option 2: Local Installation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#essential-python-concepts"><i class="fa fa-check"></i><b>2.3</b> Essential Python Concepts</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.3.1</b> Variables and Data Types</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#functions"><i class="fa fa-check"></i><b>2.3.2</b> Functions</a></li>
+<li class="chapter" data-level="2.3.3" data-path="intro.html"><a href="intro.html#installing-and-importing-packages"><i class="fa fa-check"></i><b>2.3.3</b> Installing and Importing Packages</a></li>
+<li class="chapter" data-level="2.3.4" data-path="intro.html"><a href="intro.html#working-with-data"><i class="fa fa-check"></i><b>2.3.4</b> Working with Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#working-with-apis"><i class="fa fa-check"></i><b>2.4</b> Working with APIs</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#what-is-an-api"><i class="fa fa-check"></i><b>2.4.1</b> What is an API?</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#example-of-using-api-to-get-got-quotes"><i class="fa fa-check"></i><b>2.4.2</b> Example of using API to get GoT quotes</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#working-with-json-objects"><i class="fa fa-check"></i><b>2.4.3</b> Working with JSON Objects</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#api-authentication"><i class="fa fa-check"></i><b>2.4.4</b> API Authentication</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#google-drive-integration"><i class="fa fa-check"></i><b>2.4.5</b> Google Drive Integration</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#want-to-learn-more"><i class="fa fa-check"></i><b>2.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#next-steps"><i class="fa fa-check"></i><b>2.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html"><i class="fa fa-check"></i><b>3</b> Understanding Large Language Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-are-large-language-models"><i class="fa fa-check"></i><b>3.1</b> What Are Large Language Models?</a></li>
+<li class="chapter" data-level="3.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-the-foundation"><i class="fa fa-check"></i><b>3.2</b> Neural Networks: The Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-is-a-neural-network"><i class="fa fa-check"></i><b>3.2.1</b> What is a Neural Network?</a></li>
+<li class="chapter" data-level="3.2.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-information-flows"><i class="fa fa-check"></i><b>3.2.2</b> How Information Flows</a></li>
+<li class="chapter" data-level="3.2.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression"><i class="fa fa-check"></i><b>3.2.3</b> Neural Networks vs. Traditional Regression</a></li>
+<li class="chapter" data-level="3.2.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-neural-networks-learn"><i class="fa fa-check"></i><b>3.2.4</b> How Neural Networks Learn</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#from-neural-networks-to-language-models"><i class="fa fa-check"></i><b>3.3</b> From Neural Networks to Language Models</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#the-language-modeling-task"><i class="fa fa-check"></i><b>3.3.1</b> The Language Modeling Task</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-language-models-work"><i class="fa fa-check"></i><b>3.4</b> How Language Models Work</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#tokenization-from-text-to-numbers"><i class="fa fa-check"></i><b>3.4.1</b> Tokenization: From Text to Numbers</a></li>
+<li class="chapter" data-level="3.4.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#training-large-language-models"><i class="fa fa-check"></i><b>3.4.2</b> Training Large Language Models</a></li>
+<li class="chapter" data-level="3.4.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-token-prediction-the-core-of-llms"><i class="fa fa-check"></i><b>3.4.3</b> Next Token Prediction: The Core of LLMs</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#want-to-learn-more-1"><i class="fa fa-check"></i><b>3.5</b> Want to learn more?</a></li>
+<li class="chapter" data-level="3.6" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#next-steps-1"><i class="fa fa-check"></i><b>3.6</b> Next Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html"><i class="fa fa-check"></i><b>4</b> Working with LLMs through APIs</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-the-openai-packages"><i class="fa fa-check"></i><b>4.1</b> Using the OpenAI Packages</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation"><i class="fa fa-check"></i><b>4.1.1</b> Installation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#essential-package-imports"><i class="fa fa-check"></i><b>4.1.2</b> Essential Package Imports</a></li>
+<li class="chapter" data-level="4.1.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration"><i class="fa fa-check"></i><b>4.1.3</b> API Configuration</a></li>
+<li class="chapter" data-level="4.1.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion"><i class="fa fa-check"></i><b>4.1.4</b> Basic Chat Completion</a></li>
+<li class="chapter" data-level="4.1.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#message-object-structure"><i class="fa fa-check"></i><b>4.1.5</b> Message Object Structure</a></li>
+<li class="chapter" data-level="4.1.6" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction"><i class="fa fa-check"></i><b>4.1.6</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.1.7" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#creating-reusable-functions"><i class="fa fa-check"></i><b>4.1.7</b> Creating Reusable Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langchain"><i class="fa fa-check"></i><b>4.2</b> Using LangChain</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#installation-1"><i class="fa fa-check"></i><b>4.2.1</b> Installation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#api-configuration-1"><i class="fa fa-check"></i><b>4.2.2</b> API Configuration</a></li>
+<li class="chapter" data-level="4.2.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#basic-chat-completion-and-message-structure"><i class="fa fa-check"></i><b>4.2.3</b> Basic Chat Completion and Message Structure</a></li>
+<li class="chapter" data-level="4.2.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#structured-data-extraction-1"><i class="fa fa-check"></i><b>4.2.4</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="4.2.5" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#prompt-templates"><i class="fa fa-check"></i><b>4.2.5</b> Prompt Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langsmith-to-track-your-llm-usage"><i class="fa fa-check"></i><b>4.3</b> Using LangSmith to track your LLM usage</a></li>
+<li class="chapter" data-level="4.4" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#using-langgraph-to-build-more-advanced-llm-applications"><i class="fa fa-check"></i><b>4.4</b> Using LangGraph to build more advanced LLM applications</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#building-chatbots-with-langgraph"><i class="fa fa-check"></i><b>4.4.1</b> Building Chatbots with LangGraph</a></li>
+<li class="chapter" data-level="4.4.2" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#simple-chatbot-without-memory"><i class="fa fa-check"></i><b>4.4.2</b> Simple Chatbot (Without Memory)</a></li>
+<li class="chapter" data-level="4.4.3" data-path="working-with-llms-through-apis.html"><a href="working-with-llms-through-apis.html#advanced-chatbot-with-memory"><i class="fa fa-check"></i><b>4.4.3</b> Advanced Chatbot (With Memory)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#data-extraction-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1</b> Data Extraction from the Norwegian National Library</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="applications.html"><a href="applications.html#setting-up-langchain-with-azure-openai"><i class="fa fa-check"></i><b>5.1.1</b> Setting up LangChain with Azure OpenAI</a></li>
+<li class="chapter" data-level="5.1.2" data-path="applications.html"><a href="applications.html#structured-data-extraction-2"><i class="fa fa-check"></i><b>5.1.2</b> Structured Data Extraction</a></li>
+<li class="chapter" data-level="5.1.3" data-path="applications.html"><a href="applications.html#fetching-data-from-the-norwegian-national-library"><i class="fa fa-check"></i><b>5.1.3</b> Fetching Data from the Norwegian National Library</a></li>
+<li class="chapter" data-level="5.1.4" data-path="applications.html"><a href="applications.html#batch-processing-with-caching"><i class="fa fa-check"></i><b>5.1.4</b> Batch Processing with Caching</a></li>
+<li class="chapter" data-level="5.1.5" data-path="applications.html"><a href="applications.html#converting-json-results-to-dataframe"><i class="fa fa-check"></i><b>5.1.5</b> Converting JSON Results to DataFrame</a></li>
+<li class="chapter" data-level="5.1.6" data-path="applications.html"><a href="applications.html#analyzing-occupation-data"><i class="fa fa-check"></i><b>5.1.6</b> Analyzing Occupation Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#web-search-and-tools-integration"><i class="fa fa-check"></i><b>5.2</b> Web Search and Tools Integration</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#basic-web-search-with-tavily"><i class="fa fa-check"></i><b>5.2.1</b> Basic Web Search with Tavily</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#agent-with-web-search-capabilities"><i class="fa fa-check"></i><b>5.2.2</b> Agent with Web Search Capabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#retrieval-augmented-generation-rag-systems"><i class="fa fa-check"></i><b>5.3</b> Retrieval-Augmented Generation (RAG) Systems</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="applications.html"><a href="applications.html#basic-rag-implementation"><i class="fa fa-check"></i><b>5.3.1</b> Basic RAG Implementation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="applications.html"><a href="applications.html#persistent-vector-database"><i class="fa fa-check"></i><b>5.3.2</b> Persistent Vector Database</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#company-data-extraction-from-brønnøysundregisteret"><i class="fa fa-check"></i><b>5.4</b> Company Data Extraction from Brønnøysundregisteret</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#lab-1"><i class="fa fa-check"></i><b>6.1</b> Lab 1</a></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#lab-2"><i class="fa fa-check"></i><b>6.2</b> Lab 2</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="solution-proposal.html"><a href="solution-proposal.html"><i class="fa fa-check"></i><b>7</b> Solution proposal</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="solution-proposal.html"><a href="solution-proposal.html#lab-1-1"><i class="fa fa-check"></i><b>7.1</b> Lab 1</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="solution-proposal.html"><a href="solution-proposal.html#question-1-using-an-api-and-making-a-function-from-it"><i class="fa fa-check"></i><b>7.1.1</b> Question 1: Using an API and making a function from it</a></li>
+<li class="chapter" data-level="7.1.2" data-path="solution-proposal.html"><a href="solution-proposal.html#question-2-making-a-chatbot-for-this-course"><i class="fa fa-check"></i><b>7.1.2</b> Question 2: Making a chatbot for this course</a></li>
+<li class="chapter" data-level="7.1.3" data-path="solution-proposal.html"><a href="solution-proposal.html#question-3-analyze-letterboxd-dataset"><i class="fa fa-check"></i><b>7.1.3</b> Question 3: Analyze Letterboxd dataset</a></li>
+<li class="chapter" data-level="7.1.4" data-path="solution-proposal.html"><a href="solution-proposal.html#question-4"><i class="fa fa-check"></i><b>7.1.4</b> Question 4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>8</b> Final Words</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Technical Companion for BAN443</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="solution-proposal" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Solution proposal<a href="solution-proposal.html#solution-proposal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="lab-1-1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Lab 1<a href="solution-proposal.html#lab-1-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="question-1-using-an-api-and-making-a-function-from-it" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Question 1: Using an API and making a function from it<a href="solution-proposal.html#question-1-using-an-api-and-making-a-function-from-it" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This question contains two parts: 1) Making an API work and 2) ‘wrapping’ it inside a function.</p>
+<p>Let’s start with number 1. We can make our life easy and choose an API that is “public”, meaning it doesn’t require an API key or we can choose something interesting that does require an API key. I will do both.</p>
+<div id="api-function-without-api-key" class="section level4 hasAnchor" number="7.1.1.1">
+<h4><span class="header-section-number">7.1.1.1</span> API function without API key<a href="solution-proposal.html#api-function-without-api-key" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="solution-proposal.html#cb56-1" aria-hidden="true"></a><span class="im">import</span> requests</span>
+<span id="cb56-2"><a href="solution-proposal.html#cb56-2" aria-hidden="true"></a></span>
+<span id="cb56-3"><a href="solution-proposal.html#cb56-3" aria-hidden="true"></a><span class="kw">def</span> get_got_quotes(character: <span class="bu">str</span>):</span>
+<span id="cb56-4"><a href="solution-proposal.html#cb56-4" aria-hidden="true"></a>    base_url <span class="op">=</span> <span class="st">&quot;https://api.gameofthronesquotes.xyz/v1&quot;</span></span>
+<span id="cb56-5"><a href="solution-proposal.html#cb56-5" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb56-6"><a href="solution-proposal.html#cb56-6" aria-hidden="true"></a>        response <span class="op">=</span> requests.get(<span class="ss">f&quot;</span><span class="sc">{</span>base_url<span class="sc">}</span><span class="ss">/author/</span><span class="sc">{</span>character<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb56-7"><a href="solution-proposal.html#cb56-7" aria-hidden="true"></a>        data <span class="op">=</span> response.json()</span>
+<span id="cb56-8"><a href="solution-proposal.html#cb56-8" aria-hidden="true"></a>        data <span class="op">=</span> data[<span class="st">&#39;sentence&#39;</span>] <span class="co"># Note this line of code. We typically don&#39;t want to return the full response from the API. Here, we just want the sentence.</span></span>
+<span id="cb56-9"><a href="solution-proposal.html#cb56-9" aria-hidden="true"></a>        <span class="cf">return</span> data</span>
+<span id="cb56-10"><a href="solution-proposal.html#cb56-10" aria-hidden="true"></a>    <span class="cf">except</span> response:</span>
+<span id="cb56-11"><a href="solution-proposal.html#cb56-11" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Error: </span><span class="sc">{</span>response<span class="sc">.</span>status_code<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb56-12"><a href="solution-proposal.html#cb56-12" aria-hidden="true"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb56-13"><a href="solution-proposal.html#cb56-13" aria-hidden="true"></a></span>
+<span id="cb56-14"><a href="solution-proposal.html#cb56-14" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb56-15"><a href="solution-proposal.html#cb56-15" aria-hidden="true"></a>get_got_quotes(<span class="st">&quot;tyrion&quot;</span>)</span></code></pre></div>
+</div>
+<div id="api-function-with-api-key" class="section level4 hasAnchor" number="7.1.1.2">
+<h4><span class="header-section-number">7.1.1.2</span> API function with API key<a href="solution-proposal.html#api-function-with-api-key" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="solution-proposal.html#cb57-1" aria-hidden="true"></a><span class="im">import</span> requests</span>
+<span id="cb57-2"><a href="solution-proposal.html#cb57-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb57-3"><a href="solution-proposal.html#cb57-3" aria-hidden="true"></a></span>
+<span id="cb57-4"><a href="solution-proposal.html#cb57-4" aria-hidden="true"></a><span class="kw">def</span> get_stock_data(symbol: <span class="bu">str</span>, interval: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;5min&quot;</span>):</span>
+<span id="cb57-5"><a href="solution-proposal.html#cb57-5" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Fetch intraday stock data from Alpha Vantage.&quot;&quot;&quot;</span></span>
+<span id="cb57-6"><a href="solution-proposal.html#cb57-6" aria-hidden="true"></a>    api_key <span class="op">=</span> userdata.get(<span class="st">&quot;alphavantage_key&quot;</span>)</span>
+<span id="cb57-7"><a href="solution-proposal.html#cb57-7" aria-hidden="true"></a>    url <span class="op">=</span> (</span>
+<span id="cb57-8"><a href="solution-proposal.html#cb57-8" aria-hidden="true"></a>        <span class="ss">f&quot;https://www.alphavantage.co/query?&quot;</span></span>
+<span id="cb57-9"><a href="solution-proposal.html#cb57-9" aria-hidden="true"></a>        <span class="ss">f&quot;function=TIME_SERIES_INTRADAY&amp;symbol=</span><span class="sc">{</span>symbol<span class="sc">}</span><span class="ss">&amp;interval=</span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss">&amp;apikey=</span><span class="sc">{</span>api_key<span class="sc">}</span><span class="ss">&quot;</span>  <span class="co"># This is one way to include the api key (see documentation for your specific API)</span></span>
+<span id="cb57-10"><a href="solution-proposal.html#cb57-10" aria-hidden="true"></a>    )</span>
+<span id="cb57-11"><a href="solution-proposal.html#cb57-11" aria-hidden="true"></a>    response <span class="op">=</span> requests.get(url)</span>
+<span id="cb57-12"><a href="solution-proposal.html#cb57-12" aria-hidden="true"></a>    <span class="cf">return</span> response.json()</span>
+<span id="cb57-13"><a href="solution-proposal.html#cb57-13" aria-hidden="true"></a></span>
+<span id="cb57-14"><a href="solution-proposal.html#cb57-14" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb57-15"><a href="solution-proposal.html#cb57-15" aria-hidden="true"></a>data <span class="op">=</span> get_stock_data(<span class="st">&quot;IBM&quot;</span>)</span>
+<span id="cb57-16"><a href="solution-proposal.html#cb57-16" aria-hidden="true"></a><span class="bu">print</span>(data)</span></code></pre></div>
+<p>Let’s plot the data:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="solution-proposal.html#cb58-1" aria-hidden="true"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb58-2"><a href="solution-proposal.html#cb58-2" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb58-3"><a href="solution-proposal.html#cb58-3" aria-hidden="true"></a></span>
+<span id="cb58-4"><a href="solution-proposal.html#cb58-4" aria-hidden="true"></a><span class="co"># Note that this function does not contain a return statement, as it doesn&#39;t return anything. It just</span></span>
+<span id="cb58-5"><a href="solution-proposal.html#cb58-5" aria-hidden="true"></a><span class="co"># prints the figure.</span></span>
+<span id="cb58-6"><a href="solution-proposal.html#cb58-6" aria-hidden="true"></a><span class="kw">def</span> plot_stock_time_series(data):</span>
+<span id="cb58-7"><a href="solution-proposal.html#cb58-7" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb58-8"><a href="solution-proposal.html#cb58-8" aria-hidden="true"></a><span class="co">    Plot the closing price from Alpha Vantage intraday data.</span></span>
+<span id="cb58-9"><a href="solution-proposal.html#cb58-9" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb58-10"><a href="solution-proposal.html#cb58-10" aria-hidden="true"></a>    ts <span class="op">=</span> data[<span class="st">&quot;Time Series (5min)&quot;</span>]</span>
+<span id="cb58-11"><a href="solution-proposal.html#cb58-11" aria-hidden="true"></a></span>
+<span id="cb58-12"><a href="solution-proposal.html#cb58-12" aria-hidden="true"></a>    <span class="co"># Convert to DataFrame</span></span>
+<span id="cb58-13"><a href="solution-proposal.html#cb58-13" aria-hidden="true"></a>    df <span class="op">=</span> pd.DataFrame(ts).T  <span class="co"># transpose</span></span>
+<span id="cb58-14"><a href="solution-proposal.html#cb58-14" aria-hidden="true"></a>    df.index <span class="op">=</span> pd.to_datetime(df.index)  <span class="co"># timestamps</span></span>
+<span id="cb58-15"><a href="solution-proposal.html#cb58-15" aria-hidden="true"></a>    df <span class="op">=</span> df.sort_index()  <span class="co"># chronological order</span></span>
+<span id="cb58-16"><a href="solution-proposal.html#cb58-16" aria-hidden="true"></a>    df <span class="op">=</span> df.astype(<span class="bu">float</span>)  <span class="co"># convert strings to numbers</span></span>
+<span id="cb58-17"><a href="solution-proposal.html#cb58-17" aria-hidden="true"></a></span>
+<span id="cb58-18"><a href="solution-proposal.html#cb58-18" aria-hidden="true"></a>    <span class="co"># Plot</span></span>
+<span id="cb58-19"><a href="solution-proposal.html#cb58-19" aria-hidden="true"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb58-20"><a href="solution-proposal.html#cb58-20" aria-hidden="true"></a>    plt.plot(df.index, df[<span class="st">&quot;4. close&quot;</span>], marker<span class="op">=</span><span class="st">&quot;o&quot;</span>, linestyle<span class="op">=</span><span class="st">&quot;-&quot;</span>, label<span class="op">=</span><span class="st">&quot;Close Price&quot;</span>)</span>
+<span id="cb58-21"><a href="solution-proposal.html#cb58-21" aria-hidden="true"></a>    plt.title(<span class="st">&quot;Stock Closing Price Over Time&quot;</span>)</span>
+<span id="cb58-22"><a href="solution-proposal.html#cb58-22" aria-hidden="true"></a>    plt.xlabel(<span class="st">&quot;Time&quot;</span>)</span>
+<span id="cb58-23"><a href="solution-proposal.html#cb58-23" aria-hidden="true"></a>    plt.ylabel(<span class="st">&quot;Price (USD)&quot;</span>)</span>
+<span id="cb58-24"><a href="solution-proposal.html#cb58-24" aria-hidden="true"></a>    plt.legend()</span>
+<span id="cb58-25"><a href="solution-proposal.html#cb58-25" aria-hidden="true"></a>    plt.grid(<span class="va">True</span>)</span>
+<span id="cb58-26"><a href="solution-proposal.html#cb58-26" aria-hidden="true"></a>    plt.show()</span>
+<span id="cb58-27"><a href="solution-proposal.html#cb58-27" aria-hidden="true"></a></span>
+<span id="cb58-28"><a href="solution-proposal.html#cb58-28" aria-hidden="true"></a><span class="co"># Example code</span></span>
+<span id="cb58-29"><a href="solution-proposal.html#cb58-29" aria-hidden="true"></a>data <span class="op">=</span> get_stock_data(<span class="st">&quot;IBM&quot;</span>)</span>
+<span id="cb58-30"><a href="solution-proposal.html#cb58-30" aria-hidden="true"></a>test <span class="op">=</span> plot_stock_time_series(data)</span></code></pre></div>
+</div>
+</div>
+<div id="question-2-making-a-chatbot-for-this-course" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Question 2: Making a chatbot for this course<a href="solution-proposal.html#question-2-making-a-chatbot-for-this-course" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This question asks us to create a chatbot (an LLM) and wants us to make it useful for this course. This entails giving it some knowledge about the course. There are three basic ways to do this:</p>
+<ol style="list-style-type: decimal">
+<li>Include information about the course in the prompt itself (for example the system prompt)</li>
+<li>Allow the LLM to search for information in some database (searching the web, using Retrieval-Augmented Generation (RAG) or similar)</li>
+<li>Fine-tuning the model to include information about the course.</li>
+</ol>
+<p>The last proposal is more complex. The second proposal will be covered in a later notebook/the course website. The easiest solution, which I expect from you in this question, is simply to include the information in the prompt.</p>
+<p>Let’s find the code for an input-output chatbot using either LangChain or the OpenAI package and copy it in, change it a bit and show that it works.</p>
+<div id="system-prompt" class="section level4 hasAnchor" number="7.1.2.1">
+<h4><span class="header-section-number">7.1.2.1</span> System prompt<a href="solution-proposal.html#system-prompt" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="solution-proposal.html#cb59-1" aria-hidden="true"></a>system_prompt <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb59-2"><a href="solution-proposal.html#cb59-2" aria-hidden="true"></a><span class="st">You are a helpful assistant providing assistance in a master course called BAN443.</span></span>
+<span id="cb59-3"><a href="solution-proposal.html#cb59-3" aria-hidden="true"></a></span>
+<span id="cb59-4"><a href="solution-proposal.html#cb59-4" aria-hidden="true"></a><span class="st">From the course website:</span></span>
+<span id="cb59-5"><a href="solution-proposal.html#cb59-5" aria-hidden="true"></a></span>
+<span id="cb59-6"><a href="solution-proposal.html#cb59-6" aria-hidden="true"></a><span class="st">This course aims to provide a comprehensive overview of how recent developments within AI and large language models (LLMs) will transform the business landscape, research, and the labor market. The course will explore the capabilities and limitations of LLMs, ethical considerations, data analysis techniques, and the integration of AI technology into various workflows. The course is designed to equip students with a critical understanding of how LLMs transform business and research, a critical understanding of their costs and benefits, as well as the practical skills to employ LLMs for productive tasks, including big data analysis.</span></span>
+<span id="cb59-7"><a href="solution-proposal.html#cb59-7" aria-hidden="true"></a></span>
+<span id="cb59-8"><a href="solution-proposal.html#cb59-8" aria-hidden="true"></a><span class="st">Students who take the course might also be interested in taking BAN432 Applied Textual Data Analysis For Business And Finance (NB: BAN432 is not offered autumn 2025).</span></span>
+<span id="cb59-9"><a href="solution-proposal.html#cb59-9" aria-hidden="true"></a></span>
+<span id="cb59-10"><a href="solution-proposal.html#cb59-10" aria-hidden="true"></a><span class="st">Course responsible</span></span>
+<span id="cb59-11"><a href="solution-proposal.html#cb59-11" aria-hidden="true"></a><span class="st">Professor Ingar Haaland, Department of Economics (main course responsible)</span></span>
+<span id="cb59-12"><a href="solution-proposal.html#cb59-12" aria-hidden="true"></a></span>
+<span id="cb59-13"><a href="solution-proposal.html#cb59-13" aria-hidden="true"></a><span class="st">Ph.D. Eirik Berger Abel, Statistics Norway</span></span>
+<span id="cb59-14"><a href="solution-proposal.html#cb59-14" aria-hidden="true"></a></span>
+<span id="cb59-15"><a href="solution-proposal.html#cb59-15" aria-hidden="true"></a><span class="st">Learning outcome</span></span>
+<span id="cb59-16"><a href="solution-proposal.html#cb59-16" aria-hidden="true"></a><span class="st">Knowledge</span></span>
+<span id="cb59-17"><a href="solution-proposal.html#cb59-17" aria-hidden="true"></a></span>
+<span id="cb59-18"><a href="solution-proposal.html#cb59-18" aria-hidden="true"></a><span class="st">Upon completion of the course, the student can:</span></span>
+<span id="cb59-19"><a href="solution-proposal.html#cb59-19" aria-hidden="true"></a></span>
+<span id="cb59-20"><a href="solution-proposal.html#cb59-20" aria-hidden="true"></a><span class="st">Explain the foundational concepts of AI and LLMs, including an overview of the current landscape of models, covering both text models like ChatGPT and others.</span></span>
+<span id="cb59-21"><a href="solution-proposal.html#cb59-21" aria-hidden="true"></a><span class="st">Identify applications and implications of AI in business and research.</span></span>
+<span id="cb59-22"><a href="solution-proposal.html#cb59-22" aria-hidden="true"></a><span class="st">Recognize the ethical considerations, privacy concerns, and risks associated with AI technology.</span></span>
+<span id="cb59-23"><a href="solution-proposal.html#cb59-23" aria-hidden="true"></a><span class="st">Skills</span></span>
+<span id="cb59-24"><a href="solution-proposal.html#cb59-24" aria-hidden="true"></a></span>
+<span id="cb59-25"><a href="solution-proposal.html#cb59-25" aria-hidden="true"></a><span class="st">Upon completion of the course, the student can:</span></span>
+<span id="cb59-26"><a href="solution-proposal.html#cb59-26" aria-hidden="true"></a></span>
+<span id="cb59-27"><a href="solution-proposal.html#cb59-27" aria-hidden="true"></a><span class="st">Design and execute effective prompts for interacting with LLMs.</span></span>
+<span id="cb59-28"><a href="solution-proposal.html#cb59-28" aria-hidden="true"></a><span class="st">Automate the use of large language models through APIs for productive purposes.</span></span>
+<span id="cb59-29"><a href="solution-proposal.html#cb59-29" aria-hidden="true"></a><span class="st">Analyze large text datasets and derive insightful conclusions, leveraging modern techniques to uncover themes and trends.</span></span>
+<span id="cb59-30"><a href="solution-proposal.html#cb59-30" aria-hidden="true"></a><span class="st">Evaluate the quality of an AI model for a given purpose.</span></span>
+<span id="cb59-31"><a href="solution-proposal.html#cb59-31" aria-hidden="true"></a><span class="st">General Competence</span></span>
+<span id="cb59-32"><a href="solution-proposal.html#cb59-32" aria-hidden="true"></a></span>
+<span id="cb59-33"><a href="solution-proposal.html#cb59-33" aria-hidden="true"></a><span class="st">Upon completion of the course, the student can:</span></span>
+<span id="cb59-34"><a href="solution-proposal.html#cb59-34" aria-hidden="true"></a></span>
+<span id="cb59-35"><a href="solution-proposal.html#cb59-35" aria-hidden="true"></a><span class="st">Assess the impact of AI on the labor market and organizational productivity, including a nuanced understanding of AI&#39;s strengths and weaknesses.</span></span>
+<span id="cb59-36"><a href="solution-proposal.html#cb59-36" aria-hidden="true"></a><span class="st">Develop and present comprehensive research projects that demonstrate practical applications of AI for big data analysis.</span></span>
+<span id="cb59-37"><a href="solution-proposal.html#cb59-37" aria-hidden="true"></a><span class="st">Engage in informed discussions about the future directions of AI technology, its societal implications, potential risks, and other ethical considerations.</span></span>
+<span id="cb59-38"><a href="solution-proposal.html#cb59-38" aria-hidden="true"></a><span class="st">&quot;&quot;&quot;</span></span></code></pre></div>
+</div>
+<div id="azure-openai" class="section level4 hasAnchor" number="7.1.2.2">
+<h4><span class="header-section-number">7.1.2.2</span> Azure OpenAI<a href="solution-proposal.html#azure-openai" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="solution-proposal.html#cb60-1" aria-hidden="true"></a><span class="im">from</span> openai <span class="im">import</span> AzureOpenAI</span>
+<span id="cb60-2"><a href="solution-proposal.html#cb60-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb60-3"><a href="solution-proposal.html#cb60-3" aria-hidden="true"></a></span>
+<span id="cb60-4"><a href="solution-proposal.html#cb60-4" aria-hidden="true"></a>client <span class="op">=</span> AzureOpenAI(</span>
+<span id="cb60-5"><a href="solution-proposal.html#cb60-5" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&#39;AZURE_OPENAI_API_KEY&#39;</span>),</span>
+<span id="cb60-6"><a href="solution-proposal.html#cb60-6" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb60-7"><a href="solution-proposal.html#cb60-7" aria-hidden="true"></a>    base_url<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/openai/deployments/Group01/&quot;</span></span>
+<span id="cb60-8"><a href="solution-proposal.html#cb60-8" aria-hidden="true"></a>)</span>
+<span id="cb60-9"><a href="solution-proposal.html#cb60-9" aria-hidden="true"></a></span>
+<span id="cb60-10"><a href="solution-proposal.html#cb60-10" aria-hidden="true"></a><span class="co"># Simple chat completion</span></span>
+<span id="cb60-11"><a href="solution-proposal.html#cb60-11" aria-hidden="true"></a>response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb60-12"><a href="solution-proposal.html#cb60-12" aria-hidden="true"></a>    model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb60-13"><a href="solution-proposal.html#cb60-13" aria-hidden="true"></a>    messages<span class="op">=</span>[</span>
+<span id="cb60-14"><a href="solution-proposal.html#cb60-14" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>, <span class="st">&quot;content&quot;</span>: system_prompt},</span>
+<span id="cb60-15"><a href="solution-proposal.html#cb60-15" aria-hidden="true"></a>        {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="st">&quot;Who are lecturing in the course BAN443?&quot;</span>}</span>
+<span id="cb60-16"><a href="solution-proposal.html#cb60-16" aria-hidden="true"></a>    ],</span>
+<span id="cb60-17"><a href="solution-proposal.html#cb60-17" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb60-18"><a href="solution-proposal.html#cb60-18" aria-hidden="true"></a>)</span>
+<span id="cb60-19"><a href="solution-proposal.html#cb60-19" aria-hidden="true"></a></span>
+<span id="cb60-20"><a href="solution-proposal.html#cb60-20" aria-hidden="true"></a><span class="bu">print</span>(response.choices[<span class="dv">0</span>].message.content)</span></code></pre></div>
+<p>Finally, let us build it in a function to make it easier to use:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a href="solution-proposal.html#cb61-1" aria-hidden="true"></a><span class="im">from</span> openai <span class="im">import</span> AzureOpenAI</span>
+<span id="cb61-2"><a href="solution-proposal.html#cb61-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb61-3"><a href="solution-proposal.html#cb61-3" aria-hidden="true"></a></span>
+<span id="cb61-4"><a href="solution-proposal.html#cb61-4" aria-hidden="true"></a><span class="co"># Initialize the client once</span></span>
+<span id="cb61-5"><a href="solution-proposal.html#cb61-5" aria-hidden="true"></a>client <span class="op">=</span> AzureOpenAI(</span>
+<span id="cb61-6"><a href="solution-proposal.html#cb61-6" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb61-7"><a href="solution-proposal.html#cb61-7" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb61-8"><a href="solution-proposal.html#cb61-8" aria-hidden="true"></a>    base_url<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/openai/deployments/Group01/&quot;</span></span>
+<span id="cb61-9"><a href="solution-proposal.html#cb61-9" aria-hidden="true"></a>)</span>
+<span id="cb61-10"><a href="solution-proposal.html#cb61-10" aria-hidden="true"></a></span>
+<span id="cb61-11"><a href="solution-proposal.html#cb61-11" aria-hidden="true"></a><span class="kw">def</span> ask_group01(system_prompt: <span class="bu">str</span>, user_prompt: <span class="bu">str</span>, temperature: <span class="bu">float</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb61-12"><a href="solution-proposal.html#cb61-12" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb61-13"><a href="solution-proposal.html#cb61-13" aria-hidden="true"></a><span class="co">    Send a chat completion request to the Group01 deployment on Azure OpenAI.</span></span>
+<span id="cb61-14"><a href="solution-proposal.html#cb61-14" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb61-15"><a href="solution-proposal.html#cb61-15" aria-hidden="true"></a>    response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb61-16"><a href="solution-proposal.html#cb61-16" aria-hidden="true"></a>        model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb61-17"><a href="solution-proposal.html#cb61-17" aria-hidden="true"></a>        messages<span class="op">=</span>[</span>
+<span id="cb61-18"><a href="solution-proposal.html#cb61-18" aria-hidden="true"></a>            {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>, <span class="st">&quot;content&quot;</span>: system_prompt},</span>
+<span id="cb61-19"><a href="solution-proposal.html#cb61-19" aria-hidden="true"></a>            {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: user_prompt}</span>
+<span id="cb61-20"><a href="solution-proposal.html#cb61-20" aria-hidden="true"></a>        ],</span>
+<span id="cb61-21"><a href="solution-proposal.html#cb61-21" aria-hidden="true"></a>        temperature<span class="op">=</span>temperature</span>
+<span id="cb61-22"><a href="solution-proposal.html#cb61-22" aria-hidden="true"></a>    )</span>
+<span id="cb61-23"><a href="solution-proposal.html#cb61-23" aria-hidden="true"></a>    <span class="cf">return</span> response.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb61-24"><a href="solution-proposal.html#cb61-24" aria-hidden="true"></a></span>
+<span id="cb61-25"><a href="solution-proposal.html#cb61-25" aria-hidden="true"></a><span class="co"># Example use:</span></span>
+<span id="cb61-26"><a href="solution-proposal.html#cb61-26" aria-hidden="true"></a>reply <span class="op">=</span> ask_group01(system_prompt, <span class="st">&quot;Who are lecturing in the course BAN443?&quot;</span>)</span>
+<span id="cb61-27"><a href="solution-proposal.html#cb61-27" aria-hidden="true"></a><span class="bu">print</span>(reply)</span></code></pre></div>
+</div>
+<div id="langchain" class="section level4 hasAnchor" number="7.1.2.3">
+<h4><span class="header-section-number">7.1.2.3</span> LangChain<a href="solution-proposal.html#langchain" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="solution-proposal.html#cb62-1" aria-hidden="true"></a><span class="co"># Load necessary packages</span></span>
+<span id="cb62-2"><a href="solution-proposal.html#cb62-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb62-3"><a href="solution-proposal.html#cb62-3" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb62-4"><a href="solution-proposal.html#cb62-4" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb62-5"><a href="solution-proposal.html#cb62-5" aria-hidden="true"></a></span>
+<span id="cb62-6"><a href="solution-proposal.html#cb62-6" aria-hidden="true"></a><span class="co"># Initiate the llm client</span></span>
+<span id="cb62-7"><a href="solution-proposal.html#cb62-7" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb62-8"><a href="solution-proposal.html#cb62-8" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb62-9"><a href="solution-proposal.html#cb62-9" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb62-10"><a href="solution-proposal.html#cb62-10" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb62-11"><a href="solution-proposal.html#cb62-11" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb62-12"><a href="solution-proposal.html#cb62-12" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb62-13"><a href="solution-proposal.html#cb62-13" aria-hidden="true"></a>)</span>
+<span id="cb62-14"><a href="solution-proposal.html#cb62-14" aria-hidden="true"></a></span>
+<span id="cb62-15"><a href="solution-proposal.html#cb62-15" aria-hidden="true"></a><span class="co"># Define the message object</span></span>
+<span id="cb62-16"><a href="solution-proposal.html#cb62-16" aria-hidden="true"></a>messages <span class="op">=</span> [</span>
+<span id="cb62-17"><a href="solution-proposal.html#cb62-17" aria-hidden="true"></a>    (<span class="st">&quot;system&quot;</span>, system_prompt),</span>
+<span id="cb62-18"><a href="solution-proposal.html#cb62-18" aria-hidden="true"></a>    (<span class="st">&quot;human&quot;</span>, <span class="st">&quot;Who are lecturing in the course BAN443?&quot;</span>),</span>
+<span id="cb62-19"><a href="solution-proposal.html#cb62-19" aria-hidden="true"></a>]</span>
+<span id="cb62-20"><a href="solution-proposal.html#cb62-20" aria-hidden="true"></a></span>
+<span id="cb62-21"><a href="solution-proposal.html#cb62-21" aria-hidden="true"></a>ai_msg <span class="op">=</span> client.invoke(messages)</span>
+<span id="cb62-22"><a href="solution-proposal.html#cb62-22" aria-hidden="true"></a><span class="bu">print</span>(ai_msg.content)</span></code></pre></div>
+<p>Then, we wrap this in a function as with the OpenAI Azure package:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb63-1"><a href="solution-proposal.html#cb63-1" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb63-2"><a href="solution-proposal.html#cb63-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb63-3"><a href="solution-proposal.html#cb63-3" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb63-4"><a href="solution-proposal.html#cb63-4" aria-hidden="true"></a></span>
+<span id="cb63-5"><a href="solution-proposal.html#cb63-5" aria-hidden="true"></a><span class="co"># Initialize the client once</span></span>
+<span id="cb63-6"><a href="solution-proposal.html#cb63-6" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb63-7"><a href="solution-proposal.html#cb63-7" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb63-8"><a href="solution-proposal.html#cb63-8" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb63-9"><a href="solution-proposal.html#cb63-9" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb63-10"><a href="solution-proposal.html#cb63-10" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb63-11"><a href="solution-proposal.html#cb63-11" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb63-12"><a href="solution-proposal.html#cb63-12" aria-hidden="true"></a>)</span>
+<span id="cb63-13"><a href="solution-proposal.html#cb63-13" aria-hidden="true"></a></span>
+<span id="cb63-14"><a href="solution-proposal.html#cb63-14" aria-hidden="true"></a><span class="kw">def</span> ask_group01_langchain(system_prompt: <span class="bu">str</span>, user_prompt: <span class="bu">str</span>, temperature: <span class="bu">float</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb63-15"><a href="solution-proposal.html#cb63-15" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb63-16"><a href="solution-proposal.html#cb63-16" aria-hidden="true"></a><span class="co">    Send a chat request to the Group01 Azure OpenAI deployment using LangChain.</span></span>
+<span id="cb63-17"><a href="solution-proposal.html#cb63-17" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb63-18"><a href="solution-proposal.html#cb63-18" aria-hidden="true"></a>    messages <span class="op">=</span> [</span>
+<span id="cb63-19"><a href="solution-proposal.html#cb63-19" aria-hidden="true"></a>        (<span class="st">&quot;system&quot;</span>, system_prompt),</span>
+<span id="cb63-20"><a href="solution-proposal.html#cb63-20" aria-hidden="true"></a>        (<span class="st">&quot;human&quot;</span>, user_prompt),</span>
+<span id="cb63-21"><a href="solution-proposal.html#cb63-21" aria-hidden="true"></a>    ]</span>
+<span id="cb63-22"><a href="solution-proposal.html#cb63-22" aria-hidden="true"></a>    ai_msg <span class="op">=</span> client.invoke(messages)</span>
+<span id="cb63-23"><a href="solution-proposal.html#cb63-23" aria-hidden="true"></a>    <span class="cf">return</span> ai_msg.content</span>
+<span id="cb63-24"><a href="solution-proposal.html#cb63-24" aria-hidden="true"></a></span>
+<span id="cb63-25"><a href="solution-proposal.html#cb63-25" aria-hidden="true"></a><span class="co"># Example use</span></span>
+<span id="cb63-26"><a href="solution-proposal.html#cb63-26" aria-hidden="true"></a>reply <span class="op">=</span> ask_group01_langchain(system_prompt, <span class="st">&quot;Who are lecturing in the course BAN443?&quot;</span>)</span>
+<span id="cb63-27"><a href="solution-proposal.html#cb63-27" aria-hidden="true"></a><span class="bu">print</span>(reply)</span></code></pre></div>
+</div>
+</div>
+<div id="question-3-analyze-letterboxd-dataset" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Question 3: Analyze Letterboxd dataset<a href="solution-proposal.html#question-3-analyze-letterboxd-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The students got some code to start with, to make it easier to download the dataset. As with the previous question, all you really need to do is to find the necessary code in a previous notebook or on the course website and tweak it a bit.</p>
+<p>There are several code snippets we could use:
+- We could make an LLM function just return a string with what we want (OpenAI package or LangChain package)
+- We could use the structured output functionality (again, works both with OpenAI package and LangChain package)</p>
+<p>I do both below.</p>
+<p>Note that the way to answer both question a and b are the same, so I will show the approach for question b (several different ways). For question a you would just add to the prompt some definition of what you think a good or bad movie is, and make it return (extract) either LIKE or DISLIKE (for example).</p>
+<div id="lets-first-get-the-data" class="section level4 hasAnchor" number="7.1.3.1">
+<h4><span class="header-section-number">7.1.3.1</span> Let’s first get the data<a href="solution-proposal.html#lets-first-get-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="solution-proposal.html#cb64-1" aria-hidden="true"></a><span class="co"># First, let&#39;s get the data</span></span>
+<span id="cb64-2"><a href="solution-proposal.html#cb64-2" aria-hidden="true"></a><span class="im">import</span> kagglehub</span>
+<span id="cb64-3"><a href="solution-proposal.html#cb64-3" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb64-4"><a href="solution-proposal.html#cb64-4" aria-hidden="true"></a><span class="im">import</span> os</span>
+<span id="cb64-5"><a href="solution-proposal.html#cb64-5" aria-hidden="true"></a></span>
+<span id="cb64-6"><a href="solution-proposal.html#cb64-6" aria-hidden="true"></a><span class="co"># Information on how to get the api username and key: https://www.kaggle.com/docs/api</span></span>
+<span id="cb64-7"><a href="solution-proposal.html#cb64-7" aria-hidden="true"></a>os.environ[<span class="st">&quot;KAGGLE_USERNAME&quot;</span>] <span class="op">=</span> <span class="st">&quot;eirikberger&quot;</span></span>
+<span id="cb64-8"><a href="solution-proposal.html#cb64-8" aria-hidden="true"></a>os.environ[<span class="st">&quot;KAGGLE_KEY&quot;</span>] <span class="op">=</span> userdata.get(<span class="st">&#39;kaggle&#39;</span>)</span>
+<span id="cb64-9"><a href="solution-proposal.html#cb64-9" aria-hidden="true"></a></span>
+<span id="cb64-10"><a href="solution-proposal.html#cb64-10" aria-hidden="true"></a><span class="co"># Download latest version</span></span>
+<span id="cb64-11"><a href="solution-proposal.html#cb64-11" aria-hidden="true"></a>path <span class="op">=</span> kagglehub.dataset_download(<span class="st">&quot;samlearner/letterboxd-movie-ratings-data&quot;</span>)</span>
+<span id="cb64-12"><a href="solution-proposal.html#cb64-12" aria-hidden="true"></a></span>
+<span id="cb64-13"><a href="solution-proposal.html#cb64-13" aria-hidden="true"></a><span class="co"># Then, we import the dataset and print a part of it</span></span>
+<span id="cb64-14"><a href="solution-proposal.html#cb64-14" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb64-15"><a href="solution-proposal.html#cb64-15" aria-hidden="true"></a></span>
+<span id="cb64-16"><a href="solution-proposal.html#cb64-16" aria-hidden="true"></a>file_path <span class="op">=</span> path <span class="op">+</span> <span class="st">&quot;/movie_data.csv&quot;</span></span>
+<span id="cb64-17"><a href="solution-proposal.html#cb64-17" aria-hidden="true"></a></span>
+<span id="cb64-18"><a href="solution-proposal.html#cb64-18" aria-hidden="true"></a>df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb64-19"><a href="solution-proposal.html#cb64-19" aria-hidden="true"></a>    file_path,</span>
+<span id="cb64-20"><a href="solution-proposal.html#cb64-20" aria-hidden="true"></a>    sep<span class="op">=</span><span class="st">&quot;,&quot;</span>,</span>
+<span id="cb64-21"><a href="solution-proposal.html#cb64-21" aria-hidden="true"></a>    on_bad_lines<span class="op">=</span><span class="st">&quot;warn&quot;</span>,</span>
+<span id="cb64-22"><a href="solution-proposal.html#cb64-22" aria-hidden="true"></a>    quoting<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb64-23"><a href="solution-proposal.html#cb64-23" aria-hidden="true"></a>    encoding<span class="op">=</span><span class="st">&quot;utf-8&quot;</span>,</span>
+<span id="cb64-24"><a href="solution-proposal.html#cb64-24" aria-hidden="true"></a>    lineterminator<span class="op">=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span></span>
+<span id="cb64-25"><a href="solution-proposal.html#cb64-25" aria-hidden="true"></a>)</span>
+<span id="cb64-26"><a href="solution-proposal.html#cb64-26" aria-hidden="true"></a>df.head(<span class="dv">5</span>)</span>
+<span id="cb64-27"><a href="solution-proposal.html#cb64-27" aria-hidden="true"></a></span>
+<span id="cb64-28"><a href="solution-proposal.html#cb64-28" aria-hidden="true"></a><span class="co"># I extract a random subsample of movies from Norway, and I keep only the title and overview</span></span>
+<span id="cb64-29"><a href="solution-proposal.html#cb64-29" aria-hidden="true"></a>norway_movie_sample <span class="op">=</span> df[df.production_countries <span class="op">==</span> <span class="st">&#39;[&quot;Norway&quot;]&#39;</span>].sample(<span class="dv">10</span>)</span>
+<span id="cb64-30"><a href="solution-proposal.html#cb64-30" aria-hidden="true"></a>norway_movie_sample <span class="op">=</span> norway_movie_sample[[<span class="st">&#39;movie_title&#39;</span>, <span class="st">&#39;overview&#39;</span>]]</span>
+<span id="cb64-31"><a href="solution-proposal.html#cb64-31" aria-hidden="true"></a>norway_movie_sample</span></code></pre></div>
+</div>
+<div id="structure-using-azure-openai-package" class="section level4 hasAnchor" number="7.1.3.2">
+<h4><span class="header-section-number">7.1.3.2</span> Structure using Azure OpenAI package<a href="solution-proposal.html#structure-using-azure-openai-package" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb65-1"><a href="solution-proposal.html#cb65-1" aria-hidden="true"></a><span class="im">from</span> openai <span class="im">import</span> AzureOpenAI</span>
+<span id="cb65-2"><a href="solution-proposal.html#cb65-2" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb65-3"><a href="solution-proposal.html#cb65-3" aria-hidden="true"></a></span>
+<span id="cb65-4"><a href="solution-proposal.html#cb65-4" aria-hidden="true"></a>client <span class="op">=</span> AzureOpenAI(</span>
+<span id="cb65-5"><a href="solution-proposal.html#cb65-5" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&#39;AZURE_OPENAI_API_KEY&#39;</span>),</span>
+<span id="cb65-6"><a href="solution-proposal.html#cb65-6" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb65-7"><a href="solution-proposal.html#cb65-7" aria-hidden="true"></a>    base_url<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/openai/deployments/Group01/&quot;</span></span>
+<span id="cb65-8"><a href="solution-proposal.html#cb65-8" aria-hidden="true"></a>)</span>
+<span id="cb65-9"><a href="solution-proposal.html#cb65-9" aria-hidden="true"></a></span>
+<span id="cb65-10"><a href="solution-proposal.html#cb65-10" aria-hidden="true"></a><span class="kw">def</span> get_information(input_text):</span>
+<span id="cb65-11"><a href="solution-proposal.html#cb65-11" aria-hidden="true"></a>    <span class="co"># Simple chat completion</span></span>
+<span id="cb65-12"><a href="solution-proposal.html#cb65-12" aria-hidden="true"></a>    response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb65-13"><a href="solution-proposal.html#cb65-13" aria-hidden="true"></a>        model<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb65-14"><a href="solution-proposal.html#cb65-14" aria-hidden="true"></a>        messages<span class="op">=</span>[</span>
+<span id="cb65-15"><a href="solution-proposal.html#cb65-15" aria-hidden="true"></a>            {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;system&quot;</span>, <span class="st">&quot;content&quot;</span>: <span class="st">&quot;&quot;&quot;You are a helpful assistant. Extract the name of the main character,</span></span>
+<span id="cb65-16"><a href="solution-proposal.html#cb65-16" aria-hidden="true"></a><span class="st">            and nothing else. If not is provided, return nothing&quot;&quot;&quot;</span>},</span>
+<span id="cb65-17"><a href="solution-proposal.html#cb65-17" aria-hidden="true"></a>            {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: input_text}</span>
+<span id="cb65-18"><a href="solution-proposal.html#cb65-18" aria-hidden="true"></a>        ],</span>
+<span id="cb65-19"><a href="solution-proposal.html#cb65-19" aria-hidden="true"></a>        temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb65-20"><a href="solution-proposal.html#cb65-20" aria-hidden="true"></a>        max_tokens<span class="op">=</span><span class="dv">500</span></span>
+<span id="cb65-21"><a href="solution-proposal.html#cb65-21" aria-hidden="true"></a>    )</span>
+<span id="cb65-22"><a href="solution-proposal.html#cb65-22" aria-hidden="true"></a></span>
+<span id="cb65-23"><a href="solution-proposal.html#cb65-23" aria-hidden="true"></a>    <span class="cf">return</span> response.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb65-24"><a href="solution-proposal.html#cb65-24" aria-hidden="true"></a></span>
+<span id="cb65-25"><a href="solution-proposal.html#cb65-25" aria-hidden="true"></a><span class="co"># Test the function</span></span>
+<span id="cb65-26"><a href="solution-proposal.html#cb65-26" aria-hidden="true"></a>get_information(<span class="st">&quot;Norwegian Ninja is the true story of how Commander Arne Treholt and his Ninja Force saved Norway during the Cold War. In 1983 the Ninja Force discovers that the sinister NATO force Stay Behind, who take charge in times of war and emergency, are planning a coup-d&#39;état in peacetime. Treholt and the Ninjas see only one solution: a full can of whoop-ass.&quot;</span>)</span></code></pre></div>
+<p>Great. We will now loop over the dataframe we had above and save the response from the LLM as a new variable.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb66-1"><a href="solution-proposal.html#cb66-1" aria-hidden="true"></a><span class="co"># The &quot;apply&quot; part uses our function on all the &quot;overview&quot;</span></span>
+<span id="cb66-2"><a href="solution-proposal.html#cb66-2" aria-hidden="true"></a><span class="co"># rows in our dataset and create a new variable called &quot;main_character&quot; where it stores</span></span>
+<span id="cb66-3"><a href="solution-proposal.html#cb66-3" aria-hidden="true"></a><span class="co"># the output from the function</span></span>
+<span id="cb66-4"><a href="solution-proposal.html#cb66-4" aria-hidden="true"></a>norway_movie_sample[<span class="st">&#39;main_character&#39;</span>] <span class="op">=</span> norway_movie_sample[<span class="st">&#39;overview&#39;</span>].<span class="bu">apply</span>(get_information)</span>
+<span id="cb66-5"><a href="solution-proposal.html#cb66-5" aria-hidden="true"></a>norway_movie_sample.head(<span class="dv">5</span>)</span></code></pre></div>
+</div>
+<div id="a-somewhat-more-advanced-langchain-example" class="section level4 hasAnchor" number="7.1.3.3">
+<h4><span class="header-section-number">7.1.3.3</span> A somewhat more advanced LangChain example<a href="solution-proposal.html#a-somewhat-more-advanced-langchain-example" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb67-1"><a href="solution-proposal.html#cb67-1" aria-hidden="true"></a><span class="co"># LangChain standard OpenAI setup</span></span>
+<span id="cb67-2"><a href="solution-proposal.html#cb67-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb67-3"><a href="solution-proposal.html#cb67-3" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb67-4"><a href="solution-proposal.html#cb67-4" aria-hidden="true"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb67-5"><a href="solution-proposal.html#cb67-5" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List</span>
+<span id="cb67-6"><a href="solution-proposal.html#cb67-6" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb67-7"><a href="solution-proposal.html#cb67-7" aria-hidden="true"></a></span>
+<span id="cb67-8"><a href="solution-proposal.html#cb67-8" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb67-9"><a href="solution-proposal.html#cb67-9" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;AZURE_OPENAI_API_KEY&quot;</span>),</span>
+<span id="cb67-10"><a href="solution-proposal.html#cb67-10" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://gpt-ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb67-11"><a href="solution-proposal.html#cb67-11" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-01-01-preview&quot;</span>,</span>
+<span id="cb67-12"><a href="solution-proposal.html#cb67-12" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb67-13"><a href="solution-proposal.html#cb67-13" aria-hidden="true"></a>    temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb67-14"><a href="solution-proposal.html#cb67-14" aria-hidden="true"></a>)</span>
+<span id="cb67-15"><a href="solution-proposal.html#cb67-15" aria-hidden="true"></a></span>
+<span id="cb67-16"><a href="solution-proposal.html#cb67-16" aria-hidden="true"></a><span class="co"># Define the structure you want to extract</span></span>
+<span id="cb67-17"><a href="solution-proposal.html#cb67-17" aria-hidden="true"></a><span class="kw">class</span> Person(BaseModel):</span>
+<span id="cb67-18"><a href="solution-proposal.html#cb67-18" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Information about a person from text.&quot;&quot;&quot;</span></span>
+<span id="cb67-19"><a href="solution-proposal.html#cb67-19" aria-hidden="true"></a>    name: Optional[<span class="bu">str</span>] <span class="op">=</span> Field(default<span class="op">=</span><span class="va">None</span>, description<span class="op">=</span><span class="st">&quot;Name of main character described.&quot;</span>)</span>
+<span id="cb67-20"><a href="solution-proposal.html#cb67-20" aria-hidden="true"></a></span>
+<span id="cb67-21"><a href="solution-proposal.html#cb67-21" aria-hidden="true"></a><span class="co"># Create a prompt template</span></span>
+<span id="cb67-22"><a href="solution-proposal.html#cb67-22" aria-hidden="true"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb67-23"><a href="solution-proposal.html#cb67-23" aria-hidden="true"></a>    (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;You are an expert at extracting person information from text.&quot;</span>),</span>
+<span id="cb67-24"><a href="solution-proposal.html#cb67-24" aria-hidden="true"></a>    (<span class="st">&quot;human&quot;</span>, <span class="st">&quot;</span><span class="sc">{text}</span><span class="st">&quot;</span>)</span>
+<span id="cb67-25"><a href="solution-proposal.html#cb67-25" aria-hidden="true"></a>])</span>
+<span id="cb67-26"><a href="solution-proposal.html#cb67-26" aria-hidden="true"></a></span>
+<span id="cb67-27"><a href="solution-proposal.html#cb67-27" aria-hidden="true"></a><span class="co"># Create the structured extractor</span></span>
+<span id="cb67-28"><a href="solution-proposal.html#cb67-28" aria-hidden="true"></a>extractor <span class="op">=</span> prompt <span class="op">|</span> client.with_structured_output(</span>
+<span id="cb67-29"><a href="solution-proposal.html#cb67-29" aria-hidden="true"></a>    schema<span class="op">=</span>Person</span>
+<span id="cb67-30"><a href="solution-proposal.html#cb67-30" aria-hidden="true"></a>)</span>
+<span id="cb67-31"><a href="solution-proposal.html#cb67-31" aria-hidden="true"></a></span>
+<span id="cb67-32"><a href="solution-proposal.html#cb67-32" aria-hidden="true"></a><span class="co"># Test the extraction</span></span>
+<span id="cb67-33"><a href="solution-proposal.html#cb67-33" aria-hidden="true"></a>test_response <span class="op">=</span> extractor.invoke(<span class="st">&quot;Norwegian Ninja is the true story of how Commander Arne Treholt and his Ninja Force saved Norway during the Cold War. In 1983 the Ninja Force discovers that the sinister NATO force Stay Behind, who take charge in times of war and emergency, are planning a coup-d&#39;état in peacetime. Treholt and the Ninjas see only one solution: a full can of whoop-ass.&quot;</span>)</span>
+<span id="cb67-34"><a href="solution-proposal.html#cb67-34" aria-hidden="true"></a>test_response</span></code></pre></div>
+<p>Let’s get the structured output as text, by first getting JSON format as string, then loading the JSON and selecting the “name” element:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a href="solution-proposal.html#cb68-1" aria-hidden="true"></a><span class="im">import</span> json</span>
+<span id="cb68-2"><a href="solution-proposal.html#cb68-2" aria-hidden="true"></a></span>
+<span id="cb68-3"><a href="solution-proposal.html#cb68-3" aria-hidden="true"></a>text_response <span class="op">=</span> test_response.model_dump_json()</span>
+<span id="cb68-4"><a href="solution-proposal.html#cb68-4" aria-hidden="true"></a>text_response <span class="op">=</span> json.loads(text_response)</span>
+<span id="cb68-5"><a href="solution-proposal.html#cb68-5" aria-hidden="true"></a>text_response <span class="op">=</span> text_response[<span class="st">&quot;name&quot;</span>]</span>
+<span id="cb68-6"><a href="solution-proposal.html#cb68-6" aria-hidden="true"></a>text_response</span></code></pre></div>
+<p>We can run it on all the rows in our dataframe and save the variable back in at least two different ways:</p>
+</div>
+<div id="lets-do-it-by-making-a-function" class="section level4 hasAnchor" number="7.1.3.4">
+<h4><span class="header-section-number">7.1.3.4</span> Let’s do it by making a function<a href="solution-proposal.html#lets-do-it-by-making-a-function" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb69"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb69-1"><a href="solution-proposal.html#cb69-1" aria-hidden="true"></a><span class="co"># First, define a function</span></span>
+<span id="cb69-2"><a href="solution-proposal.html#cb69-2" aria-hidden="true"></a><span class="kw">def</span> extract_information_langchain_1(text_input):</span>
+<span id="cb69-3"><a href="solution-proposal.html#cb69-3" aria-hidden="true"></a>    response <span class="op">=</span> extractor.invoke(text_input)</span>
+<span id="cb69-4"><a href="solution-proposal.html#cb69-4" aria-hidden="true"></a>    text_response <span class="op">=</span> response.model_dump_json()</span>
+<span id="cb69-5"><a href="solution-proposal.html#cb69-5" aria-hidden="true"></a>    text_response <span class="op">=</span> json.loads(text_response)</span>
+<span id="cb69-6"><a href="solution-proposal.html#cb69-6" aria-hidden="true"></a>    text_response <span class="op">=</span> text_response[<span class="st">&quot;name&quot;</span>]</span>
+<span id="cb69-7"><a href="solution-proposal.html#cb69-7" aria-hidden="true"></a>    text_response</span>
+<span id="cb69-8"><a href="solution-proposal.html#cb69-8" aria-hidden="true"></a>    <span class="cf">return</span> text_response</span>
+<span id="cb69-9"><a href="solution-proposal.html#cb69-9" aria-hidden="true"></a></span>
+<span id="cb69-10"><a href="solution-proposal.html#cb69-10" aria-hidden="true"></a><span class="co"># Then run it on all the &quot;overview&quot; rows and save it to a new variable</span></span>
+<span id="cb69-11"><a href="solution-proposal.html#cb69-11" aria-hidden="true"></a>norway_movie_sample[<span class="st">&#39;main_character_langchain_1&#39;</span>] <span class="op">=</span> norway_movie_sample[<span class="st">&#39;overview&#39;</span>].<span class="bu">apply</span>(extract_information_langchain_1)</span>
+<span id="cb69-12"><a href="solution-proposal.html#cb69-12" aria-hidden="true"></a>norway_movie_sample.head(<span class="dv">5</span>)</span></code></pre></div>
+<div id="or-using-the-batch-mode-in-langchain" class="section level5 hasAnchor" number="7.1.3.4.1">
+<h5><span class="header-section-number">7.1.3.4.1</span> Or using the batch mode in LangChain<a href="solution-proposal.html#or-using-the-batch-mode-in-langchain" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="solution-proposal.html#cb70-1" aria-hidden="true"></a><span class="co"># Convert column to list of dicts with the right input key</span></span>
+<span id="cb70-2"><a href="solution-proposal.html#cb70-2" aria-hidden="true"></a>inputs <span class="op">=</span> [{<span class="st">&quot;text&quot;</span>: t} <span class="cf">for</span> t <span class="kw">in</span> norway_movie_sample[<span class="st">&quot;overview&quot;</span>].tolist()</span>
+<span id="cb70-3"><a href="solution-proposal.html#cb70-3" aria-hidden="true"></a></span>
+<span id="cb70-4"><a href="solution-proposal.html#cb70-4" aria-hidden="true"></a><span class="co"># Run in batch</span></span>
+<span id="cb70-5"><a href="solution-proposal.html#cb70-5" aria-hidden="true"></a>extractions <span class="op">=</span> extractor.batch(inputs, {<span class="st">&quot;max_concurrency&quot;</span>: <span class="dv">5</span>})</span>
+<span id="cb70-6"><a href="solution-proposal.html#cb70-6" aria-hidden="true"></a></span>
+<span id="cb70-7"><a href="solution-proposal.html#cb70-7" aria-hidden="true"></a><span class="co"># Save results back into a new column</span></span>
+<span id="cb70-8"><a href="solution-proposal.html#cb70-8" aria-hidden="true"></a><span class="co"># Note that the last expression there looks a bit strange, but a) ChatGPT could help you with that part</span></span>
+<span id="cb70-9"><a href="solution-proposal.html#cb70-9" aria-hidden="true"></a><span class="co"># as long as you can tell it what the &#39;extractions&#39; is and what you want to do with it.</span></span>
+<span id="cb70-10"><a href="solution-proposal.html#cb70-10" aria-hidden="true"></a><span class="co"># ... or you can just use this code here.</span></span>
+<span id="cb70-11"><a href="solution-proposal.html#cb70-11" aria-hidden="true"></a>norway_movie_sample[<span class="st">&quot;main_character_langchain_2&quot;</span>] <span class="op">=</span> [r.model_dump()[<span class="st">&quot;name&quot;</span>] <span class="cf">for</span> r <span class="kw">in</span> extractions]</span>
+<span id="cb70-12"><a href="solution-proposal.html#cb70-12" aria-hidden="true"></a></span>
+<span id="cb70-13"><a href="solution-proposal.html#cb70-13" aria-hidden="true"></a>norway_movie_sample</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="question-4" class="section level3 hasAnchor" number="7.1.4">
+<h3><span class="header-section-number">7.1.4</span> Question 4<a href="solution-proposal.html#question-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>I skip this question, as it’s fairly open and also it probably uses much of the same code as above. Let me know if you have questions!</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="exercises.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-summary.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ai-llm-course.pdf", "ai-llm-course.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
