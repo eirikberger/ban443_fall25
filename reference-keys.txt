@@ -90,7 +90,7 @@ retrieval-augmented-generation-rag-systems
 basic-rag-implementation
 persistent-vector-database
 company-data-extraction-from-brønnøysundregisteret
-bonus-content
+additional-content
 open-source-models
 why-choose-open-source-models
 downsides-and-challenges

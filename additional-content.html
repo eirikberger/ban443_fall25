@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | A Technical Companion for BAN443</title>
+  <title>Chapter 6 Additional Content | A Technical Companion for BAN443</title>
   <meta name="description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
   <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | A Technical Companion for BAN443" />
+  <meta property="og:title" content="Chapter 6 Additional Content | A Technical Companion for BAN443" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | A Technical Companion for BAN443" />
+  <meta name="twitter:title" content="Chapter 6 Additional Content | A Technical Companion for BAN443" />
   
   <meta name="twitter:description" content="BAN443: A brief course on transforming business with AI through Large Language Models. Learn Python programming, LLM fundamentals, API integration, LangChain framework, and practical applications for data analysis, automation, and business transformation." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="applications.html"/>
+<link rel="next" href="exercises.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -308,19 +308,173 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="additional-content" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Additional Content<a href="additional-content.html#additional-content" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="open-source-models" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Open Source models<a href="additional-content.html#open-source-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>While commercial APIs like OpenAI’s GPT models offer powerful capabilities, open source models provide an alternative approach with distinct advantages and considerations. This section explores why you might choose open source models, their benefits and limitations, and how to access them.</p>
+<div id="why-choose-open-source-models" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Why Choose Open Source Models?<a href="additional-content.html#why-choose-open-source-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Open source models offer several compelling reasons for adoption:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Cost Control</strong>: Unlike commercial APIs that charge per token, open source models can be run locally or on your own infrastructure, providing predictable costs and eliminating per-request fees.</li>
+<li><strong>Data Privacy</strong>: Running models locally ensures your data never leaves your environment, which is crucial for sensitive applications, proprietary information, or compliance requirements.</li>
+<li><strong>Customization</strong>: Open source models can be fine-tuned on your specific data, allowing for domain-specific adaptations that may outperform general-purpose models.</li>
+<li><strong>Transparency</strong>: The model architecture, training data, and weights are publicly available, enabling full transparency and auditability.</li>
+<li><strong>Independence</strong>: No reliance on external services means no API rate limits, service outages, or vendor lock-in concerns.</li>
+</ol>
+</div>
+<div id="downsides-and-challenges" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Downsides and Challenges<a href="additional-content.html#downsides-and-challenges" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><strong>Computational Requirements</strong>: Often require significant computational resources (GPUs, memory)</li>
+<li><strong>Technical Complexity</strong>: Setting up and maintaining local deployments can be complex</li>
+<li><strong>Performance Variability</strong>: May not match the performance of the latest commercial models</li>
+<li><strong>Maintenance Overhead</strong>: Requires ongoing updates, security patches, and infrastructure management</li>
+<li><strong>Limited Support</strong>: No commercial support compared to paid API services</li>
+</ol>
+</div>
+<div id="where-to-get-open-source-models-hugging-face" class="section level3 hasAnchor" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Where to Get Open Source Models: Hugging Face<a href="additional-content.html#where-to-get-open-source-models-hugging-face" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Hugging Face is the primary platform for accessing open source models. It hosts thousands of pre-trained models across various domains and provides tools for easy integration.</p>
+<div id="setting-up-hugging-face" class="section level4 hasAnchor" number="6.1.3.1">
+<h4><span class="header-section-number">6.1.3.1</span> Setting up Hugging Face<a href="additional-content.html#setting-up-hugging-face" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>First, you’ll need to create an account and get an access token:</p>
+<ol style="list-style-type: decimal">
+<li>Visit <a href="https://huggingface.co">huggingface.co</a> and create a free account</li>
+<li>Go to Settings → Access Tokens</li>
+<li>Create a new token with appropriate permissions</li>
+<li>Log in using the token:</li>
+</ol>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="additional-content.html#cb60-1" aria-hidden="true"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> login</span>
+<span id="cb60-2"><a href="additional-content.html#cb60-2" aria-hidden="true"></a>login()  <span class="co"># This will prompt for your token, which you can create by following the link that will apear by running the code above</span></span></code></pre></div>
+<p>You can then store the token in your environment variables, so you don’t have to log in every time. Here you use the colab secrets as before.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a href="additional-content.html#cb61-1" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb61-2"><a href="additional-content.html#cb61-2" aria-hidden="true"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> login</span>
+<span id="cb61-3"><a href="additional-content.html#cb61-3" aria-hidden="true"></a>HF_TOKEN <span class="op">=</span> userdata.get(<span class="st">&quot;HUGGINGFACEHUB_TOKEN&quot;</span>)</span>
+<span id="cb61-4"><a href="additional-content.html#cb61-4" aria-hidden="true"></a>login(HF_TOKEN)</span></code></pre></div>
+</div>
+<div id="using-open-source-models-with-langchain" class="section level4 hasAnchor" number="6.1.3.2">
+<h4><span class="header-section-number">6.1.3.2</span> Using Open Source Models with LangChain<a href="additional-content.html#using-open-source-models-with-langchain" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="additional-content.html#cb62-1" aria-hidden="true"></a><span class="co"># Install required packages</span></span>
+<span id="cb62-2"><a href="additional-content.html#cb62-2" aria-hidden="true"></a><span class="op">!</span>pip install langchain<span class="op">-</span>huggingface transformers</span>
+<span id="cb62-3"><a href="additional-content.html#cb62-3" aria-hidden="true"></a></span>
+<span id="cb62-4"><a href="additional-content.html#cb62-4" aria-hidden="true"></a><span class="im">from</span> langchain_huggingface <span class="im">import</span> HuggingFacePipeline</span>
+<span id="cb62-5"><a href="additional-content.html#cb62-5" aria-hidden="true"></a></span>
+<span id="cb62-6"><a href="additional-content.html#cb62-6" aria-hidden="true"></a>llm <span class="op">=</span> HuggingFacePipeline.from_model_id(</span>
+<span id="cb62-7"><a href="additional-content.html#cb62-7" aria-hidden="true"></a>    model_id<span class="op">=</span><span class="st">&quot;gpt2&quot;</span>,</span>
+<span id="cb62-8"><a href="additional-content.html#cb62-8" aria-hidden="true"></a>    task<span class="op">=</span><span class="st">&quot;text-generation&quot;</span>,</span>
+<span id="cb62-9"><a href="additional-content.html#cb62-9" aria-hidden="true"></a>    pipeline_kwargs<span class="op">=</span>{<span class="st">&quot;max_new_tokens&quot;</span>: <span class="dv">10</span>},</span>
+<span id="cb62-10"><a href="additional-content.html#cb62-10" aria-hidden="true"></a>)</span>
+<span id="cb62-11"><a href="additional-content.html#cb62-11" aria-hidden="true"></a></span>
+<span id="cb62-12"><a href="additional-content.html#cb62-12" aria-hidden="true"></a>response <span class="op">=</span> llm.invoke(<span class="st">&quot;What is machine learning?&quot;</span>)</span>
+<span id="cb62-13"><a href="additional-content.html#cb62-13" aria-hidden="true"></a><span class="bu">print</span>(response)</span></code></pre></div>
+</div>
+<div id="embedding-models-from-hugging-face" class="section level4 hasAnchor" number="6.1.3.3">
+<h4><span class="header-section-number">6.1.3.3</span> Embedding Models from Hugging Face<a href="additional-content.html#embedding-models-from-hugging-face" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb63-1"><a href="additional-content.html#cb63-1" aria-hidden="true"></a><span class="op">!</span>pip install langchain<span class="op">-</span>huggingface transformers</span>
+<span id="cb63-2"><a href="additional-content.html#cb63-2" aria-hidden="true"></a><span class="im">from</span> langchain_huggingface <span class="im">import</span> HuggingFaceEmbeddings</span>
+<span id="cb63-3"><a href="additional-content.html#cb63-3" aria-hidden="true"></a></span>
+<span id="cb63-4"><a href="additional-content.html#cb63-4" aria-hidden="true"></a><span class="co"># Use a popular embedding model</span></span>
+<span id="cb63-5"><a href="additional-content.html#cb63-5" aria-hidden="true"></a>embeddings <span class="op">=</span> HuggingFaceEmbeddings(</span>
+<span id="cb63-6"><a href="additional-content.html#cb63-6" aria-hidden="true"></a>    model_name<span class="op">=</span><span class="st">&quot;google/embeddinggemma-300m&quot;</span>,</span>
+<span id="cb63-7"><a href="additional-content.html#cb63-7" aria-hidden="true"></a>    model_kwargs<span class="op">=</span>{<span class="st">&quot;trust_remote_code&quot;</span>: <span class="va">True</span>},</span>
+<span id="cb63-8"><a href="additional-content.html#cb63-8" aria-hidden="true"></a>    encode_kwargs<span class="op">=</span>{<span class="st">&quot;normalize_embeddings&quot;</span>: <span class="va">True</span>},</span>
+<span id="cb63-9"><a href="additional-content.html#cb63-9" aria-hidden="true"></a>)</span>
+<span id="cb63-10"><a href="additional-content.html#cb63-10" aria-hidden="true"></a></span>
+<span id="cb63-11"><a href="additional-content.html#cb63-11" aria-hidden="true"></a><span class="co"># Test the embeddings</span></span>
+<span id="cb63-12"><a href="additional-content.html#cb63-12" aria-hidden="true"></a>texts <span class="op">=</span> [<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Machine learning is fascinating&quot;</span>]</span>
+<span id="cb63-13"><a href="additional-content.html#cb63-13" aria-hidden="true"></a>embeddings_result <span class="op">=</span> embeddings.embed_documents(texts)</span>
+<span id="cb63-14"><a href="additional-content.html#cb63-14" aria-hidden="true"></a><span class="bu">print</span>(<span class="ss">f&quot;Embedding dimension: </span><span class="sc">{</span><span class="bu">len</span>(embeddings_result[<span class="dv">0</span>])<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<p>Open source models can be seamlessly integrated into the LangChain workflows demonstrated in this chapter. Simply replace the commercial API calls with local model instances.</p>
+</div>
+</div>
+</div>
+<div id="overview-of-models-and-their-capabilities" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Overview of Models and Their Capabilities<a href="additional-content.html#overview-of-models-and-their-capabilities" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When choosing between different language models, it’s essential to understand how to evaluate and compare their performance. This section provides an overview of model evaluation methods and resources for comparing different options.</p>
+<div id="measuring-model-quality" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Measuring Model Quality<a href="additional-content.html#measuring-model-quality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Model quality can be assessed through several dimensions:</p>
+<ul>
+<li><strong>Benchmark Performance</strong>: Standardized tests like MMLU (Massive Multitask Language Understanding), HellaSwag, and HumanEval measure specific capabilities across different domains</li>
+<li><strong>Human Feedback</strong>: Direct human evaluation of model outputs provides the most reliable assessment of real-world performance and user satisfaction.</li>
+<li><strong>Task-Specific Metrics</strong>: For specialized applications, custom metrics tailored to your specific use case (e.g., accuracy in data extraction, relevance in search) are often most meaningful</li>
+<li><strong>Latency and Throughput</strong>: Response time and requests per second are crucial for production applications.</li>
+<li><strong>Cost Efficiency</strong>: Performance per dollar spent, considering both API costs and computational requirements.</li>
+</ul>
+</div>
+<div id="model-comparison-resources" class="section level3 hasAnchor" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Model Comparison Resources<a href="additional-content.html#model-comparison-resources" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="artificial-analysis-httpsartificialanalysis.ai" class="section level4 hasAnchor" number="6.2.2.1">
+<h4><span class="header-section-number">6.2.2.1</span> Artificial Analysis (<a href="https://artificialanalysis.ai/" class="uri">https://artificialanalysis.ai/</a>)<a href="additional-content.html#artificial-analysis-httpsartificialanalysis.ai" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This comprehensive platform provides detailed comparisons of language models across multiple dimensions:</p>
+<ul>
+<li><strong>Performance Benchmarks</strong>: Side-by-side comparisons of model performance on standard tests</li>
+<li><strong>Pricing Information</strong>: Real-time pricing data for different models and providers</li>
+<li><strong>Speed Metrics</strong>: Response times and throughput measurements</li>
+<li><strong>Quality Scores</strong>: Aggregated quality assessments across different tasks</li>
+<li><strong>Provider Information</strong>: Details about model providers, availability, and features</li>
+</ul>
+<p>The platform is particularly useful for:
+- Comparing commercial APIs (OpenAI, Anthropic, Google, etc.)
+- Finding cost-effective alternatives for specific use cases
+- Monitoring performance changes over time
+- Identifying the best model for your specific requirements</p>
+</div>
+<div id="lm-arena-httpslmarena.ai" class="section level4 hasAnchor" number="6.2.2.2">
+<h4><span class="header-section-number">6.2.2.2</span> LM Arena (<a href="https://lmarena.ai/" class="uri">https://lmarena.ai/</a>)<a href="additional-content.html#lm-arena-httpslmarena.ai" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>LM Arena (<a href="https://lmarena.ai/" class="uri">https://lmarena.ai/</a>) is an interactive platform for comparing large language models (LLMs) through direct, side-by-side evaluation. Users can submit prompts and view anonymized responses from multiple models (such as OpenAI, Anthropic, Google, and open-source models) without knowing which model produced which answer. After reviewing the outputs, users can vote for the best response or indicate a tie. The platform aggregates these votes to provide community-driven rankings and insights into model performance across a wide range of real-world prompts.</p>
+<p>Key features of LM Arena:</p>
+<ul>
+<li><strong>Blind Evaluation</strong>: Model names are hidden during voting to reduce bias</li>
+<li><strong>Crowdsourced Judgments</strong>: Anyone can participate, making the rankings more robust and representative.</li>
+<li><strong>Prompt Diversity</strong>: Users can submit their own prompts or use existing ones, covering many domains and tasks.</li>
+<li><strong>Live Leaderboards</strong>: Results are updated in real time, showing which models are preferred by the community.</li>
+<li><strong>Transparency</strong>: You can explore example prompts, see detailed voting breakdowns, and analyze model strengths and weaknesses.</li>
+</ul>
+<p>LM Arena is a valuable resource for anyone interested in understanding how different LLMs perform on practical tasks, based on collective human preferences rather than just benchmarks or automated metrics.</p>
+</div>
+</div>
+</div>
+<div id="risks-of-llms-and-ai" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Risks of LLMs and AI<a href="additional-content.html#risks-of-llms-and-ai" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are several risks associated with LLMs and AI (a very brief overview):</p>
+<ul>
+<li><strong>Misinformation and hallucination</strong>: Models may generate false or misleading content with convincing confidence.<br />
+</li>
+<li><strong>Bias and discrimination</strong>: Training data can embed social, cultural, or historical biases that models then reproduce.<br />
+</li>
+<li><strong>Security vulnerabilities</strong>: Prompt injection, jailbreaking, or adversarial inputs can trick models into harmful outputs.<br />
+</li>
+<li><strong>Privacy concerns</strong>: Risk of leaking sensitive or personal data if models are trained or prompted with confidential information.<br />
+</li>
+<li><strong>Intellectual property issues</strong>: Outputs may infringe on copyrights or trademarks, raising legal and ethical challenges.<br />
+</li>
+<li><strong>Job displacement</strong>: Automation threatens certain professions, especially in writing, translation, customer service, and coding.<br />
+</li>
+<li><strong>Overreliance and de-skilling</strong>: Excessive dependence on AI tools can reduce human expertise and critical thinking.<br />
+</li>
+<li><strong>Explainability and accountability</strong>: Difficult to trace why models make specific decisions or outputs.<br />
+</li>
+<li><strong>Energy and environmental costs</strong>: Training and running large models requires significant computational power.<br />
+</li>
+<li><strong>Concentration of power</strong>: Few companies controlling frontier AI models may create monopolistic or geopolitical risks.<br />
+</li>
+<li><strong>Dual-use risks</strong>: Technology can be repurposed for malicious ends (e.g., disinformation campaigns, cyberattacks, bioweapons research).<br />
+</li>
+<li><strong>Alignment and control</strong>: Ensuring models reliably follow human intentions without unintended consequences remains unsolved.</li>
+</ul>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="applications.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -351,7 +505,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-application.Rmd",
 "text": "Edit"
 },
 "history": {
