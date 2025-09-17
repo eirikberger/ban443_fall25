@@ -103,6 +103,7 @@ measuring-model-quality
 model-comparison-resources
 artificial-analysis-httpsartificialanalysis.ai
 lm-arena-httpslmarena.ai
+risks-of-llms-and-ai
 exercises
 lab-1
 lab-2
