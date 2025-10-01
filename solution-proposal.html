@@ -23,7 +23,7 @@
 <meta name="author" content="Eirik Berger Abel" />
 
 
-<meta name="date" content="2025-09-17" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -286,6 +286,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.1.3" data-path="solution-proposal.html"><a href="solution-proposal.html#question-3-analyze-letterboxd-dataset"><i class="fa fa-check"></i><b>8.1.3</b> Question 3: Analyze Letterboxd dataset</a></li>
 <li class="chapter" data-level="8.1.4" data-path="solution-proposal.html"><a href="solution-proposal.html#question-4"><i class="fa fa-check"></i><b>8.1.4</b> Question 4</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="solution-proposal.html"><a href="solution-proposal.html#lab-2-1"><i class="fa fa-check"></i><b>8.2</b> Lab 2</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="solution-proposal.html"><a href="solution-proposal.html#question-1-journalist-llm"><i class="fa fa-check"></i><b>8.2.1</b> Question 1: Journalist LLM</a></li>
+<li class="chapter" data-level="8.2.2" data-path="solution-proposal.html"><a href="solution-proposal.html#question-2-dataset-analysis"><i class="fa fa-check"></i><b>8.2.2</b> Question 2: Dataset Analysis</a></li>
+<li class="chapter" data-level="8.2.3" data-path="solution-proposal.html"><a href="solution-proposal.html#question-3-chatbot-with-additional-information"><i class="fa fa-check"></i><b>8.2.3</b> Question 3: Chatbot with Additional Information</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>9</b> Final Words</a></li>
 <li class="divider"></li>
@@ -312,6 +318,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 8</span> Solution proposal<a href="solution-proposal.html#solution-proposal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="lab-1-1" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Lab 1<a href="solution-proposal.html#lab-1-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://colab.research.google.com/drive/1w9h1BA0Gt263cT3cGtxAFCOjLUnxQPft?usp=sharing" target="_blank">
+<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a></p>
 <div id="question-1-using-an-api-and-making-a-function-from-it" class="section level3 hasAnchor" number="8.1.1">
 <h3><span class="header-section-number">8.1.1</span> Question 1: Using an API and making a function from it<a href="solution-proposal.html#question-1-using-an-api-and-making-a-function-from-it" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This question contains two parts: 1) Making an API work and 2) ‘wrapping’ it inside a function.</p>
@@ -698,6 +707,348 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="question-4" class="section level3 hasAnchor" number="8.1.4">
 <h3><span class="header-section-number">8.1.4</span> Question 4<a href="solution-proposal.html#question-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>I skip this question, as it’s fairly open and also it probably uses much of the same code as above. Let me know if you have questions!</p>
+</div>
+</div>
+<div id="lab-2-1" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Lab 2<a href="solution-proposal.html#lab-2-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://colab.research.google.com/drive/1CWYwP_Sj6D83x67tCvU88V3R7eyHVKiM?usp=sharing" target="_blank">
+<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a></p>
+<div id="question-1-journalist-llm" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Question 1: Journalist LLM<a href="solution-proposal.html#question-1-journalist-llm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This question asks us to create a function that helps journalists summarize articles. The function should take text input and return a summary in a structured format.</p>
+<div id="basic-journalist-function" class="section level4 hasAnchor" number="8.2.1.1">
+<h4><span class="header-section-number">8.2.1.1</span> Basic Journalist Function<a href="solution-proposal.html#basic-journalist-function" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb79"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb79-1"><a href="solution-proposal.html#cb79-1" aria-hidden="true"></a><span class="co"># LangChain Azure OpenAI setup</span></span>
+<span id="cb79-2"><a href="solution-proposal.html#cb79-2" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb79-3"><a href="solution-proposal.html#cb79-3" aria-hidden="true"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb79-4"><a href="solution-proposal.html#cb79-4" aria-hidden="true"></a></span>
+<span id="cb79-5"><a href="solution-proposal.html#cb79-5" aria-hidden="true"></a><span class="co"># Initialize the Azure OpenAI client</span></span>
+<span id="cb79-6"><a href="solution-proposal.html#cb79-6" aria-hidden="true"></a>client <span class="op">=</span> AzureChatOpenAI(</span>
+<span id="cb79-7"><a href="solution-proposal.html#cb79-7" aria-hidden="true"></a>    api_key<span class="op">=</span>userdata.get(<span class="st">&quot;new_azure_gpt5&quot;</span>),</span>
+<span id="cb79-8"><a href="solution-proposal.html#cb79-8" aria-hidden="true"></a>    azure_endpoint<span class="op">=</span><span class="st">&quot;https://ban443-1.openai.azure.com/&quot;</span>,</span>
+<span id="cb79-9"><a href="solution-proposal.html#cb79-9" aria-hidden="true"></a>    api_version<span class="op">=</span><span class="st">&quot;2025-03-01-preview&quot;</span>,</span>
+<span id="cb79-10"><a href="solution-proposal.html#cb79-10" aria-hidden="true"></a>    azure_deployment<span class="op">=</span><span class="st">&quot;Group01&quot;</span>,</span>
+<span id="cb79-11"><a href="solution-proposal.html#cb79-11" aria-hidden="true"></a>)</span>
+<span id="cb79-12"><a href="solution-proposal.html#cb79-12" aria-hidden="true"></a></span>
+<span id="cb79-13"><a href="solution-proposal.html#cb79-13" aria-hidden="true"></a><span class="kw">def</span> journalist_task(article: <span class="bu">str</span>):</span>
+<span id="cb79-14"><a href="solution-proposal.html#cb79-14" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb79-15"><a href="solution-proposal.html#cb79-15" aria-hidden="true"></a><span class="co">    Function to summarize articles for journalists.</span></span>
+<span id="cb79-16"><a href="solution-proposal.html#cb79-16" aria-hidden="true"></a><span class="co">    Takes an article text and returns a structured summary with bullet points.</span></span>
+<span id="cb79-17"><a href="solution-proposal.html#cb79-17" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb79-18"><a href="solution-proposal.html#cb79-18" aria-hidden="true"></a>    msgs <span class="op">=</span> [</span>
+<span id="cb79-19"><a href="solution-proposal.html#cb79-19" aria-hidden="true"></a>        (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb79-20"><a href="solution-proposal.html#cb79-20" aria-hidden="true"></a><span class="st">              You are a helpful assistant that specializes in summarizing articles for journalists, in the language the article was written.</span></span>
+<span id="cb79-21"><a href="solution-proposal.html#cb79-21" aria-hidden="true"></a><span class="st">              This means you put the main points of the article in bullet points. It would look something like this:</span></span>
+<span id="cb79-22"><a href="solution-proposal.html#cb79-22" aria-hidden="true"></a><span class="st">              Title for Article</span></span>
+<span id="cb79-23"><a href="solution-proposal.html#cb79-23" aria-hidden="true"></a><span class="st">              * Point 1</span></span>
+<span id="cb79-24"><a href="solution-proposal.html#cb79-24" aria-hidden="true"></a><span class="st">              * Point 2</span></span>
+<span id="cb79-25"><a href="solution-proposal.html#cb79-25" aria-hidden="true"></a><span class="st">              * Point 3</span></span>
+<span id="cb79-26"><a href="solution-proposal.html#cb79-26" aria-hidden="true"></a><span class="st">              * ...</span></span>
+<span id="cb79-27"><a href="solution-proposal.html#cb79-27" aria-hidden="true"></a></span>
+<span id="cb79-28"><a href="solution-proposal.html#cb79-28" aria-hidden="true"></a><span class="st">              This could for example be:</span></span>
+<span id="cb79-29"><a href="solution-proposal.html#cb79-29" aria-hidden="true"></a><span class="st">              Donald Trump Wins Election</span></span>
+<span id="cb79-30"><a href="solution-proposal.html#cb79-30" aria-hidden="true"></a><span class="st">              * Donald Trump has become the president of The Unites States of America</span></span>
+<span id="cb79-31"><a href="solution-proposal.html#cb79-31" aria-hidden="true"></a><span class="st">              * The Republican party got x amount of votes, and y mandates</span></span>
+<span id="cb79-32"><a href="solution-proposal.html#cb79-32" aria-hidden="true"></a><span class="st">              * &lt;An important quote from the article&gt;</span></span>
+<span id="cb79-33"><a href="solution-proposal.html#cb79-33" aria-hidden="true"></a><span class="st">              * ...</span></span>
+<span id="cb79-34"><a href="solution-proposal.html#cb79-34" aria-hidden="true"></a><span class="st">      &quot;&quot;&quot;</span></span>
+<span id="cb79-35"><a href="solution-proposal.html#cb79-35" aria-hidden="true"></a>      ),</span>
+<span id="cb79-36"><a href="solution-proposal.html#cb79-36" aria-hidden="true"></a>        (<span class="st">&quot;human&quot;</span>, <span class="ss">f&quot;Make me a summary of this article with 200 to 300 words: </span><span class="sc">{</span>article<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb79-37"><a href="solution-proposal.html#cb79-37" aria-hidden="true"></a>    ]</span>
+<span id="cb79-38"><a href="solution-proposal.html#cb79-38" aria-hidden="true"></a></span>
+<span id="cb79-39"><a href="solution-proposal.html#cb79-39" aria-hidden="true"></a>    <span class="co"># Use the responses API for cleaner output</span></span>
+<span id="cb79-40"><a href="solution-proposal.html#cb79-40" aria-hidden="true"></a>    response <span class="op">=</span> client.invoke(msgs)</span>
+<span id="cb79-41"><a href="solution-proposal.html#cb79-41" aria-hidden="true"></a>    <span class="cf">return</span> response.content</span>
+<span id="cb79-42"><a href="solution-proposal.html#cb79-42" aria-hidden="true"></a></span>
+<span id="cb79-43"><a href="solution-proposal.html#cb79-43" aria-hidden="true"></a><span class="co"># Example usage with a news article</span></span>
+<span id="cb79-44"><a href="solution-proposal.html#cb79-44" aria-hidden="true"></a>answer <span class="op">=</span> journalist_task(</span>
+<span id="cb79-45"><a href="solution-proposal.html#cb79-45" aria-hidden="true"></a>    <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb79-46"><a href="solution-proposal.html#cb79-46" aria-hidden="true"></a><span class="st">    Israel has launched its long-threatened ground offensive into the densely packed streets of Gaza City, military officials have confirmed.</span></span>
+<span id="cb79-47"><a href="solution-proposal.html#cb79-47" aria-hidden="true"></a><span class="st">    </span></span>
+<span id="cb79-48"><a href="solution-proposal.html#cb79-48" aria-hidden="true"></a><span class="st">    One Israel Defense Forces (IDF) official said that troops had begun what he called the &quot;main phase&quot; of the offensive, with an overnight advance from the outskirts towards the city centre.</span></span>
+<span id="cb79-49"><a href="solution-proposal.html#cb79-49" aria-hidden="true"></a><span class="st">    </span></span>
+<span id="cb79-50"><a href="solution-proposal.html#cb79-50" aria-hidden="true"></a><span class="st">    &quot;Last night we began deepening our operations deeper into Gaza City,&quot; the IDF official said. &quot;It&#39;s a gradual thing. It is not a black or white thing. But yesterday was a big step forward … in operations on the ground.&quot;</span></span>
+<span id="cb79-51"><a href="solution-proposal.html#cb79-51" aria-hidden="true"></a><span class="st">    &quot;&quot;&quot;</span></span>
+<span id="cb79-52"><a href="solution-proposal.html#cb79-52" aria-hidden="true"></a>)</span>
+<span id="cb79-53"><a href="solution-proposal.html#cb79-53" aria-hidden="true"></a><span class="bu">print</span>(answer)</span></code></pre></div>
+</div>
+<div id="enhanced-function-with-url-support" class="section level4 hasAnchor" number="8.2.1.2">
+<h4><span class="header-section-number">8.2.1.2</span> Enhanced Function with URL Support<a href="solution-proposal.html#enhanced-function-with-url-support" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb80"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb80-1"><a href="solution-proposal.html#cb80-1" aria-hidden="true"></a><span class="co"># Additional functionality to summarize an article from a URL</span></span>
+<span id="cb80-2"><a href="solution-proposal.html#cb80-2" aria-hidden="true"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> WebBaseLoader</span>
+<span id="cb80-3"><a href="solution-proposal.html#cb80-3" aria-hidden="true"></a><span class="im">from</span> langchain.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb80-4"><a href="solution-proposal.html#cb80-4" aria-hidden="true"></a></span>
+<span id="cb80-5"><a href="solution-proposal.html#cb80-5" aria-hidden="true"></a><span class="kw">def</span> summarize_from_link(url: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb80-6"><a href="solution-proposal.html#cb80-6" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb80-7"><a href="solution-proposal.html#cb80-7" aria-hidden="true"></a><span class="co">    Function to load a webpage and summarize its content.</span></span>
+<span id="cb80-8"><a href="solution-proposal.html#cb80-8" aria-hidden="true"></a><span class="co">    Takes a URL and returns a summary of the article.</span></span>
+<span id="cb80-9"><a href="solution-proposal.html#cb80-9" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb80-10"><a href="solution-proposal.html#cb80-10" aria-hidden="true"></a>    <span class="co"># Load webpage content using WebBaseLoader</span></span>
+<span id="cb80-11"><a href="solution-proposal.html#cb80-11" aria-hidden="true"></a>    loader <span class="op">=</span> WebBaseLoader(url)</span>
+<span id="cb80-12"><a href="solution-proposal.html#cb80-12" aria-hidden="true"></a>    docs <span class="op">=</span> loader.load()</span>
+<span id="cb80-13"><a href="solution-proposal.html#cb80-13" aria-hidden="true"></a>    article_text <span class="op">=</span> docs[<span class="dv">0</span>].page_content</span>
+<span id="cb80-14"><a href="solution-proposal.html#cb80-14" aria-hidden="true"></a></span>
+<span id="cb80-15"><a href="solution-proposal.html#cb80-15" aria-hidden="true"></a>    <span class="co"># Build prompt template for summarization</span></span>
+<span id="cb80-16"><a href="solution-proposal.html#cb80-16" aria-hidden="true"></a>    prompt <span class="op">=</span> ChatPromptTemplate.from_template(</span>
+<span id="cb80-17"><a href="solution-proposal.html#cb80-17" aria-hidden="true"></a>        <span class="st">&quot;Summarize the following article clearly and concisely for a journalist:</span><span class="ch">\n\n</span><span class="sc">{article}</span><span class="st">&quot;</span></span>
+<span id="cb80-18"><a href="solution-proposal.html#cb80-18" aria-hidden="true"></a>    )</span>
+<span id="cb80-19"><a href="solution-proposal.html#cb80-19" aria-hidden="true"></a></span>
+<span id="cb80-20"><a href="solution-proposal.html#cb80-20" aria-hidden="true"></a>    <span class="co"># Chain the prompt with the client using pipe syntax</span></span>
+<span id="cb80-21"><a href="solution-proposal.html#cb80-21" aria-hidden="true"></a>    chain <span class="op">=</span> prompt <span class="op">|</span> client</span>
+<span id="cb80-22"><a href="solution-proposal.html#cb80-22" aria-hidden="true"></a></span>
+<span id="cb80-23"><a href="solution-proposal.html#cb80-23" aria-hidden="true"></a>    <span class="co"># Invoke with a dict matching the prompt&#39;s variable name</span></span>
+<span id="cb80-24"><a href="solution-proposal.html#cb80-24" aria-hidden="true"></a>    result <span class="op">=</span> chain.invoke({<span class="st">&quot;article&quot;</span>: article_text})</span>
+<span id="cb80-25"><a href="solution-proposal.html#cb80-25" aria-hidden="true"></a>    <span class="cf">return</span> result.content  <span class="co"># .content extracts the text</span></span>
+<span id="cb80-26"><a href="solution-proposal.html#cb80-26" aria-hidden="true"></a></span>
+<span id="cb80-27"><a href="solution-proposal.html#cb80-27" aria-hidden="true"></a><span class="co"># Example usage</span></span>
+<span id="cb80-28"><a href="solution-proposal.html#cb80-28" aria-hidden="true"></a>summarize_from_link(<span class="st">&quot;https://www.nrk.no/rogaland/stortingsvalget-2025_-oljepionerene-og-kielland-nettverket-haper-pengene-kommer-i-statsbudsjettet-1.17551184&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="question-2-dataset-analysis" class="section level3 hasAnchor" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Question 2: Dataset Analysis<a href="solution-proposal.html#question-2-dataset-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This question involves finding a dataset on Kaggle and using LangChain to analyze it. We’ll work with a COVID-19 NLP text classification dataset and extract multiple variables from each row.</p>
+<div id="dataset-setup-and-basic-analysis" class="section level4 hasAnchor" number="8.2.2.1">
+<h4><span class="header-section-number">8.2.2.1</span> Dataset Setup and Basic Analysis<a href="solution-proposal.html#dataset-setup-and-basic-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="solution-proposal.html#cb81-1" aria-hidden="true"></a><span class="im">import</span> kagglehub</span>
+<span id="cb81-2"><a href="solution-proposal.html#cb81-2" aria-hidden="true"></a><span class="im">import</span> os</span>
+<span id="cb81-3"><a href="solution-proposal.html#cb81-3" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb81-4"><a href="solution-proposal.html#cb81-4" aria-hidden="true"></a></span>
+<span id="cb81-5"><a href="solution-proposal.html#cb81-5" aria-hidden="true"></a><span class="co"># Set up Kaggle API credentials</span></span>
+<span id="cb81-6"><a href="solution-proposal.html#cb81-6" aria-hidden="true"></a>os.environ[<span class="st">&quot;KAGGLE_USERNAME&quot;</span>] <span class="op">=</span> <span class="st">&quot;eirik.berger&quot;</span></span>
+<span id="cb81-7"><a href="solution-proposal.html#cb81-7" aria-hidden="true"></a>os.environ[<span class="st">&quot;KAGGLE_KEY&quot;</span>] <span class="op">=</span> userdata.get(<span class="st">&#39;kaggle&#39;</span>)</span>
+<span id="cb81-8"><a href="solution-proposal.html#cb81-8" aria-hidden="true"></a></span>
+<span id="cb81-9"><a href="solution-proposal.html#cb81-9" aria-hidden="true"></a><span class="co"># Download the COVID-19 NLP text classification dataset</span></span>
+<span id="cb81-10"><a href="solution-proposal.html#cb81-10" aria-hidden="true"></a>path <span class="op">=</span> kagglehub.dataset_download(<span class="st">&quot;datatattle/covid-19-nlp-text-classification&quot;</span>)</span>
+<span id="cb81-11"><a href="solution-proposal.html#cb81-11" aria-hidden="true"></a></span>
+<span id="cb81-12"><a href="solution-proposal.html#cb81-12" aria-hidden="true"></a><span class="co"># Load the dataset</span></span>
+<span id="cb81-13"><a href="solution-proposal.html#cb81-13" aria-hidden="true"></a>file_path <span class="op">=</span> path <span class="op">+</span> <span class="st">&quot;/Corona_NLP_test.csv&quot;</span></span>
+<span id="cb81-14"><a href="solution-proposal.html#cb81-14" aria-hidden="true"></a></span>
+<span id="cb81-15"><a href="solution-proposal.html#cb81-15" aria-hidden="true"></a>df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb81-16"><a href="solution-proposal.html#cb81-16" aria-hidden="true"></a>    file_path,</span>
+<span id="cb81-17"><a href="solution-proposal.html#cb81-17" aria-hidden="true"></a>    sep<span class="op">=</span><span class="st">&quot;,&quot;</span>,</span>
+<span id="cb81-18"><a href="solution-proposal.html#cb81-18" aria-hidden="true"></a>    on_bad_lines<span class="op">=</span><span class="st">&quot;warn&quot;</span>,</span>
+<span id="cb81-19"><a href="solution-proposal.html#cb81-19" aria-hidden="true"></a>    quoting<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb81-20"><a href="solution-proposal.html#cb81-20" aria-hidden="true"></a>    encoding<span class="op">=</span><span class="st">&quot;ISO-8859-1&quot;</span>,</span>
+<span id="cb81-21"><a href="solution-proposal.html#cb81-21" aria-hidden="true"></a>    lineterminator<span class="op">=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span></span>
+<span id="cb81-22"><a href="solution-proposal.html#cb81-22" aria-hidden="true"></a>)</span>
+<span id="cb81-23"><a href="solution-proposal.html#cb81-23" aria-hidden="true"></a></span>
+<span id="cb81-24"><a href="solution-proposal.html#cb81-24" aria-hidden="true"></a><span class="co"># Take a sample for analysis</span></span>
+<span id="cb81-25"><a href="solution-proposal.html#cb81-25" aria-hidden="true"></a>df_head <span class="op">=</span> df.sample(<span class="dv">10</span>)</span></code></pre></div>
+</div>
+<div id="alternative-a-simple-categorization" class="section level4 hasAnchor" number="8.2.2.2">
+<h4><span class="header-section-number">8.2.2.2</span> Alternative A: Simple Categorization<a href="solution-proposal.html#alternative-a-simple-categorization" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb82"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb82-1"><a href="solution-proposal.html#cb82-1" aria-hidden="true"></a><span class="kw">def</span> kaggle_task(news: <span class="bu">str</span>):</span>
+<span id="cb82-2"><a href="solution-proposal.html#cb82-2" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb82-3"><a href="solution-proposal.html#cb82-3" aria-hidden="true"></a><span class="co">    Simple function to categorize tweets into topics.</span></span>
+<span id="cb82-4"><a href="solution-proposal.html#cb82-4" aria-hidden="true"></a><span class="co">    Returns only the category name as a string.</span></span>
+<span id="cb82-5"><a href="solution-proposal.html#cb82-5" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb82-6"><a href="solution-proposal.html#cb82-6" aria-hidden="true"></a>    msgs <span class="op">=</span> [</span>
+<span id="cb82-7"><a href="solution-proposal.html#cb82-7" aria-hidden="true"></a>        (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;You are a social media manager assistant and you are an expert in categorizing tweets into the category that fits it best for example environment, politics, etc.&quot;</span>),</span>
+<span id="cb82-8"><a href="solution-proposal.html#cb82-8" aria-hidden="true"></a>        (<span class="st">&quot;human&quot;</span>, <span class="ss">f&quot;Categorize this tweet to the most fitting category, only return the text of the most fitting category: </span><span class="sc">{</span>news<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb82-9"><a href="solution-proposal.html#cb82-9" aria-hidden="true"></a>    ]</span>
+<span id="cb82-10"><a href="solution-proposal.html#cb82-10" aria-hidden="true"></a></span>
+<span id="cb82-11"><a href="solution-proposal.html#cb82-11" aria-hidden="true"></a>    <span class="co"># Use the responses API for cleaner output</span></span>
+<span id="cb82-12"><a href="solution-proposal.html#cb82-12" aria-hidden="true"></a>    response <span class="op">=</span> client.invoke(msgs)</span>
+<span id="cb82-13"><a href="solution-proposal.html#cb82-13" aria-hidden="true"></a>    <span class="cf">return</span> response.content</span>
+<span id="cb82-14"><a href="solution-proposal.html#cb82-14" aria-hidden="true"></a></span>
+<span id="cb82-15"><a href="solution-proposal.html#cb82-15" aria-hidden="true"></a><span class="co"># Apply categorization to the sample data</span></span>
+<span id="cb82-16"><a href="solution-proposal.html#cb82-16" aria-hidden="true"></a>df_head[<span class="st">&#39;Category&#39;</span>] <span class="op">=</span> df_head[<span class="st">&#39;OriginalTweet&#39;</span>].<span class="bu">apply</span>(kaggle_task)</span>
+<span id="cb82-17"><a href="solution-proposal.html#cb82-17" aria-hidden="true"></a>df_head.head(<span class="dv">5</span>)</span></code></pre></div>
+</div>
+<div id="alternative-b-structured-data-extraction" class="section level4 hasAnchor" number="8.2.2.3">
+<h4><span class="header-section-number">8.2.2.3</span> Alternative B: Structured Data Extraction<a href="solution-proposal.html#alternative-b-structured-data-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="solution-proposal.html#cb83-1" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> AzureChatOpenAI</span>
+<span id="cb83-2"><a href="solution-proposal.html#cb83-2" aria-hidden="true"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb83-3"><a href="solution-proposal.html#cb83-3" aria-hidden="true"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb83-4"><a href="solution-proposal.html#cb83-4" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List</span>
+<span id="cb83-5"><a href="solution-proposal.html#cb83-5" aria-hidden="true"></a><span class="im">from</span> langchain.chains <span class="im">import</span> LLMChain</span>
+<span id="cb83-6"><a href="solution-proposal.html#cb83-6" aria-hidden="true"></a></span>
+<span id="cb83-7"><a href="solution-proposal.html#cb83-7" aria-hidden="true"></a><span class="co"># Define structured schema for tweet analysis</span></span>
+<span id="cb83-8"><a href="solution-proposal.html#cb83-8" aria-hidden="true"></a><span class="kw">class</span> TweetAnalysis(BaseModel):</span>
+<span id="cb83-9"><a href="solution-proposal.html#cb83-9" aria-hidden="true"></a>    language: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">&quot;Language of the tweet&quot;</span>)</span>
+<span id="cb83-10"><a href="solution-proposal.html#cb83-10" aria-hidden="true"></a>    topic: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">&quot;Main topic of the tweet&quot;</span>)</span>
+<span id="cb83-11"><a href="solution-proposal.html#cb83-11" aria-hidden="true"></a>    emotion: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">&quot;Dominant emotion (joy, anger, fear, sadness, neutral)&quot;</span>)</span>
+<span id="cb83-12"><a href="solution-proposal.html#cb83-12" aria-hidden="true"></a></span>
+<span id="cb83-13"><a href="solution-proposal.html#cb83-13" aria-hidden="true"></a><span class="co"># Create prompt template for analysis</span></span>
+<span id="cb83-14"><a href="solution-proposal.html#cb83-14" aria-hidden="true"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb83-15"><a href="solution-proposal.html#cb83-15" aria-hidden="true"></a>    (<span class="st">&quot;system&quot;</span>, <span class="st">&quot;Analyze the tweet and extract neutral information: language, topic, and dominant emotion.&quot;</span>),</span>
+<span id="cb83-16"><a href="solution-proposal.html#cb83-16" aria-hidden="true"></a>    (<span class="st">&quot;human&quot;</span>, <span class="st">&quot;</span><span class="sc">{tweet}</span><span class="st">&quot;</span>)</span>
+<span id="cb83-17"><a href="solution-proposal.html#cb83-17" aria-hidden="true"></a>])</span>
+<span id="cb83-18"><a href="solution-proposal.html#cb83-18" aria-hidden="true"></a></span>
+<span id="cb83-19"><a href="solution-proposal.html#cb83-19" aria-hidden="true"></a><span class="co"># Create structured extractor that returns Pydantic objects</span></span>
+<span id="cb83-20"><a href="solution-proposal.html#cb83-20" aria-hidden="true"></a>extractor <span class="op">=</span> prompt <span class="op">|</span> client.with_structured_output(</span>
+<span id="cb83-21"><a href="solution-proposal.html#cb83-21" aria-hidden="true"></a>    schema<span class="op">=</span>TweetAnalysis,</span>
+<span id="cb83-22"><a href="solution-proposal.html#cb83-22" aria-hidden="true"></a>    include_raw<span class="op">=</span><span class="va">True</span></span>
+<span id="cb83-23"><a href="solution-proposal.html#cb83-23" aria-hidden="true"></a>)</span>
+<span id="cb83-24"><a href="solution-proposal.html#cb83-24" aria-hidden="true"></a></span>
+<span id="cb83-25"><a href="solution-proposal.html#cb83-25" aria-hidden="true"></a><span class="co"># Function to analyze a single tweet</span></span>
+<span id="cb83-26"><a href="solution-proposal.html#cb83-26" aria-hidden="true"></a><span class="kw">def</span> analyze_single_tweet(tweet_text):</span>
+<span id="cb83-27"><a href="solution-proposal.html#cb83-27" aria-hidden="true"></a>    <span class="cf">return</span> extractor.invoke({<span class="st">&quot;tweet&quot;</span>: tweet_text})[<span class="st">&#39;parsed&#39;</span>]</span>
+<span id="cb83-28"><a href="solution-proposal.html#cb83-28" aria-hidden="true"></a></span>
+<span id="cb83-29"><a href="solution-proposal.html#cb83-29" aria-hidden="true"></a><span class="co"># Apply to sample DataFrame</span></span>
+<span id="cb83-30"><a href="solution-proposal.html#cb83-30" aria-hidden="true"></a>sample_df <span class="op">=</span> df.sample(<span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>).copy()</span>
+<span id="cb83-31"><a href="solution-proposal.html#cb83-31" aria-hidden="true"></a>sample_df[<span class="st">&quot;Analysis&quot;</span>] <span class="op">=</span> sample_df[<span class="st">&quot;OriginalTweet&quot;</span>].<span class="bu">apply</span>(analyze_single_tweet)</span>
+<span id="cb83-32"><a href="solution-proposal.html#cb83-32" aria-hidden="true"></a></span>
+<span id="cb83-33"><a href="solution-proposal.html#cb83-33" aria-hidden="true"></a><span class="co"># Extract individual columns from the Pydantic object</span></span>
+<span id="cb83-34"><a href="solution-proposal.html#cb83-34" aria-hidden="true"></a>sample_df[<span class="st">&quot;Language&quot;</span>] <span class="op">=</span> sample_df[<span class="st">&quot;Analysis&quot;</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.language)</span>
+<span id="cb83-35"><a href="solution-proposal.html#cb83-35" aria-hidden="true"></a>sample_df[<span class="st">&quot;Topic&quot;</span>] <span class="op">=</span> sample_df[<span class="st">&quot;Analysis&quot;</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.topic)</span>
+<span id="cb83-36"><a href="solution-proposal.html#cb83-36" aria-hidden="true"></a>sample_df[<span class="st">&quot;Emotion&quot;</span>] <span class="op">=</span> sample_df[<span class="st">&quot;Analysis&quot;</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.emotion)</span>
+<span id="cb83-37"><a href="solution-proposal.html#cb83-37" aria-hidden="true"></a></span>
+<span id="cb83-38"><a href="solution-proposal.html#cb83-38" aria-hidden="true"></a><span class="co"># View the results</span></span>
+<span id="cb83-39"><a href="solution-proposal.html#cb83-39" aria-hidden="true"></a>sample_df[[<span class="st">&quot;OriginalTweet&quot;</span>, <span class="st">&quot;Language&quot;</span>, <span class="st">&quot;Topic&quot;</span>, <span class="st">&quot;Emotion&quot;</span>]].head()</span></code></pre></div>
+</div>
+</div>
+<div id="question-3-chatbot-with-additional-information" class="section level3 hasAnchor" number="8.2.3">
+<h3><span class="header-section-number">8.2.3</span> Question 3: Chatbot with Additional Information<a href="solution-proposal.html#question-3-chatbot-with-additional-information" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This question asks for a chatbot that can help find information online OR use RAG (Retrieval-Augmented Generation). We’ll show both approaches.</p>
+<div id="option-a-web-search-chatbot" class="section level4 hasAnchor" number="8.2.3.1">
+<h4><span class="header-section-number">8.2.3.1</span> Option A: Web Search Chatbot<a href="solution-proposal.html#option-a-web-search-chatbot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb84"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb84-1"><a href="solution-proposal.html#cb84-1" aria-hidden="true"></a><span class="im">from</span> typing <span class="im">import</span> Annotated</span>
+<span id="cb84-2"><a href="solution-proposal.html#cb84-2" aria-hidden="true"></a><span class="im">from</span> typing_extensions <span class="im">import</span> TypedDict</span>
+<span id="cb84-3"><a href="solution-proposal.html#cb84-3" aria-hidden="true"></a><span class="im">from</span> langgraph.graph <span class="im">import</span> StateGraph, START, END</span>
+<span id="cb84-4"><a href="solution-proposal.html#cb84-4" aria-hidden="true"></a><span class="im">from</span> langgraph.graph.message <span class="im">import</span> add_messages</span>
+<span id="cb84-5"><a href="solution-proposal.html#cb84-5" aria-hidden="true"></a><span class="im">from</span> langgraph.prebuilt <span class="im">import</span> ToolNode, tools_condition</span>
+<span id="cb84-6"><a href="solution-proposal.html#cb84-6" aria-hidden="true"></a><span class="im">from</span> langgraph.checkpoint.memory <span class="im">import</span> MemorySaver</span>
+<span id="cb84-7"><a href="solution-proposal.html#cb84-7" aria-hidden="true"></a><span class="im">from</span> langchain_tavily <span class="im">import</span> TavilySearch</span>
+<span id="cb84-8"><a href="solution-proposal.html#cb84-8" aria-hidden="true"></a></span>
+<span id="cb84-9"><a href="solution-proposal.html#cb84-9" aria-hidden="true"></a><span class="co"># Define the state for the chatbot</span></span>
+<span id="cb84-10"><a href="solution-proposal.html#cb84-10" aria-hidden="true"></a><span class="kw">class</span> State(TypedDict):</span>
+<span id="cb84-11"><a href="solution-proposal.html#cb84-11" aria-hidden="true"></a>    messages: Annotated[<span class="bu">list</span>, add_messages]</span>
+<span id="cb84-12"><a href="solution-proposal.html#cb84-12" aria-hidden="true"></a></span>
+<span id="cb84-13"><a href="solution-proposal.html#cb84-13" aria-hidden="true"></a><span class="co"># Set up tools and LLM</span></span>
+<span id="cb84-14"><a href="solution-proposal.html#cb84-14" aria-hidden="true"></a>tool <span class="op">=</span> TavilySearch(max_results<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb84-15"><a href="solution-proposal.html#cb84-15" aria-hidden="true"></a>tools <span class="op">=</span> [tool]</span>
+<span id="cb84-16"><a href="solution-proposal.html#cb84-16" aria-hidden="true"></a>llm_with_tools <span class="op">=</span> client.bind_tools(tools)</span>
+<span id="cb84-17"><a href="solution-proposal.html#cb84-17" aria-hidden="true"></a></span>
+<span id="cb84-18"><a href="solution-proposal.html#cb84-18" aria-hidden="true"></a><span class="kw">def</span> chatbot(state: State):</span>
+<span id="cb84-19"><a href="solution-proposal.html#cb84-19" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Main chatbot function that processes user input.&quot;&quot;&quot;</span></span>
+<span id="cb84-20"><a href="solution-proposal.html#cb84-20" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;messages&quot;</span>: [llm_with_tools.invoke(state[<span class="st">&quot;messages&quot;</span>])]}</span>
+<span id="cb84-21"><a href="solution-proposal.html#cb84-21" aria-hidden="true"></a></span>
+<span id="cb84-22"><a href="solution-proposal.html#cb84-22" aria-hidden="true"></a><span class="co"># Build the graph</span></span>
+<span id="cb84-23"><a href="solution-proposal.html#cb84-23" aria-hidden="true"></a>builder <span class="op">=</span> StateGraph(State)</span>
+<span id="cb84-24"><a href="solution-proposal.html#cb84-24" aria-hidden="true"></a>builder.add_node(<span class="st">&quot;chatbot&quot;</span>, chatbot)</span>
+<span id="cb84-25"><a href="solution-proposal.html#cb84-25" aria-hidden="true"></a></span>
+<span id="cb84-26"><a href="solution-proposal.html#cb84-26" aria-hidden="true"></a>tool_node <span class="op">=</span> ToolNode(tools<span class="op">=</span>tools)</span>
+<span id="cb84-27"><a href="solution-proposal.html#cb84-27" aria-hidden="true"></a>builder.add_node(<span class="st">&quot;tools&quot;</span>, tool_node)</span>
+<span id="cb84-28"><a href="solution-proposal.html#cb84-28" aria-hidden="true"></a></span>
+<span id="cb84-29"><a href="solution-proposal.html#cb84-29" aria-hidden="true"></a><span class="co"># Add conditional edges: model -&gt; tools if tool calls needed, else end</span></span>
+<span id="cb84-30"><a href="solution-proposal.html#cb84-30" aria-hidden="true"></a>builder.add_conditional_edges(</span>
+<span id="cb84-31"><a href="solution-proposal.html#cb84-31" aria-hidden="true"></a>    <span class="st">&quot;chatbot&quot;</span>,</span>
+<span id="cb84-32"><a href="solution-proposal.html#cb84-32" aria-hidden="true"></a>    tools_condition,</span>
+<span id="cb84-33"><a href="solution-proposal.html#cb84-33" aria-hidden="true"></a>    {</span>
+<span id="cb84-34"><a href="solution-proposal.html#cb84-34" aria-hidden="true"></a>        <span class="st">&quot;tools&quot;</span>: <span class="st">&quot;tools&quot;</span>,</span>
+<span id="cb84-35"><a href="solution-proposal.html#cb84-35" aria-hidden="true"></a>        <span class="st">&quot;__end__&quot;</span>: END,   <span class="co"># explicit path for &quot;no tools needed&quot;</span></span>
+<span id="cb84-36"><a href="solution-proposal.html#cb84-36" aria-hidden="true"></a>    },</span>
+<span id="cb84-37"><a href="solution-proposal.html#cb84-37" aria-hidden="true"></a>)</span>
+<span id="cb84-38"><a href="solution-proposal.html#cb84-38" aria-hidden="true"></a></span>
+<span id="cb84-39"><a href="solution-proposal.html#cb84-39" aria-hidden="true"></a><span class="co"># Tools loop back to model</span></span>
+<span id="cb84-40"><a href="solution-proposal.html#cb84-40" aria-hidden="true"></a>builder.add_edge(<span class="st">&quot;tools&quot;</span>, <span class="st">&quot;chatbot&quot;</span>)</span>
+<span id="cb84-41"><a href="solution-proposal.html#cb84-41" aria-hidden="true"></a>builder.add_edge(START, <span class="st">&quot;chatbot&quot;</span>)</span>
+<span id="cb84-42"><a href="solution-proposal.html#cb84-42" aria-hidden="true"></a></span>
+<span id="cb84-43"><a href="solution-proposal.html#cb84-43" aria-hidden="true"></a><span class="co"># Add memory for conversation persistence</span></span>
+<span id="cb84-44"><a href="solution-proposal.html#cb84-44" aria-hidden="true"></a>memory <span class="op">=</span> MemorySaver()</span>
+<span id="cb84-45"><a href="solution-proposal.html#cb84-45" aria-hidden="true"></a>graph <span class="op">=</span> builder.<span class="bu">compile</span>(checkpointer<span class="op">=</span>memory)</span>
+<span id="cb84-46"><a href="solution-proposal.html#cb84-46" aria-hidden="true"></a></span>
+<span id="cb84-47"><a href="solution-proposal.html#cb84-47" aria-hidden="true"></a><span class="co"># Function to run the chatbot</span></span>
+<span id="cb84-48"><a href="solution-proposal.html#cb84-48" aria-hidden="true"></a><span class="kw">def</span> stream_graph_updates(user_input: <span class="bu">str</span>, thread_id: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;default&quot;</span>):</span>
+<span id="cb84-49"><a href="solution-proposal.html#cb84-49" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Stream updates from the chatbot graph.&quot;&quot;&quot;</span></span>
+<span id="cb84-50"><a href="solution-proposal.html#cb84-50" aria-hidden="true"></a>    config <span class="op">=</span> {<span class="st">&quot;configurable&quot;</span>: {<span class="st">&quot;thread_id&quot;</span>: thread_id}}</span>
+<span id="cb84-51"><a href="solution-proposal.html#cb84-51" aria-hidden="true"></a>    <span class="cf">for</span> event <span class="kw">in</span> graph.stream({<span class="st">&quot;messages&quot;</span>: [{<span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>, <span class="st">&quot;content&quot;</span>: user_input}]}, config<span class="op">=</span>config):</span>
+<span id="cb84-52"><a href="solution-proposal.html#cb84-52" aria-hidden="true"></a>        <span class="cf">for</span> value <span class="kw">in</span> event.values():</span>
+<span id="cb84-53"><a href="solution-proposal.html#cb84-53" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Assistant:&quot;</span>, value[<span class="st">&quot;messages&quot;</span>][<span class="op">-</span><span class="dv">1</span>].content)</span>
+<span id="cb84-54"><a href="solution-proposal.html#cb84-54" aria-hidden="true"></a></span>
+<span id="cb84-55"><a href="solution-proposal.html#cb84-55" aria-hidden="true"></a><span class="co"># Interactive chatbot loop</span></span>
+<span id="cb84-56"><a href="solution-proposal.html#cb84-56" aria-hidden="true"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb84-57"><a href="solution-proposal.html#cb84-57" aria-hidden="true"></a>    <span class="cf">try</span>:</span>
+<span id="cb84-58"><a href="solution-proposal.html#cb84-58" aria-hidden="true"></a>        user_input <span class="op">=</span> <span class="bu">input</span>(<span class="st">&quot;User: &quot;</span>)</span>
+<span id="cb84-59"><a href="solution-proposal.html#cb84-59" aria-hidden="true"></a>        <span class="cf">if</span> user_input.lower() <span class="kw">in</span> [<span class="st">&quot;quit&quot;</span>, <span class="st">&quot;exit&quot;</span>, <span class="st">&quot;q&quot;</span>]:</span>
+<span id="cb84-60"><a href="solution-proposal.html#cb84-60" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Goodbye!&quot;</span>)</span>
+<span id="cb84-61"><a href="solution-proposal.html#cb84-61" aria-hidden="true"></a>            <span class="cf">break</span></span>
+<span id="cb84-62"><a href="solution-proposal.html#cb84-62" aria-hidden="true"></a>        stream_graph_updates(user_input)</span>
+<span id="cb84-63"><a href="solution-proposal.html#cb84-63" aria-hidden="true"></a>    <span class="cf">except</span>:</span>
+<span id="cb84-64"><a href="solution-proposal.html#cb84-64" aria-hidden="true"></a>        <span class="co"># fallback if input() is not available</span></span>
+<span id="cb84-65"><a href="solution-proposal.html#cb84-65" aria-hidden="true"></a>        user_input <span class="op">=</span> <span class="st">&quot;What do you know about LangGraph?&quot;</span></span>
+<span id="cb84-66"><a href="solution-proposal.html#cb84-66" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="st">&quot;User: &quot;</span> <span class="op">+</span> user_input)</span>
+<span id="cb84-67"><a href="solution-proposal.html#cb84-67" aria-hidden="true"></a>        stream_graph_updates(user_input)</span>
+<span id="cb84-68"><a href="solution-proposal.html#cb84-68" aria-hidden="true"></a>        <span class="cf">break</span></span></code></pre></div>
+</div>
+<div id="option-b-rag-retrieval-augmented-generation-system" class="section level4 hasAnchor" number="8.2.3.2">
+<h4><span class="header-section-number">8.2.3.2</span> Option B: RAG (Retrieval-Augmented Generation) System<a href="solution-proposal.html#option-b-rag-retrieval-augmented-generation-system" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="solution-proposal.html#cb85-1" aria-hidden="true"></a><span class="im">from</span> langchain_openai <span class="im">import</span> OpenAIEmbeddings, AzureChatOpenAI</span>
+<span id="cb85-2"><a href="solution-proposal.html#cb85-2" aria-hidden="true"></a><span class="im">from</span> langchain_core.vectorstores <span class="im">import</span> InMemoryVectorStore</span>
+<span id="cb85-3"><a href="solution-proposal.html#cb85-3" aria-hidden="true"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> RecursiveCharacterTextSplitter</span>
+<span id="cb85-4"><a href="solution-proposal.html#cb85-4" aria-hidden="true"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> WebBaseLoader</span>
+<span id="cb85-5"><a href="solution-proposal.html#cb85-5" aria-hidden="true"></a><span class="im">from</span> langgraph.graph <span class="im">import</span> START, StateGraph, END</span>
+<span id="cb85-6"><a href="solution-proposal.html#cb85-6" aria-hidden="true"></a><span class="im">from</span> typing_extensions <span class="im">import</span> List, TypedDict</span>
+<span id="cb85-7"><a href="solution-proposal.html#cb85-7" aria-hidden="true"></a><span class="im">from</span> langchain_core.documents <span class="im">import</span> Document</span>
+<span id="cb85-8"><a href="solution-proposal.html#cb85-8" aria-hidden="true"></a><span class="im">import</span> bs4</span>
+<span id="cb85-9"><a href="solution-proposal.html#cb85-9" aria-hidden="true"></a><span class="im">from</span> langchain <span class="im">import</span> hub</span>
+<span id="cb85-10"><a href="solution-proposal.html#cb85-10" aria-hidden="true"></a></span>
+<span id="cb85-11"><a href="solution-proposal.html#cb85-11" aria-hidden="true"></a><span class="co"># Set up embeddings and vector store</span></span>
+<span id="cb85-12"><a href="solution-proposal.html#cb85-12" aria-hidden="true"></a>EMB_MODEL <span class="op">=</span> <span class="st">&quot;google/embeddinggemma-300m&quot;</span></span>
+<span id="cb85-13"><a href="solution-proposal.html#cb85-13" aria-hidden="true"></a></span>
+<span id="cb85-14"><a href="solution-proposal.html#cb85-14" aria-hidden="true"></a>embeddings <span class="op">=</span> HuggingFaceEmbeddings(</span>
+<span id="cb85-15"><a href="solution-proposal.html#cb85-15" aria-hidden="true"></a>    model_name<span class="op">=</span>EMB_MODEL,</span>
+<span id="cb85-16"><a href="solution-proposal.html#cb85-16" aria-hidden="true"></a>    model_kwargs<span class="op">=</span>{<span class="st">&quot;trust_remote_code&quot;</span>: <span class="va">True</span>},</span>
+<span id="cb85-17"><a href="solution-proposal.html#cb85-17" aria-hidden="true"></a>    encode_kwargs<span class="op">=</span>{<span class="st">&quot;normalize_embeddings&quot;</span>: <span class="va">True</span>},</span>
+<span id="cb85-18"><a href="solution-proposal.html#cb85-18" aria-hidden="true"></a>)</span>
+<span id="cb85-19"><a href="solution-proposal.html#cb85-19" aria-hidden="true"></a></span>
+<span id="cb85-20"><a href="solution-proposal.html#cb85-20" aria-hidden="true"></a>vector_store <span class="op">=</span> InMemoryVectorStore(embeddings)</span>
+<span id="cb85-21"><a href="solution-proposal.html#cb85-21" aria-hidden="true"></a></span>
+<span id="cb85-22"><a href="solution-proposal.html#cb85-22" aria-hidden="true"></a><span class="co"># Load and chunk documents from web sources</span></span>
+<span id="cb85-23"><a href="solution-proposal.html#cb85-23" aria-hidden="true"></a>loader <span class="op">=</span> WebBaseLoader(</span>
+<span id="cb85-24"><a href="solution-proposal.html#cb85-24" aria-hidden="true"></a>    web_paths<span class="op">=</span>(<span class="st">&quot;https://nhhs.no/nhhs-fra-a-til-a/&quot;</span>,<span class="st">&quot;https://nhhs.no/interessegrupper/&quot;</span>, <span class="st">&quot;https://www.dn.no/&quot;</span>),</span>
+<span id="cb85-25"><a href="solution-proposal.html#cb85-25" aria-hidden="true"></a>    bs_kwargs<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb85-26"><a href="solution-proposal.html#cb85-26" aria-hidden="true"></a>        parse_only<span class="op">=</span>bs4.SoupStrainer(</span>
+<span id="cb85-27"><a href="solution-proposal.html#cb85-27" aria-hidden="true"></a>            class_<span class="op">=</span>(<span class="st">&quot;post-content&quot;</span>, <span class="st">&quot;post-title&quot;</span>, <span class="st">&quot;post-header&quot;</span>)</span>
+<span id="cb85-28"><a href="solution-proposal.html#cb85-28" aria-hidden="true"></a>        )</span>
+<span id="cb85-29"><a href="solution-proposal.html#cb85-29" aria-hidden="true"></a>    ),</span>
+<span id="cb85-30"><a href="solution-proposal.html#cb85-30" aria-hidden="true"></a>)</span>
+<span id="cb85-31"><a href="solution-proposal.html#cb85-31" aria-hidden="true"></a>docs <span class="op">=</span> loader.load()</span>
+<span id="cb85-32"><a href="solution-proposal.html#cb85-32" aria-hidden="true"></a></span>
+<span id="cb85-33"><a href="solution-proposal.html#cb85-33" aria-hidden="true"></a><span class="co"># Split documents into chunks for better retrieval</span></span>
+<span id="cb85-34"><a href="solution-proposal.html#cb85-34" aria-hidden="true"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">1000</span>, chunk_overlap<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb85-35"><a href="solution-proposal.html#cb85-35" aria-hidden="true"></a>all_splits <span class="op">=</span> text_splitter.split_documents(docs)</span>
+<span id="cb85-36"><a href="solution-proposal.html#cb85-36" aria-hidden="true"></a></span>
+<span id="cb85-37"><a href="solution-proposal.html#cb85-37" aria-hidden="true"></a><span class="co"># Index chunks in the vector store</span></span>
+<span id="cb85-38"><a href="solution-proposal.html#cb85-38" aria-hidden="true"></a>_ <span class="op">=</span> vector_store.add_documents(documents<span class="op">=</span>all_splits)</span>
+<span id="cb85-39"><a href="solution-proposal.html#cb85-39" aria-hidden="true"></a></span>
+<span id="cb85-40"><a href="solution-proposal.html#cb85-40" aria-hidden="true"></a><span class="co"># Pull a pre-built RAG prompt template from LangChain Hub</span></span>
+<span id="cb85-41"><a href="solution-proposal.html#cb85-41" aria-hidden="true"></a>prompt <span class="op">=</span> hub.pull(<span class="st">&quot;rlm/rag-prompt&quot;</span>)</span>
+<span id="cb85-42"><a href="solution-proposal.html#cb85-42" aria-hidden="true"></a></span>
+<span id="cb85-43"><a href="solution-proposal.html#cb85-43" aria-hidden="true"></a><span class="co"># Define RAG state</span></span>
+<span id="cb85-44"><a href="solution-proposal.html#cb85-44" aria-hidden="true"></a><span class="kw">class</span> State(TypedDict):</span>
+<span id="cb85-45"><a href="solution-proposal.html#cb85-45" aria-hidden="true"></a>    question: <span class="bu">str</span></span>
+<span id="cb85-46"><a href="solution-proposal.html#cb85-46" aria-hidden="true"></a>    context: List[Document]</span>
+<span id="cb85-47"><a href="solution-proposal.html#cb85-47" aria-hidden="true"></a>    answer: <span class="bu">str</span></span>
+<span id="cb85-48"><a href="solution-proposal.html#cb85-48" aria-hidden="true"></a></span>
+<span id="cb85-49"><a href="solution-proposal.html#cb85-49" aria-hidden="true"></a><span class="co"># Define RAG functions</span></span>
+<span id="cb85-50"><a href="solution-proposal.html#cb85-50" aria-hidden="true"></a><span class="kw">def</span> retrieve(state: State):</span>
+<span id="cb85-51"><a href="solution-proposal.html#cb85-51" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Retrieve relevant documents based on the question.&quot;&quot;&quot;</span></span>
+<span id="cb85-52"><a href="solution-proposal.html#cb85-52" aria-hidden="true"></a>    retrieved_docs <span class="op">=</span> vector_store.similarity_search(state[<span class="st">&quot;question&quot;</span>])</span>
+<span id="cb85-53"><a href="solution-proposal.html#cb85-53" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;context&quot;</span>: retrieved_docs}</span>
+<span id="cb85-54"><a href="solution-proposal.html#cb85-54" aria-hidden="true"></a></span>
+<span id="cb85-55"><a href="solution-proposal.html#cb85-55" aria-hidden="true"></a><span class="kw">def</span> generate(state: State):</span>
+<span id="cb85-56"><a href="solution-proposal.html#cb85-56" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot;Generate answer based on retrieved context.&quot;&quot;&quot;</span></span>
+<span id="cb85-57"><a href="solution-proposal.html#cb85-57" aria-hidden="true"></a>    docs_content <span class="op">=</span> <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span>.join(doc.page_content <span class="cf">for</span> doc <span class="kw">in</span> state[<span class="st">&quot;context&quot;</span>])</span>
+<span id="cb85-58"><a href="solution-proposal.html#cb85-58" aria-hidden="true"></a>    messages <span class="op">=</span> prompt.invoke({<span class="st">&quot;question&quot;</span>: state[<span class="st">&quot;question&quot;</span>], <span class="st">&quot;context&quot;</span>: docs_content})</span>
+<span id="cb85-59"><a href="solution-proposal.html#cb85-59" aria-hidden="true"></a>    response <span class="op">=</span> client.invoke(messages)</span>
+<span id="cb85-60"><a href="solution-proposal.html#cb85-60" aria-hidden="true"></a>    <span class="cf">return</span> {<span class="st">&quot;answer&quot;</span>: response.content}</span>
+<span id="cb85-61"><a href="solution-proposal.html#cb85-61" aria-hidden="true"></a></span>
+<span id="cb85-62"><a href="solution-proposal.html#cb85-62" aria-hidden="true"></a><span class="co"># Build RAG graph</span></span>
+<span id="cb85-63"><a href="solution-proposal.html#cb85-63" aria-hidden="true"></a>builder <span class="op">=</span> StateGraph(State)</span>
+<span id="cb85-64"><a href="solution-proposal.html#cb85-64" aria-hidden="true"></a>builder.add_node(<span class="st">&quot;retrieve&quot;</span>, retrieve)</span>
+<span id="cb85-65"><a href="solution-proposal.html#cb85-65" aria-hidden="true"></a>builder.add_node(<span class="st">&quot;generate&quot;</span>, generate)</span>
+<span id="cb85-66"><a href="solution-proposal.html#cb85-66" aria-hidden="true"></a>builder.add_edge(START, <span class="st">&quot;retrieve&quot;</span>)</span>
+<span id="cb85-67"><a href="solution-proposal.html#cb85-67" aria-hidden="true"></a>builder.add_edge(<span class="st">&quot;retrieve&quot;</span>, <span class="st">&quot;generate&quot;</span>)</span>
+<span id="cb85-68"><a href="solution-proposal.html#cb85-68" aria-hidden="true"></a>builder.add_edge(<span class="st">&quot;generate&quot;</span>, END)</span>
+<span id="cb85-69"><a href="solution-proposal.html#cb85-69" aria-hidden="true"></a>graph <span class="op">=</span> builder.<span class="bu">compile</span>()</span>
+<span id="cb85-70"><a href="solution-proposal.html#cb85-70" aria-hidden="true"></a></span>
+<span id="cb85-71"><a href="solution-proposal.html#cb85-71" aria-hidden="true"></a><span class="co"># Use RAG system</span></span>
+<span id="cb85-72"><a href="solution-proposal.html#cb85-72" aria-hidden="true"></a>response <span class="op">=</span> graph.invoke({<span class="st">&quot;question&quot;</span>: <span class="st">&quot;What&#39;s &#39;ASAP&#39;? Answer in english.&quot;</span>})</span>
+<span id="cb85-73"><a href="solution-proposal.html#cb85-73" aria-hidden="true"></a><span class="bu">print</span>(response[<span class="st">&quot;answer&quot;</span>])</span></code></pre></div>
+</div>
 </div>
 </div>
 </div>

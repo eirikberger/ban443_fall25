@@ -123,4 +123,15 @@ a-somewhat-more-advanced-langchain-example
 lets-do-it-by-making-a-function
 or-using-the-batch-mode-in-langchain
 question-4
+lab-2-1
+question-1-journalist-llm
+basic-journalist-function
+enhanced-function-with-url-support
+question-2-dataset-analysis
+dataset-setup-and-basic-analysis
+alternative-a-simple-categorization
+alternative-b-structured-data-extraction
+question-3-chatbot-with-additional-information
+option-a-web-search-chatbot
+option-b-rag-retrieval-augmented-generation-system
 final-words
