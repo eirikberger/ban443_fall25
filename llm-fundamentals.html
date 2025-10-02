@@ -23,7 +23,7 @@
 <meta name="author" content="Eirik Berger Abel" />
 
 
-<meta name="date" content="2025-10-01" />
+<meta name="date" content="2025-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,8 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#what-is-a-neural-network"><i class="fa fa-check"></i><b>3.2.1</b> What is a Neural Network?</a></li>
 <li class="chapter" data-level="3.2.2" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-information-flows"><i class="fa fa-check"></i><b>3.2.2</b> How Information Flows</a></li>
-<li class="chapter" data-level="3.2.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression"><i class="fa fa-check"></i><b>3.2.3</b> Neural Networks vs. Traditional Regression</a></li>
-<li class="chapter" data-level="3.2.4" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-neural-networks-learn"><i class="fa fa-check"></i><b>3.2.4</b> How Neural Networks Learn</a></li>
+<li class="chapter" data-level="3.2.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#how-neural-networks-learn"><i class="fa fa-check"></i><b>3.2.3</b> How Neural Networks Learn</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="llm-fundamentals.html"><a href="llm-fundamentals.html#from-neural-networks-to-language-models"><i class="fa fa-check"></i><b>3.3</b> From Neural Networks to Language Models</a>
 <ul>
@@ -352,33 +351,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Output Layer</strong>: Produces the final result (like the next token prediction)</li>
 </ol>
 <p>The “deep” in deep neural networks refers to having multiple hidden layers, allowing the network to learn increasingly complex patterns.</p>
-</div>
-<div id="neural-networks-vs.-traditional-regression" class="section level3 hasAnchor" number="3.2.3">
-<h3><span class="header-section-number">3.2.3</span> Neural Networks vs. Traditional Regression<a href="llm-fundamentals.html#neural-networks-vs.-traditional-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Think of a neural network almost like a <strong>multi-stage OLS regression</strong>, but much more sophisticated:</p>
-<div id="ols-regression-simple" class="section level4 hasAnchor" number="3.2.3.1">
-<h4><span class="header-section-number">3.2.3.1</span> OLS Regression (Simple)<a href="llm-fundamentals.html#ols-regression-simple" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>In a basic regression, you predict Y using: <code>Y = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ</code></p>
-<p>You find the best <strong>weights (β’s)</strong> that minimize prediction errors.</p>
-<p><strong>Example</strong>: Predicting house price = β₀ + β₁(square feet) + β₂(bedrooms) + β₃(age)
-- If β₁ = 100, each extra square foot adds $100 to the price
-- If β₃ = -500, each year of age reduces price by $500</p>
-</div>
-<div id="neural-networks-multi-stage" class="section level4 hasAnchor" number="3.2.3.2">
-<h4><span class="header-section-number">3.2.3.2</span> Neural Networks (Multi-Stage)<a href="llm-fundamentals.html#neural-networks-multi-stage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>A neural network does the same thing, but in <strong>multiple stages</strong>:</p>
+<div id="neural-networks-multi-stage" class="section level4 hasAnchor" number="3.2.2.1">
+<h4><span class="header-section-number">3.2.2.1</span> Neural Networks (Multi-Stage)<a href="llm-fundamentals.html#neural-networks-multi-stage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A neural network, like OLS regression, combines inputs using weights—but it does this in <strong>multiple layers</strong> instead of just one. This is a VERY simplified explanation, just to give some intuition.</p>
 <ol style="list-style-type: decimal">
-<li><strong>Stage 1</strong>: <code>Hidden₁ = f(β₁₁X₁ + β₁₂X₂ + ... + β₁ₙXₙ)</code><br />
-where <strong>f</strong> is a simple function like <strong>ReLU</strong> or <strong>Sigmoid</strong>.</li>
-<li><strong>Stage 2</strong>: <code>Hidden₂ = f(β₂₁Hidden₁ + β₂₂Hidden₁ + ... + β₂ₘHidden₁)</code><br />
-(again, using a simple activation function such as ReLU or Sigmoid)</li>
-<li><strong>Stage 3</strong>: <code>Output = f(β₃₁Hidden₂ + β₃₂Hidden₂ + ... + β₃ₖHidden₂)</code><br />
-(the output layer often uses Softmax for classification tasks)</li>
+<li><p><strong>Stage 1 (First hidden layer)</strong>:<br />
+<span class="math display">\[
+h_j^{(1)} = f\!\left(w_{j1}^{(1)}X_1 + w_{j2}^{(1)}X_2 + \cdots + w_{jn}^{(1)}X_n + b_j^{(1)}\right)
+\]</span><br />
+where <span class="math inline">\(f\)</span> is an activation function like ReLU or Sigmoid, and <span class="math inline">\(h_j^{(1)}\)</span> are the new features produced.</p></li>
+<li><p><strong>Stage 2 (Second hidden layer)</strong>:<br />
+<span class="math display">\[
+h_k^{(2)} = f\!\left(w_{k1}^{(2)}h_1^{(1)} + w_{k2}^{(2)}h_2^{(1)} + \cdots + b_k^{(2)}\right)
+\]</span><br />
+These <span class="math inline">\(h^{(2)}\)</span> are <em>different inputs</em>—they’re transformations of the first hidden layer, not the raw <span class="math inline">\(X\)</span>’s.</p></li>
+<li><p><strong>Stage 3 (Output layer)</strong>:<br />
+<span class="math display">\[
+\hat{Y} = g\!\left(w_{1}^{(o)}h_1^{(2)} + w_{2}^{(o)}h_2^{(2)} + \cdots + b^{(o)}\right)
+\]</span><br />
+The output activation <span class="math inline">\(g\)</span> is identity for regression, or softmax for classification.</p></li>
 </ol>
+<hr />
+<p>Each connection has a <strong>weight</strong> (like a β in regression), but unlike OLS, you don’t solve it in one step. Neural networks <strong>train iteratively</strong>, adjusting weights many times with gradient descent and backpropagation.</p>
+<hr />
+</div>
+<div id="the-key-difference" class="section level4 hasAnchor" number="3.2.2.2">
+<h4><span class="header-section-number">3.2.2.2</span> The Key Difference<a href="llm-fundamentals.html#the-key-difference" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>OLS</strong>: One stage, linear mapping from inputs <span class="math inline">\(X\)</span> to output <span class="math inline">\(Y\)</span>.<br />
+</li>
+<li><strong>Neural Networks</strong>: Multiple stages, each creating new inputs for the next layer using nonlinear functions.<br />
+</li>
+<li><strong>Shared Goal</strong>: In both cases, the aim is to find weights that minimize prediction errors.</li>
+</ul>
 <p>Each connection between neurons has a <strong>weight</strong> (a β coefficient, just like in regression), and each neuron receives inputs (the X’s) from the previous layer. The output of a neuron is calculated as a weighted sum of its inputs (e.g., β₁₁X₁ + β₁₂X₂ + … + β₁ₙXₙ), passed through an activation function (like ReLU or Sigmoid). A big difference is that in OLS regression, you can solve for the best β weights analytically in one step, while in a neural network, the model has to “train”—gradually adjusting the weights over many iterations to get better and better at minimizing prediction errors.</p>
 </div>
-<div id="the-key-difference" class="section level4 hasAnchor" number="3.2.3.3">
-<h4><span class="header-section-number">3.2.3.3</span> The Key Difference<a href="llm-fundamentals.html#the-key-difference" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="the-key-difference-1" class="section level4 hasAnchor" number="3.2.2.3">
+<h4><span class="header-section-number">3.2.2.3</span> The Key Difference<a href="llm-fundamentals.html#the-key-difference-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li><strong>OLS</strong>: One stage, linear relationship</li>
 <li><strong>Neural Networks</strong>: Multiple stages, with non-linear functions (f) between stages</li>
@@ -386,8 +395,8 @@ where <strong>f</strong> is a simple function like <strong>ReLU</strong> or <str
 </ul>
 </div>
 </div>
-<div id="how-neural-networks-learn" class="section level3 hasAnchor" number="3.2.4">
-<h3><span class="header-section-number">3.2.4</span> How Neural Networks Learn<a href="llm-fundamentals.html#how-neural-networks-learn" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="how-neural-networks-learn" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> How Neural Networks Learn<a href="llm-fundamentals.html#how-neural-networks-learn" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Neural networks use <strong>supervised learning</strong> - just like OLS regression! During training:
 - <strong>Input</strong>: Text sequences (like “The cat sat on the”)
 - <strong>Target</strong>: The actual next word (like “mat”)
@@ -640,6 +649,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

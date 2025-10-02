@@ -34,10 +34,9 @@ what-are-large-language-models
 neural-networks-the-foundation
 what-is-a-neural-network
 how-information-flows
-neural-networks-vs.-traditional-regression
-ols-regression-simple
 neural-networks-multi-stage
 the-key-difference
+the-key-difference-1
 how-neural-networks-learn
 from-neural-networks-to-language-models
 the-language-modeling-task
